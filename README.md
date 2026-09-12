@@ -1,5 +1,7 @@
 # kkurs.no — visuell prototype
 
+**Live forhåndsvisning:** <https://monscorps.github.io/kkurs.no/> (GitHub Pages, `main`-branchen)
+
 Landingsside for **kkurs** — sertifiserte sikkerhetskurs, HMS-rådgivning og digital kompetanse
 for industrien på Vestlandet. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender
 og påmelding er attrapper som speiler **FrontCore**-widgeten til vi har konto/API på plass.
