@@ -150,16 +150,19 @@ function renderCourses(cat = "alle") {
     const neste = c.datoer[0];
     return `
     <article class="course-card">
-      <div class="cc-top">
-        <span class="cc-cat">${KATEGORIER[c.kat]}</span>
-        <span class="cc-codes">${c.koder}</span>
-      </div>
-      <h3>${c.navn}</h3>
-      <p class="cc-desc">${c.desc}</p>
-      <div class="cc-meta"><span>${c.varighet}</span><span>fra ${fmtPris(c.pris)}</span></div>
-      <div class="cc-foot">
-        <span class="cc-next">Neste: <strong>${neste ? fmtDato(neste.d) : "på forespørsel"}</strong></span>
-        <button class="btn btn-ghost btn-sm" data-book="${c.id}" data-date="0">Meld deg på</button>
+      <figure class="cc-img"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+      <div class="cc-body">
+        <div class="cc-top">
+          <span class="cc-cat">${KATEGORIER[c.kat]}</span>
+          <span class="cc-codes">${c.koder}</span>
+        </div>
+        <h3>${c.navn}</h3>
+        <p class="cc-desc">${c.desc}</p>
+        <div class="cc-meta"><span>${c.varighet}</span><span>fra ${fmtPris(c.pris)}</span></div>
+        <div class="cc-foot">
+          <span class="cc-next">Neste: <strong>${neste ? fmtDato(neste.d) : "på forespørsel"}</strong></span>
+          <button class="btn btn-ghost btn-sm" data-book="${c.id}" data-date="0">Meld deg på</button>
+        </div>
       </div>
     </article>`;
   }).join("");

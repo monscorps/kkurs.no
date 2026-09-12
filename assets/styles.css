@@ -83,6 +83,7 @@ body {
   font-synthesis: none;
 }
 img, svg { max-width: 100%; display: block; }
+img[width][height] { height: auto; }
 [hidden] { display: none !important; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3 {
@@ -267,6 +268,14 @@ p { margin: 0; text-wrap: pretty; }
 }
 .ticket-more:hover { color: var(--hvit); }
 
+/* hero-foto — bredt fotofelt under hero-innholdet */
+.hero-foto {
+  margin: var(--rom-m) 0 0; border-radius: var(--radius); overflow: hidden;
+}
+.hero-foto img {
+  width: 100%; aspect-ratio: 21 / 8; object-fit: cover; display: block;
+}
+
 /* nøkkeltall */
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 2rem;
@@ -330,12 +339,19 @@ p { margin: 0; text-wrap: pretty; }
   gap: 1.1rem;
 }
 .course-card {
-  display: flex; flex-direction: column; gap: 0.7rem;
+  display: flex; flex-direction: column;
   background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
-  padding: 1.4rem 1.4rem 1.2rem;
+  overflow: hidden;
   transition: border-color 0.16s ease;
 }
 .course-card:hover { border-color: var(--marine); }
+.cc-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
+.cc-img img {
+  width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
+  transition: transform 0.3s ease;
+}
+.course-card:hover .cc-img img { transform: scale(1.03); }
+.cc-body { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.2rem 1.4rem; flex-grow: 1; }
 .cc-top { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
 .cc-cat {
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
@@ -388,9 +404,11 @@ p { margin: 0; text-wrap: pretty; }
 
 .service-list { list-style: none; margin: 0; padding: 0; }
 .service {
-  display: grid; grid-template-columns: 1fr auto; gap: 0.4rem 2rem; align-items: baseline;
-  padding: 1.8rem 0; border-top: 1px solid var(--linje);
+  display: grid; grid-template-columns: 224px 1fr auto; gap: 0.4rem 2rem; align-items: center;
+  padding: 1.6rem 0; border-top: 1px solid var(--linje);
 }
+.service-img { margin: 0; border-radius: var(--radius); overflow: hidden; }
+.service-img img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
 .service:last-child { border-bottom: 1px solid var(--linje); }
 .service-no { display: none; }
 .service-body h3 { font-size: var(--t-2); }
@@ -411,6 +429,8 @@ p { margin: 0; text-wrap: pretty; }
 .om-badges { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 0.7rem; }
 .om-badges li { display: flex; gap: 0.7em; align-items: baseline; font-weight: 600; }
 .om-badges li::before { content: "—"; color: var(--marine); font-weight: 700; flex: none; }
+.om-foto { margin: 0 0 1rem; border-radius: var(--radius); overflow: hidden; }
+.om-foto img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
 .eier-kort {
   background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
   padding: 1.6rem;
@@ -434,10 +454,17 @@ p { margin: 0; text-wrap: pretty; }
 .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
 .news-card {
   background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
-  padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem;
+  overflow: hidden; display: flex; flex-direction: column;
   transition: border-color 0.16s ease;
 }
 .news-card:hover { border-color: var(--marine); }
+.news-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
+.news-img img {
+  width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
+  transition: transform 0.3s ease;
+}
+.news-card:hover .news-img img { transform: scale(1.03); }
+.news-body { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.3rem 1.5rem; flex-grow: 1; }
 .news-meta {
   font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3);
@@ -635,7 +662,9 @@ body.modal-open { overflow: hidden; }
   .news-grid { grid-template-columns: 1fr; }
   .om-grid, .kontakt-grid { grid-template-columns: 1fr; }
   .section-head-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
-  .service { grid-template-columns: 1fr; }
+  .service { grid-template-columns: 1fr; align-items: start; }
+  .service-img { max-width: 420px; }
+  .hero-foto img { aspect-ratio: 16 / 9; }
 }
 @media (max-width: 760px) {
   .nav-links {

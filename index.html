@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles.css?v=3">
 </head>
 <body>
 
@@ -71,6 +71,9 @@
       </aside>
     </div>
     <div class="container">
+      <figure class="hero-foto reveal">
+        <img src="assets/img/hero.jpg" alt="Industrikai med kraner og fjell i bakgrunnen, Bergen" width="1600" height="610" fetchpriority="high">
+      </figure>
       <dl class="stats mono" aria-label="Nøkkeltall">
         <div><dt>Kurstyper i katalogen</dt><dd>10+</dd></div>
         <div><dt>Maks deltakere per kurs</dt><dd>12</dd></div>
@@ -136,6 +139,7 @@
       </header>
       <ol class="service-list">
         <li class="service reveal">
+          <figure class="service-img"><img src="assets/img/tjeneste-radgivning.jpg" alt="" loading="lazy" width="900" height="600"></figure>
           <div class="service-body">
             <h3>HMS-rådgivning</h3>
             <p>Risikovurderinger, internkontroll og HMS-system som faktisk brukes. Vi går gjennom
@@ -144,6 +148,7 @@
           <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
         </li>
         <li class="service reveal">
+          <figure class="service-img"><img src="assets/img/tjeneste-bedriftsintern.jpg" alt="" loading="lazy" width="900" height="600"></figure>
           <div class="service-body">
             <h3>Bedriftsintern opplæring</h3>
             <p>Vi kommer til dere — med instruktør, utstyr og dokumentasjon. Kurs tilpasset
@@ -152,6 +157,7 @@
           <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
         </li>
         <li class="service reveal">
+          <figure class="service-img"><img src="assets/img/tjeneste-utstyr.jpg" alt="" loading="lazy" width="900" height="600"></figure>
           <div class="service-body">
             <h3>Dokumentert opplæring på deres utstyr</h3>
             <p>Sikker bruk av maskiner og verktøy som ikke krever sertifikat, dokumentert etter
@@ -182,6 +188,7 @@
         </ul>
       </div>
       <div class="om-side reveal d1">
+        <figure class="om-foto"><img src="assets/img/om-bergen.jpg" alt="Industriområde ved fjorden i Bergen" loading="lazy" width="900" height="600"></figure>
         <div class="eier-kort">
           <p class="kicker">Daglig leder</p>
           <h3>Stian Holgersen</h3>
@@ -211,25 +218,34 @@
       </header>
       <div class="news-grid">
         <article class="news-card reveal">
-          <p class="news-meta mono"><time datetime="2026-09-08">08.09.2026</time> · Kurs</p>
-          <h3><a href="#kalender">Hot Work Certificate — kurs på engelsk</a></h3>
-          <p>Har dere engelskspråklige ansatte som trenger sertifikat for varme arbeider? Vi setter
-            opp kurs på engelsk 24. september. Sertifikatet er gyldig i fem år — sjekk utløpsdatoen.</p>
-          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          <figure class="news-img"><img src="assets/img/nytt-varme.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <div class="news-body">
+            <p class="news-meta mono"><time datetime="2026-09-08">08.09.2026</time> · Kurs</p>
+            <h3><a href="#kalender">Hot Work Certificate — kurs på engelsk</a></h3>
+            <p>Har dere engelskspråklige ansatte som trenger sertifikat for varme arbeider? Vi setter
+              opp kurs på engelsk 24. september. Sertifikatet er gyldig i fem år — sjekk utløpsdatoen.</p>
+            <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          </div>
         </article>
         <article class="news-card reveal d1">
-          <p class="news-meta mono"><time datetime="2026-09-01">01.09.2026</time> · E-læring</p>
-          <h3><a href="#kalender">Teoridelen kan nå tas digitalt</a></h3>
-          <p>På flere av kursene kan teorien tas digitalt før praksisdagen — mindre tid borte fra
-            drift, samme kompetansebevis. Se hvilke kurs det gjelder i kalenderen.</p>
-          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          <figure class="news-img"><img src="assets/img/nytt-elaering.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <div class="news-body">
+            <p class="news-meta mono"><time datetime="2026-09-01">01.09.2026</time> · E-læring</p>
+            <h3><a href="#kalender">Teoridelen kan nå tas digitalt</a></h3>
+            <p>På flere av kursene kan teorien tas digitalt før praksisdagen — mindre tid borte fra
+              drift, samme kompetansebevis. Se hvilke kurs det gjelder i kalenderen.</p>
+            <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          </div>
         </article>
         <article class="news-card reveal d2">
-          <p class="news-meta mono"><time datetime="2026-08-25">25.08.2026</time> · Selskapet</p>
-          <h3><a href="#om">Kompetanse Kurs er i gang i Bergen</a></h3>
-          <p>Kurssenteret er åpent, høstens kurskalender er ute, og vi tar imot bedriftsinterne
-            oppdrag i Bergen og omland. Sikre plassene tidlig.</p>
-          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          <figure class="news-img"><img src="assets/img/nytt-oppstart.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <div class="news-body">
+            <p class="news-meta mono"><time datetime="2026-08-25">25.08.2026</time> · Selskapet</p>
+            <h3><a href="#om">Kompetanse Kurs er i gang i Bergen</a></h3>
+            <p>Kurssenteret er åpent, høstens kurskalender er ute, og vi tar imot bedriftsinterne
+              oppdrag i Bergen og omland. Sikre plassene tidlig.</p>
+            <span class="news-more mono" aria-hidden="true">Les mer →</span>
+          </div>
         </article>
       </div>
     </div>
@@ -420,6 +436,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v=3"></script>
 </body>
 </html>
