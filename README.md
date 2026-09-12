@@ -2,9 +2,9 @@
 
 **Live forhåndsvisning:** <https://monscorps.github.io/kkurs.no/> (GitHub Pages, `main`-branchen)
 
-Landingsside for **kkurs** — sertifiserte sikkerhetskurs, HMS-rådgivning og digital kompetanse
-for industrien på Vestlandet. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender
-og påmelding er attrapper som speiler **FrontCore**-widgeten til vi har konto/API på plass.
+Landingsside for **Kompetanse Kurs** (Bergen) — sertifisert og dokumentert sikkerhetsopplæring
+og HMS-kompetanse. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender og
+påmelding er attrapper som speiler **FrontCore**-widgeten til vi har konto/API på plass.
 
 > **Status:** forhåndsvisning med eksempeldata. Ingen skjemaer sender data.
 
@@ -21,7 +21,7 @@ python3 -m http.server 4173 --directory .
 | Fil | Innhold |
 | --- | --- |
 | `index.html` | Hele siden (hero, kurs, kalender, tjenester, om, nyheter, partnere, kontakt) + påmeldingsmodal |
-| `assets/styles.css` | Designsystemet («nordisk industripresisjon» — se `docs/DESIGN.md`) |
+| `assets/styles.css` | Designsystemet («Nordsjø» — se `docs/DESIGN.md`) |
 | `assets/app.js` | **Kursdata (eksempel)** øverst i filen + rendering, filtre, modal og skjema-demo |
 | `docs/DESIGN.md` | Designnotat, research-funn og anbefalt teknisk retning |
 

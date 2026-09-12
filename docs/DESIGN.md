@@ -1,6 +1,13 @@
 # kkurs.no — designnotat og teknisk retning
 
-**Dato:** 12.09.2026 · **Status:** Utkast til godkjenning (visuell prototype)
+**Selskap:** Kompetanse Kurs (Bergen) · **Eier/daglig leder:** Stian Holgersen · **Domene:** kkurs.no
+**Dato:** 12.09.2026 · **Status:** Utkast til godkjenning (visuell prototype, revisjon 2)
+
+> **Revisjon 2 (samme dag):** Første utkast («nordisk industripresisjon» — konturlinjer,
+> faresonestriper, oransje/petrol) ble forkastet etter tilbakemelding: rotete og feil farger.
+> Nytt system «Nordsjø» under. Geografien er kuttet til **kun Bergen** (Rogaland ute), de to
+> KI-kursene er fjernet, og all omtale av eier er begrenset til navn og rolle oppgitt av kunden
+> — ingen researchede biografipåstander på siden.
 
 ## Mål
 
@@ -43,18 +50,22 @@ tregere å levere, mer drift, unødvendig når kunden haster og FrontCore eier k
 (b) Next.js/SSG med FrontCore-API — mest fleksibelt på sikt, men overkill for «basic page» nå.
 Statisk side kan senere løftes til begge uten å kaste designet.
 
-## Designretning: «nordisk industripresisjon»
+## Designretning: «Nordsjø» (revisjon 2)
 
-- **Tone:** raffinert skandinavisk minimalisme møter industriell sikkerhetsmerking.
-- **Farger:** kald papirhvit (`#F1F4F2`), dyp fjordpetrol (`#0C2B30` / mørke seksjoner `#0A2429`),
-  én skarp aksent: **signaloransje** (`#D9400F` på lys, `#FF6A3D` på mørk) — vernevest-referanse.
-  Statusfarger for kalender: grønn (ledig), rav (få plasser), nøytral (venteliste).
-- **Typografi:** Schibsted Grotesk (norsk skrifttype) til display/overskrifter, Hanken Grotesk til
-  brødtekst, Spline Sans Mono til tekniske data (kurskoder, datoer, priser, statistikk).
-- **Motiver:** topografiske konturlinjer (Vestlandet-kart), koordinater for Bergen/Haugesund/
-  Stavanger som mikrodetalj, faresonestriper som hårfin aksent, «billett»-kort for neste kurs.
-- **Merkevare:** ordmerket `kkurs.` — liten forbokstav + oransje punktum, i tradisjonen til
-  norske merkevarer (posten, ruter, vipps). Enkelt å bytte når endelig navn/profil er avklart.
+Prinsipp: profesjonelt og rent — flater i én farge på rolig papir, null dekor. Referansenivået
+er kvaliteten i kundens tidligere prosjekt (sophiematlary.no), ikke utseendet: egen farge, egne
+skrifter, egne detaljer.
+
+- **Farger:** kjølig nordisk papir (`#F6F7F6`), én merkefarge brukt som *flater*: dyp nordsjøblå
+  (`#17455F`, hover `#0F3349`, bunn `#0B2737`), lys sjøblå (`#A3C6DA`) kun til detaljer på
+  marine flater. Blåstukket nesten-sort tekst. Ingen skygger, mønstre eller dekorlinjer.
+  Statusfarger: grønn (ledig), rav (få plasser), nøytral (venteliste) — dempet på lys flate,
+  lys tint på marine.
+- **Typografi:** Familjen Grotesk (skandinavisk grotesk) til alt løpende, Spline Sans Mono til
+  data (kurskoder, datoer, priser, etiketter). Knapper i normal sats, ikke versaler.
+- **Struktur:** korte marine aksentstreker over seksjonstitler, marine toppfelt med navnetrekk,
+  marine «neste kurs»-kort i hero, marine kurskalender- og kontaktseksjon, dypmarine footer.
+- **Merkevare:** navnetrekket «Kompetanse Kurs.» med lys sjøblått punktum. kkurs.no er domenet.
 - **Språk:** bokmål, korrekturlest; norske tall- og datoformater (kr 6 900,–, 22.09.2026).
 
 ## Innholdsseksjoner (dekker opprinnelig sidekart som ankere)

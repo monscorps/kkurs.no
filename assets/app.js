@@ -1,5 +1,5 @@
 /* ============================================================
-   kkurs.no — prototype
+   kkurs.no — prototype for Kompetanse Kurs
    Kursdata under er EKSEMPELDATA. Ved lansering erstattes dette
    av FrontCore (embed/API), og «Meld deg på» peker til FrontCore-
    påmelding. Strukturen speiler feltene FrontCore leverer.
@@ -9,7 +9,6 @@ const KATEGORIER = {
   truck: "Truck og maskin",
   kran: "Kran og løft",
   hms: "HMS og ledelse",
-  tek: "Teknologi og KI",
 };
 
 const COURSES = [
@@ -18,7 +17,7 @@ const COURSES = [
     varighet: "3 dager", pris: 6900,
     desc: "Sertifisert sikkerhetsopplæring for gaffeltruck inntil 10 tonn. Teori og praksiskjøring med erfarne instruktører.",
     datoer: [
-      { d: "2026-09-29", sted: "Haugesund", status: "ledig" },
+      { d: "2026-09-29", sted: "Bergen", status: "ledig" },
       { d: "2026-10-27", sted: "Bergen", status: "ledig" },
     ],
   },
@@ -28,20 +27,20 @@ const COURSES = [
     desc: "For deg som skal kjøre teleskoptruck med fast eller rundtsvingende bom — sertifisert opplæring i klasse C1 og C2.",
     datoer: [
       { d: "2026-09-22", sted: "Bergen", status: "faa" },
-      { d: "2026-11-17", sted: "Stavanger", status: "ledig" },
+      { d: "2026-11-17", sted: "Bergen", status: "ledig" },
     ],
   },
   {
     id: "maskin", navn: "Maskinførerkurs", koder: "M1–M6", kat: "truck",
     varighet: "4 dager", pris: 9500,
     desc: "Masseforflytningsmaskiner: gravemaskin, hjullaster, dumper og flere. Modulbasert — ta klassene dere trenger.",
-    datoer: [{ d: "2026-11-03", sted: "Haugesund", status: "ledig" }],
+    datoer: [{ d: "2026-11-03", sted: "Bergen", status: "ledig" }],
   },
   {
     id: "personlofter", navn: "Personløfterkurs", koder: "Klasse A–B", kat: "truck",
     varighet: "1 dag", pris: 3500,
     desc: "Dokumentert opplæring i sikker bruk av personløfter (lift), klasse A og B — for arbeid i høyden.",
-    datoer: [{ d: "2026-11-12", sted: "Bergen", status: "ledig" }],
+    datoer: [{ d: "2026-11-10", sted: "Bergen", status: "ledig" }],
   },
   {
     id: "kran-g4", navn: "Kranførerkurs G4", koder: "Traverskran", kat: "kran",
@@ -53,13 +52,13 @@ const COURSES = [
     id: "kran-g8", navn: "Lastebilkrankurs G8", koder: "G8", kat: "kran",
     varighet: "3 dager", pris: 9900,
     desc: "Teori og praktisk bruk av lastebilmontert kran — inkludert lastsikring og daglig kontroll.",
-    datoer: [{ d: "2026-11-05", sted: "Stavanger", status: "ledig" }],
+    datoer: [{ d: "2026-11-05", sted: "Bergen", status: "ledig" }],
   },
   {
     id: "stropp", navn: "Stropp- og signalkurs", koder: "G11", kat: "kran",
     varighet: "2 dager", pris: 5900,
     desc: "Anhuking, stropping og signalgiving for alle som jobber rundt løfteoperasjoner.",
-    datoer: [{ d: "2026-10-06", sted: "Stavanger", status: "vente" }],
+    datoer: [{ d: "2026-10-06", sted: "Bergen", status: "vente" }],
   },
   {
     id: "fallsikring", navn: "Fallsikringskurs", koder: "Dokumentert", kat: "hms",
@@ -71,7 +70,10 @@ const COURSES = [
     id: "varme", navn: "Kurs i varme arbeider", koder: "Sertifikat 5 år", kat: "hms",
     varighet: "1 dag", pris: 2400,
     desc: "Sertifikatkurs for alle som utfører sveising, skjæring eller andre varme arbeider. Tilbys også på engelsk.",
-    datoer: [{ d: "2026-09-24", sted: "Stavanger", status: "ledig", merk: "på engelsk" }],
+    datoer: [
+      { d: "2026-09-24", sted: "Bergen", status: "ledig", merk: "på engelsk" },
+      { d: "2026-11-12", sted: "Bergen", status: "ledig" },
+    ],
   },
   {
     id: "hms-leder", navn: "HMS-kurs for ledere", koder: "AML § 3-5", kat: "hms",
@@ -86,19 +88,7 @@ const COURSES = [
     id: "verneombud", navn: "Verneombudskurs", koder: "Grunnopplæring", kat: "hms",
     varighet: "2 dager", pris: 5500,
     desc: "Grunnopplæring i arbeidsmiljø for verneombud og AMU-medlemmer, tilpasset egen bransje.",
-    datoer: [{ d: "2026-10-27", sted: "Haugesund", status: "ledig" }],
-  },
-  {
-    id: "ki", navn: "KI i industrien — innføring", koder: "Nyhet", kat: "tek",
-    varighet: "1 dag", pris: 4900,
-    desc: "Praktisk innføring i kunstig intelligens for ledere og fagarbeidere: muligheter, risiko og gevinster i produksjon og HMS.",
-    datoer: [{ d: "2026-10-20", sted: "Stavanger", status: "ledig" }],
-  },
-  {
-    id: "digital-hms", navn: "Digital HMS i praksis", koder: "Workshop", kat: "tek",
-    varighet: "½ dag", pris: 2900,
-    desc: "Kom i gang med digitale sjekklister, avviksmeldinger og dokumentasjon — verktøy som faktisk blir brukt.",
-    datoer: [{ d: "2026-11-10", sted: "Digitalt", status: "ledig" }],
+    datoer: [{ d: "2026-10-21", sted: "Bergen", status: "ledig" }],
   },
 ];
 
@@ -119,7 +109,7 @@ const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–
 const CAL = COURSES.flatMap((c) => c.datoer.map((dt) => ({ ...dt, course: c })))
   .sort((a, b) => a.d.localeCompare(b.d));
 
-/* ---------- «neste kurs»-billetten i hero ---------- */
+/* ---------- «neste kurs»-kortet i hero ---------- */
 function renderTicket() {
   const [first, ...rest] = CAL;
   const st = STATUS[first.status];
@@ -359,7 +349,7 @@ menu.addEventListener("click", (ev) => {
   if (ev.target.tagName === "A") { menu.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); }
 });
 
-/* ---------- scroll-reveal ---------- */
+/* ---------- scroll-avdekking ---------- */
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
 }, { threshold: 0.12, rootMargin: "0px 0px -40px" });
