@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kkurs – sertifiserte kurs og HMS-kompetanse i Bergen, Haugesund og Stavanger</title>
+  <meta name="description" content="Sertifisert sikkerhetsopplæring, HMS-rådgivning og digital kompetanse for industrien på Vestlandet. Truck, kran, maskin, HMS og KI – åpne kurs og bedriftsinterne kurs.">
+  <meta property="og:title" content="kkurs – kompetanse som holder industrien i drift">
+  <meta property="og:description" content="Sertifiserte sikkerhetskurs, HMS-rådgivning og digital kompetanse. Bergen · Haugesund · Stavanger.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kkurs.no/">
+  <meta property="og:locale" content="nb_NO">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C2B30'/%3E%3Ctext x='27' y='45' font-family='Helvetica,Arial,sans-serif' font-size='38' font-weight='800' text-anchor='middle' fill='%23F1F4F2'%3Ek%3C/text%3E%3Ccircle cx='45' cy='41' r='6' fill='%23FF6A3D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;0,900;1,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#innhold">Hopp til innhold</a>
+
+<header class="nav" id="topp">
+  <div class="container nav-inner">
+    <a class="brand" href="#topp" aria-label="kkurs – til toppen">kkurs<span class="brand-dot">.</span></a>
+    <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
+      <a href="#kurs">Kurs</a>
+      <a href="#kalender">Kurskalender</a>
+      <a href="#tjenester">Tjenester</a>
+      <a href="#om">Om oss</a>
+      <a href="#nyheter">Nyheter</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#kontakt">Be om tilbud</a>
+      <a class="btn btn-signal" href="#kalender">Se kurskalender</a>
+    </div>
+    <button class="nav-burger" aria-expanded="false" aria-controls="hovedmeny" aria-label="Åpne meny">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="innhold">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="Introduksjon">
+    <svg class="contours" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M-60,620 C240,540 420,660 720,600 S1220,480 1500,560"/>
+      <path d="M-60,540 C260,470 460,590 760,520 S1240,400 1500,470"/>
+      <path d="M-60,460 C280,400 500,510 800,440 S1260,330 1500,390"/>
+      <path d="M-60,380 C300,330 540,430 840,360 S1280,260 1500,310"/>
+      <path d="M-60,300 C320,260 580,350 880,290 S1300,200 1500,240"/>
+      <path d="M-60,220 C340,190 620,270 920,220 S1320,140 1500,170"/>
+    </svg>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="kicker reveal">Sertifisert sikkerhetsopplæring på Vestlandet</p>
+        <h1 class="reveal d1">Kompetanse som holder industrien <span class="mark">i&nbsp;drift.</span></h1>
+        <p class="lead reveal d2">kkurs leverer sertifiserte sikkerhetskurs, HMS-rådgivning og digital
+          kompetanse til bygg, anlegg, maritim næring og industri — fra kurssentrene våre på
+          Vestlandet, eller bedriftsinternt hos dere.</p>
+        <div class="hero-actions reveal d3">
+          <a class="btn btn-signal btn-lg" href="#kalender">Se kurs og datoer</a>
+          <a class="btn btn-ghost btn-lg" href="#kontakt">Be om tilbud</a>
+        </div>
+        <ul class="hero-badges mono reveal d4">
+          <li>Godkjent opplæringsvirksomhet</li>
+          <li>Kompetansebevis i Sentralregisteret</li>
+          <li>Kurs på norsk og engelsk</li>
+        </ul>
+      </div>
+      <aside class="ticket reveal d2" aria-label="Neste oppsatte kurs">
+        <div class="ticket-head mono"><span>Neste kurs</span><span class="ticket-no">№ 001</span></div>
+        <div class="ticket-body" id="ticket-featured"><!-- fylles av app.js --></div>
+        <div class="ticket-divider" aria-hidden="true"></div>
+        <ul class="ticket-list" id="ticket-list"><!-- fylles av app.js --></ul>
+        <a class="ticket-more mono" href="#kalender">Se hele kurskalenderen ↓</a>
+      </aside>
+    </div>
+    <div class="container">
+      <dl class="stats mono" aria-label="Nøkkeltall">
+        <div><dt>Kursdeltakere i året</dt><dd>2&nbsp;400+</dd></div>
+        <div><dt>Sertifiserte instruktører</dt><dd>25</dd></div>
+        <div><dt>Kurssentre i vest</dt><dd>3</dd></div>
+        <div><dt>Vil anbefale oss</dt><dd>98&nbsp;%</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ KURS ============ -->
+  <section class="section" id="kurs">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">01 — Kurskatalog</p>
+        <div class="section-head-row">
+          <h2>Sertifiserte og dokumenterte kurs</h2>
+          <p class="section-lead">Fra truck og kran til HMS og kunstig intelligens. Alle kurs følger
+            gjeldende forskrifter, og kompetansebevis registreres i Sentralregisteret.</p>
+        </div>
+      </header>
+      <div class="chips reveal" id="kurs-filter" role="group" aria-label="Filtrer kurs etter kategori"></div>
+      <div class="course-grid" id="course-grid"><!-- fylles av app.js --></div>
+      <p class="section-note mono reveal">Fant du ikke kurset dere trenger? Vi setter opp
+        bedriftsinterne kurs på forespørsel — <a href="#kontakt">be om tilbud</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ KURSKALENDER ============ -->
+  <section class="section section-dark" id="kalender">
+    <svg class="contours contours-dark" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M-60,620 C240,540 420,660 720,600 S1220,480 1500,560"/>
+      <path d="M-60,460 C280,400 500,510 800,440 S1260,330 1500,390"/>
+      <path d="M-60,300 C320,260 580,350 880,290 S1300,200 1500,240"/>
+    </svg>
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">02 — Kurskalender</p>
+        <div class="section-head-row">
+          <h2>Neste oppsatte kurs</h2>
+          <p class="section-lead">Meld deg på direkte. Bekreftelse, kursbevis og fakturering
+            håndteres digitalt.</p>
+        </div>
+      </header>
+      <div class="chips chips-dark reveal" id="kalender-filter" role="group" aria-label="Filtrer kalender etter sted"></div>
+      <p class="cal-hint mono" aria-hidden="true">Sveip sidelengs for å se hele tabellen →</p>
+      <div class="cal-wrap reveal">
+        <table class="cal" aria-describedby="cal-note">
+          <thead>
+            <tr class="mono"><th scope="col">Dato</th><th scope="col">Kurs</th><th scope="col">Sted</th><th scope="col">Varighet</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Påmelding</span></th></tr>
+          </thead>
+          <tbody id="cal-body"><!-- fylles av app.js --></tbody>
+        </table>
+      </div>
+      <p class="section-note mono on-dark" id="cal-note">◍ Forhåndsvisning med eksempeldata.
+        Ved lansering synkroniseres kalender og påmelding direkte fra FrontCore&nbsp;TMS.</p>
+    </div>
+  </section>
+
+  <!-- ============ TJENESTER ============ -->
+  <section class="section" id="tjenester">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">03 — Tjenester</p>
+        <div class="section-head-row">
+          <h2>Mer enn kurs</h2>
+          <p class="section-lead">Vi hjelper bedrifter i hele Vestland og Rogaland med å bygge
+            kompetanse og trygge arbeidsplasser — som en løpende tjeneste, ikke et engangsløft.</p>
+        </div>
+      </header>
+      <ol class="service-list">
+        <li class="service reveal">
+          <span class="service-no mono">01</span>
+          <div class="service-body">
+            <h3>HMS-rådgivning</h3>
+            <p>Risikovurderinger, internkontroll og HMS-system som faktisk brukes. Vi går gjennom
+              rutinene, rydder i avvikene og gjør bedriften revisjonsklar.</p>
+          </div>
+          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="service reveal">
+          <span class="service-no mono">02</span>
+          <div class="service-body">
+            <h3>Bedriftsintern opplæring</h3>
+            <p>Vi kommer til dere — med instruktør, utstyr og dokumentasjon. Kurs tilpasset
+              skiftplan og produksjon, på anlegget, i hallen eller på kaikanten.</p>
+          </div>
+          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="service reveal">
+          <span class="service-no mono">03</span>
+          <div class="service-body">
+            <h3>Digital HMS og KI</h3>
+            <p>Digitale sjekklister, avviksflyt og KI-verktøy som gir mening på gulvet. Vi hjelper
+              industribedrifter i gang med kunstig intelligens — trygt og praktisk.</p>
+          </div>
+          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ OM OSS ============ -->
+  <section class="section section-mist" id="om">
+    <div class="container om-grid">
+      <div class="om-copy reveal">
+        <p class="kicker">04 — Om kkurs</p>
+        <h2>Fra Vestlandet, for&nbsp;industrien</h2>
+        <p>kkurs ble til i skjæringspunktet mellom teknologimiljøet i Bergen og industrien i
+          Rogaland. Vi tror god sikkerhetsopplæring handler om folk — og at moderne verktøy gjør
+          opplæringen bedre, ikke kaldere. Derfor kombinerer vi erfarne instruktører fra maskin,
+          kran og anlegg med digitale løsninger og KI, både i kursene og i rådgivningen.</p>
+        <p>Kursene kjøres fra sentrene våre i Bergen, Haugesund og Stavanger — eller ute hos dere.</p>
+        <ul class="om-badges">
+          <li>Instruktører med fagbrev og praksis fra industrien</li>
+          <li>Kompetansebevis registreres i Sentralregisteret</li>
+          <li>Teori digitalt eller i klasserom — praksis på ekte maskiner</li>
+        </ul>
+      </div>
+      <div class="om-side reveal d1">
+        <div class="coords mono" aria-label="Våre kurssentre">
+          <div class="coord"><span class="coord-city">Bergen</span><span>60,39° N — 5,32° Ø</span></div>
+          <div class="coord"><span class="coord-city">Haugesund</span><span>59,41° N — 5,27° Ø</span></div>
+          <div class="coord"><span class="coord-city">Stavanger</span><span>58,97° N — 5,73° Ø</span></div>
+        </div>
+        <figure class="ridge" aria-hidden="true">
+          <svg viewBox="0 0 520 200" preserveAspectRatio="none">
+            <path class="ridge-back" d="M0,170 L60,120 L120,150 L200,80 L260,130 L340,60 L420,140 L520,90 L520,200 L0,200 Z"/>
+            <path class="ridge-front" d="M0,200 L40,160 L110,185 L180,120 L250,170 L330,110 L400,175 L470,140 L520,165 L520,200 Z"/>
+            <circle class="ridge-sun" cx="392" cy="52" r="16"/>
+          </svg>
+          <figcaption class="mono">Vestlandet · 59° N</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NYHETER ============ -->
+  <section class="section" id="nyheter">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">05 — Nyheter</p>
+        <div class="section-head-row">
+          <h2>Siste fra kkurs</h2>
+          <p class="section-lead">Nye kursdatoer, regelverk og teknologi — kort og nyttig.</p>
+        </div>
+      </header>
+      <div class="news-grid">
+        <article class="news-card reveal">
+          <p class="news-meta mono"><time datetime="2026-09-08">08.09.2026</time> · Kurs</p>
+          <h3><a href="#kalender">Hot Work Certificate — kurs på engelsk</a></h3>
+          <p>Har dere engelskspråklige ansatte som trenger sertifikat for varme arbeider? Vi setter
+            opp kurs på engelsk 24. september. Sertifikatet er gyldig i fem år — sjekk utløpsdatoen.</p>
+          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+        </article>
+        <article class="news-card reveal d1">
+          <p class="news-meta mono"><time datetime="2026-09-01">01.09.2026</time> · Teknologi</p>
+          <h3><a href="#kalender">Nytt kurs: KI i industrien</a></h3>
+          <p>Nytt endagskurs gir ledere og fagarbeidere en praktisk innføring i kunstig intelligens
+            i produksjon og HMS-arbeid. Første kursdag er 20. oktober i Stavanger.</p>
+          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+        </article>
+        <article class="news-card reveal d2">
+          <p class="news-meta mono"><time datetime="2026-08-25">25.08.2026</time> · Selskapet</p>
+          <h3><a href="#om">kkurs åpner kurssenter i Stavanger</a></h3>
+          <p>Med nytt senter på Forus dekker vi nå hele aksen Bergen–Haugesund–Stavanger med faste
+            kursdager hver uke — og kortere ventetid på praksis.</p>
+          <span class="news-more mono" aria-hidden="true">Les mer →</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARTNERE ============ -->
+  <section class="partners" aria-label="Samarbeidspartnere">
+    <div class="container">
+      <p class="kicker reveal">Noen av dem vi jobber med</p>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Fjordkran AS</span><span>Vestmaskin</span><span>Rygr Energi</span><span>HavTek Solutions</span><span>Bryggen Entreprenør</span><span>Sørvest Stillas</span><span>Nordsjø Logistikk</span>
+        <span>Fjordkran AS</span><span>Vestmaskin</span><span>Rygr Energi</span><span>HavTek Solutions</span><span>Bryggen Entreprenør</span><span>Sørvest Stillas</span><span>Nordsjø Logistikk</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KONTAKT ============ -->
+  <section class="section section-dark" id="kontakt">
+    <div class="container kontakt-grid">
+      <div class="kontakt-copy reveal">
+        <p class="kicker">06 — Kontakt</p>
+        <h2>Skal vi ta en&nbsp;prat?</h2>
+        <p class="section-lead on-dark">Fortell oss kort hva dere trenger, så kommer vi tilbake med
+          forslag og pris — som regel innen én arbeidsdag.</p>
+        <dl class="kontakt-info mono">
+          <div><dt>Telefon</dt><dd><a href="tel:+4755000000">+47 55 00 00 00</a></dd></div>
+          <div><dt>E-post</dt><dd><a href="mailto:post@kkurs.no">post@kkurs.no</a></dd></div>
+          <div><dt>Bergen</dt><dd>Kanalveien 1, 5068 Bergen</dd></div>
+          <div><dt>Haugesund</dt><dd>Karmsundgata 2, 5528 Haugesund</dd></div>
+          <div><dt>Stavanger</dt><dd>Forusbeen 3, 4033 Stavanger</dd></div>
+        </dl>
+      </div>
+      <form class="form reveal d1" id="kontakt-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-navn">Navn <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-navn" name="navn" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-bedrift">Bedrift</label>
+            <input id="f-bedrift" name="bedrift" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-epost">E-post <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-epost" name="epost" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-tlf">Telefon</label>
+            <input id="f-tlf" name="telefon" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-tema">Hva gjelder det?</label>
+          <select id="f-tema" name="tema">
+            <option>Kurs for bedrift</option>
+            <option>Åpne kurs og påmelding</option>
+            <option>HMS-rådgivning</option>
+            <option>Digital HMS og KI</option>
+            <option>Annet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-melding">Melding</label>
+          <textarea id="f-melding" name="melding" rows="4" placeholder="F.eks. «Vi trenger truckførerkurs for 6 ansatte i oktober»"></textarea>
+        </div>
+        <button class="btn btn-signal btn-lg" type="submit">Send forespørsel</button>
+        <p class="form-note mono">Forhåndsvisning — skjemaet kobles til e-post/CRM ved lansering.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand on-dark" href="#topp">kkurs<span class="brand-dot">.</span></a>
+      <p>Kurs og kompetanse for industrien på Vestlandet.</p>
+      <div class="some" aria-label="Følg oss">
+        <a href="#" aria-label="LinkedIn (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.49 2.49 0 1 1 0 3.5a2.49 2.49 0 0 1 4.98 0zM.4 8.6h4.6V24H.4zM8.6 8.6h4.4v2.1h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.5 3.1 5.5 7V24h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24H8.6z"/></svg></a>
+        <a href="#" aria-label="Facebook (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="#" aria-label="Instagram (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.4.1.8.3 1.9.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9a2 2 0 0 0-.7-1.1 2 2 0 0 0-1.1-.7c-.4-.1-.8-.3-1.9-.3-1.3-.1-1.7-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></a>
+      </div>
+    </div>
+    <nav class="footer-col" aria-label="Snarveier">
+      <p class="footer-head mono">Snarveier</p>
+      <a href="#kurs">Kurskatalog</a>
+      <a href="#kalender">Kurskalender</a>
+      <a href="#tjenester">Tjenester</a>
+      <a href="#om">Om oss</a>
+      <a href="#nyheter">Nyheter</a>
+    </nav>
+    <div class="footer-col">
+      <p class="footer-head mono">Praktisk</p>
+      <a href="#kontakt">Kontakt og tilbud</a>
+      <a href="#" data-demo-link>Kursvilkår</a>
+      <a href="#" data-demo-link>Personvern</a>
+      <a href="#" data-demo-link>Informasjonskapsler</a>
+      <a href="https://sentralregisteret.no" rel="noopener" target="_blank">Sjekk kompetansebevis ↗</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-head mono">Kurssentre</p>
+      <p class="footer-adr">Bergen · Kanalveien 1<br>Haugesund · Karmsundgata 2<br>Stavanger · Forusbeen 3</p>
+    </div>
+  </div>
+  <div class="container footer-bottom mono">
+    <p>© 2026 kkurs AS · Org.nr. 000 000 000 (plassholder)</p>
+    <p>Forhåndsvisning med eksempeldata — påmelding og kalender kobles til FrontCore ved lansering.</p>
+  </div>
+</footer>
+
+<!-- ============ PÅMELDINGSMODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <div class="modal-hazard" aria-hidden="true"></div>
+    <button class="modal-close" type="button" data-close aria-label="Lukk påmelding">✕</button>
+
+    <form class="modal-form" id="modal-form" novalidate>
+      <p class="kicker">Påmelding</p>
+      <h2 id="modal-title">Meld deg på kurs</h2>
+
+      <div class="field">
+        <label for="m-kurs">Kurs</label>
+        <select id="m-kurs" name="kurs"></select>
+      </div>
+      <div class="field">
+        <label for="m-dato">Dato og sted</label>
+        <select id="m-dato" name="dato"></select>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="m-antall">Antall deltakere</label>
+          <input id="m-antall" name="antall" type="number" min="1" max="20" value="1" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="m-tlf">Telefon</label>
+          <input id="m-tlf" name="telefon" type="tel" autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="m-navn">Kontaktperson <span class="req" aria-hidden="true">*</span></label>
+          <input id="m-navn" name="navn" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="m-epost">E-post <span class="req" aria-hidden="true">*</span></label>
+          <input id="m-epost" name="epost" type="email" autocomplete="email" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="m-bedrift">Bedrift</label>
+          <input id="m-bedrift" name="bedrift" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="m-orgnr">Org.nr. <span class="opt">(for faktura)</span></label>
+          <input id="m-orgnr" name="orgnr" type="text" inputmode="numeric" placeholder="000 000 000">
+        </div>
+      </div>
+      <label class="check">
+        <input type="checkbox" id="m-vilkar" required>
+        <span>Jeg godtar <a href="#" data-demo-link>kursvilkårene</a> og at kkurs kontakter meg om påmeldingen.</span>
+      </label>
+
+      <div class="modal-sum mono" id="modal-sum" aria-live="polite"></div>
+
+      <button class="btn btn-signal btn-lg btn-block" type="submit">Send påmelding</button>
+      <p class="form-note mono">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
+    </form>
+
+    <div class="modal-success" id="modal-success" hidden>
+      <div class="success-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/><path d="M20 33 L29 42 L45 24"/></svg>
+      </div>
+      <h2>Takk! Påmeldingen er registrert.</h2>
+      <p id="success-detail"></p>
+      <p class="form-note mono">Forhåndsvisning: ingen data er sendt. Ved lansering går påmeldingen
+        rett til FrontCore, som sender bekreftelse og kursinformasjon på e-post.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" type="button" data-close>Lukk</button>
+        <button class="btn btn-signal" type="button" id="ny-pamelding">Ny påmelding</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast mono" id="toast" role="status" hidden></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
