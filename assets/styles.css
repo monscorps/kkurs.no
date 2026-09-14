@@ -4,11 +4,10 @@
    Fargene er hentet fra bilfolieringen til Kompetanse Kurs:
    hvit bil, grønn bølge, mørk navy og nesten-sorte detaljer. Prinsipper:
 
-   - NAVY er struktur-flatene: toppfelt, «neste kurs»-kortet,
+   - GRØNN er struktur-flatene: toppfelt, «neste kurs»-kortet,
      kurskalenderen, kontakt og bunn. Aldri som striper eller dekor.
-   - GRØNN er handling: knapper, lenker, etiketter, aksentstreker —
-     energien i bølgen. Den friske foliegrønnen brukes bare til små
-     punkter på mørk flate.
+   - NAVY er handling: knapper, lenker, etiketter, aksentstreker.
+     Lys sjøblå brukes bare til små punkter på mørk flate.
    - Papiret er kjølig hvitt som bilen, teksten grønnstukket nesten-sort.
    - Ingen skygger, ingen mønstre, ingen dekorlinjer.
 
@@ -23,12 +22,12 @@
 :root {
   --gronn: #1e7033;
   --gronn-dyp: #155626;
-  --blad: #a9dcaf;
-  --frisk: #4fbe5a;
+  --gronn-natt: #0d2a16;
 
   --navy: #113349;
   --navy-dyp: #0c2636;
-  --navy-natt: #081b28;
+  --sjo: #a3c6da;
+  --frisk: #8cc3e8;
 
   --papir: #f5f7f5;
   --papir-2: #ebf0ec;
@@ -113,14 +112,14 @@ p { margin: 0; text-wrap: pretty; }
 }
 .skip-link {
   position: fixed; top: -60px; left: 16px; z-index: 200;
-  background: var(--gronn); color: var(--pa-gronn); padding: 10px 16px;
+  background: var(--navy); color: var(--pa-gronn); padding: 10px 16px;
   border-radius: var(--radius-knapp); font-family: var(--font-mono); font-size: var(--t--1);
   transition: top 0.2s;
 }
 .skip-link:focus { top: 12px; }
-:focus-visible { outline: 2px solid var(--gronn); outline-offset: 2px; }
-.section-dark :focus-visible, .footer :focus-visible, .nav :focus-visible { outline-color: var(--blad); }
-::selection { background: var(--gronn); color: var(--hvit); }
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.section-dark :focus-visible, .footer :focus-visible, .nav :focus-visible { outline-color: var(--sjo); }
+::selection { background: var(--navy); color: var(--hvit); }
 
 /* etiketter — mono, luftig sperring */
 .kicker {
@@ -142,22 +141,22 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-body); font-weight: 600; font-size: 0.93rem;
   letter-spacing: 0.01em;
   padding: 0.7em 1.35em; border-radius: var(--radius-knapp);
-  border: 1.5px solid var(--gronn); background: var(--gronn); color: var(--pa-gronn);
+  border: 1.5px solid var(--navy); background: var(--navy); color: var(--pa-gronn);
   cursor: pointer; white-space: nowrap;
   transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
-.btn:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
+.btn:hover { background: var(--navy-dyp); border-color: var(--navy-dyp); }
 .btn-lg { padding: 0.85em 1.7em; font-size: 1rem; }
 .btn-sm { padding: 0.5em 1em; font-size: 0.84rem; }
 .btn-block { width: 100%; }
-.btn-signal { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
-.btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
+.btn-signal { background: var(--navy); border-color: var(--navy); color: var(--pa-gronn); }
+.btn-signal:hover { background: var(--navy-dyp); border-color: var(--navy-dyp); }
 .btn-ghost { background: transparent; border-color: var(--blekk-2); color: var(--blekk); }
-.btn-ghost:hover { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
+.btn-ghost:hover { background: var(--navy); border-color: var(--navy); color: var(--pa-gronn); }
 
 /* på grønne flater: primær blir hvit med grønn skrift, sekundær hvit kontur */
 .section-dark .btn-signal, .ticket .btn-signal, .footer .btn-signal, .om-kort .btn-signal {
-  background: var(--hvit); border-color: var(--hvit); color: var(--gronn);
+  background: var(--hvit); border-color: var(--hvit); color: var(--navy);
 }
 .section-dark .btn-signal:hover, .ticket .btn-signal:hover, .footer .btn-signal:hover, .om-kort .btn-signal:hover {
   background: var(--blekk); border-color: var(--blekk); color: var(--hvit);
@@ -166,16 +165,16 @@ p { margin: 0; text-wrap: pretty; }
   background: transparent; border-color: rgba(243, 247, 242, 0.65); color: var(--pa-gronn);
 }
 .section-dark .btn-ghost:hover, .ticket .btn-ghost:hover, .footer .btn-ghost:hover {
-  background: var(--hvit); border-color: var(--hvit); color: var(--gronn);
+  background: var(--hvit); border-color: var(--hvit); color: var(--navy);
 }
 
-/* ── toppfelt — navy flate ──────────────────────────────────────── */
+/* ── toppfelt — grønn flate ──────────────────────────────────────── */
 
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
-  background: var(--navy);
+  background: var(--gronn);
 }
-.nav.scrolled { box-shadow: 0 1px 0 var(--navy-dyp); }
+.nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); }
 .brand {
   font-family: var(--font-display); font-weight: 700;
@@ -192,9 +191,9 @@ p { margin: 0; text-wrap: pretty; }
 .nav-links a:hover { color: var(--pa-gronn); }
 .nav-cta { display: flex; gap: 0.6rem; }
 .nav-cta .btn-ghost { border-color: rgba(243, 247, 242, 0.5); color: var(--pa-gronn); }
-.nav-cta .btn-ghost:hover { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
-.nav-cta .btn-signal { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
-.nav-cta .btn-signal:hover { background: var(--blad); border-color: var(--blad); color: var(--gronn-dyp); }
+.nav-cta .btn-ghost:hover { background: var(--hvit); border-color: var(--hvit); color: var(--navy); }
+.nav-cta .btn-signal { background: var(--hvit); border-color: var(--hvit); color: var(--navy); }
+.nav-cta .btn-signal:hover { background: var(--sjo); border-color: var(--sjo); color: var(--navy-dyp); }
 .nav-burger {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
   width: 44px; height: 44px; padding: 10px;
@@ -226,11 +225,11 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; color: var(--blekk-3);
 }
 .hero-badges li { display: flex; align-items: center; gap: 0.6em; }
-.hero-badges li::before { content: ""; width: 6px; height: 6px; background: var(--gronn); flex: none; }
+.hero-badges li::before { content: ""; width: 6px; height: 6px; background: var(--navy); flex: none; }
 
 /* «neste kurs»-kortet — grønn flate */
 .ticket {
-  background: var(--navy); color: var(--pa-gronn);
+  background: var(--gronn); color: var(--pa-gronn);
   border-radius: var(--radius); overflow: hidden;
   max-width: 430px; justify-self: end; width: 100%;
 }
@@ -242,7 +241,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 .ticket-body { padding: 0.5rem 1.6rem 1.4rem; }
 .ticket-title { font-size: var(--t-2); color: var(--hvit); margin-top: 0.3rem; }
-.ticket-title .cc-codes { color: var(--blad); }
+.ticket-title .cc-codes { color: var(--sjo); }
 .ticket-meta {
   display: grid; grid-template-columns: auto 1fr; gap: 5px 16px;
   margin-top: 1rem; font-size: var(--t--1);
@@ -262,11 +261,11 @@ p { margin: 0; text-wrap: pretty; }
   background: none; border: 0; padding: 0.7rem 0; cursor: pointer;
   font: inherit; text-align: left; color: var(--pa-gronn);
 }
-.ticket-list button:hover .tl-name { color: var(--blad); }
+.ticket-list button:hover .tl-name { color: var(--sjo); }
 .tl-date { font-family: var(--font-mono); font-size: var(--t--2); color: var(--pa-gronn-dus); flex: none; width: 4.6em; }
 .tl-name { font-weight: 600; font-size: var(--t--1); flex: 1; transition: color 0.14s; }
 .tl-name em { font-style: normal; color: var(--pa-gronn-dus); }
-.tl-arrow { color: var(--blad); }
+.tl-arrow { color: var(--sjo); }
 .ticket-more {
   display: block; padding: 0.9rem 1.6rem 1.2rem;
   font-size: var(--t--2); font-weight: 600;
@@ -287,7 +286,7 @@ p { margin: 0; text-wrap: pretty; }
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 2rem;
   margin: var(--rom-m) 0 0; padding-top: 1.3rem;
-  border-top: 2px solid var(--gronn);
+  border-top: 2px solid var(--navy);
 }
 .stats > div { padding: 0; }
 .stats dt {
@@ -302,12 +301,12 @@ p { margin: 0; text-wrap: pretty; }
 /* ── seksjoner ───────────────────────────────────────────────────── */
 
 .section { padding: var(--rom-l) 0; }
-.section-dark { background: var(--navy); color: var(--pa-gronn); }
+.section-dark { background: var(--gronn); color: var(--pa-gronn); }
 .section-mist { background: var(--papir-2); }
 
 .section-head { margin-bottom: var(--rom-m); }
-.section-head::before { content: ""; display: block; width: 44px; height: 3px; background: var(--gronn); margin-bottom: 1.1rem; }
-.section-dark .section-head::before { background: var(--blad); }
+.section-head::before { content: ""; display: block; width: 44px; height: 3px; background: var(--navy); margin-bottom: 1.1rem; }
+.section-dark .section-head::before { background: var(--sjo); }
 .section-head .kicker { margin-bottom: 0.5rem; }
 .section-head-row {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -318,9 +317,9 @@ p { margin: 0; text-wrap: pretty; }
 .section-dark .section-lead, .section-lead.on-dark { color: var(--pa-gronn-dus); }
 .section-note { margin-top: 2rem; font-family: var(--font-mono); font-size: var(--t--1); color: var(--blekk-3); }
 .section-note.on-dark { color: var(--pa-gronn-dus); }
-.section-note a { color: var(--gronn); border-bottom: 1.5px solid currentColor; transition: color 0.14s; }
-.section-note a:hover { color: var(--gronn-dyp); }
-.section-dark .section-note a { color: var(--blad); }
+.section-note a { color: var(--navy); border-bottom: 1.5px solid currentColor; transition: color 0.14s; }
+.section-note a:hover { color: var(--navy-dyp); }
+.section-dark .section-note a { color: var(--sjo); }
 .section-dark .section-note a:hover { color: var(--hvit); }
 
 /* filterknapper */
@@ -332,12 +331,12 @@ p { margin: 0; text-wrap: pretty; }
   border: 1px solid var(--linje); background: transparent; color: var(--blekk-2);
   cursor: pointer; transition: border-color 0.14s, background 0.14s, color 0.14s;
 }
-.chip:hover { border-color: var(--gronn); color: var(--gronn); }
-.chip[aria-pressed="true"] { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
+.chip:hover { border-color: var(--navy); color: var(--navy); }
+.chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: var(--pa-gronn); }
 .chip .count { opacity: 0.55; margin-left: 0.4em; }
 .chips-dark .chip { border-color: var(--linje-gronn); color: var(--pa-gronn-dus); }
 .chips-dark .chip:hover { border-color: var(--pa-gronn); color: var(--pa-gronn); }
-.chips-dark .chip[aria-pressed="true"] { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
+.chips-dark .chip[aria-pressed="true"] { background: var(--hvit); border-color: var(--hvit); color: var(--navy); }
 
 /* ── kurskort ────────────────────────────────────────────────────── */
 
@@ -351,7 +350,7 @@ p { margin: 0; text-wrap: pretty; }
   overflow: hidden;
   transition: border-color 0.16s ease;
 }
-.course-card:hover { border-color: var(--gronn); }
+.course-card:hover { border-color: var(--navy); }
 .cc-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
 .cc-img img {
   width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
@@ -362,11 +361,11 @@ p { margin: 0; text-wrap: pretty; }
 .cc-top { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
 .cc-cat {
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.12em; color: var(--gronn);
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--navy);
 }
 .cc-codes { font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-3); }
 .course-card h3 { font-size: var(--t-1); transition: color 0.14s; }
-.course-card:hover h3 { color: var(--gronn); }
+.course-card:hover h3 { color: var(--navy); }
 .cc-desc { font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); flex-grow: 1; }
 .cc-meta {
   font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-2);
@@ -425,7 +424,7 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3);
   white-space: nowrap; transition: color 0.14s;
 }
-.service-link:hover { color: var(--gronn); }
+.service-link:hover { color: var(--navy); }
 
 /* ── om oss ──────────────────────────────────────────────────────── */
 
@@ -435,7 +434,7 @@ p { margin: 0; text-wrap: pretty; }
 .om-copy p + p { margin-top: 1rem; }
 .om-badges { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 0.7rem; }
 .om-badges li { display: flex; gap: 0.7em; align-items: baseline; font-weight: 600; }
-.om-badges li::before { content: "—"; color: var(--gronn); font-weight: 700; flex: none; }
+.om-badges li::before { content: "—"; color: var(--navy); font-weight: 700; flex: none; }
 .om-foto { margin: 0 0 1rem; border-radius: var(--radius); overflow: hidden; }
 .om-foto img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
 .eier-kort {
@@ -445,12 +444,12 @@ p { margin: 0; text-wrap: pretty; }
 .eier-kort .kicker { margin-bottom: 0.4rem; }
 .eier-kort h3 { font-size: var(--t-2); }
 .eier-kort p:not(.kicker) { margin-top: 0.55rem; color: var(--blekk-2); font-size: var(--t--1); line-height: 1.55; }
-.eier-kontakt a { color: var(--gronn); border-bottom: 1px solid currentColor; transition: color 0.14s; }
-.eier-kontakt a:hover { color: var(--gronn-dyp); }
+.eier-kontakt a { color: var(--navy); border-bottom: 1px solid currentColor; transition: color 0.14s; }
+.eier-kontakt a:hover { color: var(--navy-dyp); }
 
 /* grønt kort under koordinatene */
 .om-kort {
-  margin-top: 1rem; background: var(--navy); color: var(--pa-gronn);
+  margin-top: 1rem; background: var(--gronn); color: var(--pa-gronn);
   border-radius: var(--radius); padding: 1.6rem;
 }
 .om-kort h3 { color: var(--hvit); font-size: var(--t-1); }
@@ -464,7 +463,7 @@ p { margin: 0; text-wrap: pretty; }
   overflow: hidden; display: flex; flex-direction: column;
   transition: border-color 0.16s ease;
 }
-.news-card:hover { border-color: var(--gronn); }
+.news-card:hover { border-color: var(--navy); }
 .news-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
 .news-img img {
   width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
@@ -478,10 +477,10 @@ p { margin: 0; text-wrap: pretty; }
 }
 .news-card h3 { font-size: var(--t-1); }
 .news-card h3 a { transition: color 0.14s; }
-.news-card h3 a:hover { color: var(--gronn); }
+.news-card h3 a:hover { color: var(--navy); }
 .news-card p:not(.news-meta) { font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); flex-grow: 1; }
 .news-more { font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3); }
-.news-card:hover .news-more { color: var(--gronn); }
+.news-card:hover .news-more { color: var(--navy); }
 
 /* ── partnere — stille rad ───────────────────────────────────────── */
 
@@ -509,7 +508,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 .kontakt-info dd { margin: 0; font-family: var(--font-mono); }
 .kontakt-info a { color: var(--pa-gronn); border-bottom: 1px solid var(--linje-gronn); transition: color 0.14s, border-color 0.14s; }
-.kontakt-info a:hover { color: var(--blad); border-color: var(--blad); }
+.kontakt-info a:hover { color: var(--sjo); border-color: var(--sjo); }
 
 /* ── skjema ──────────────────────────────────────────────────────── */
 
@@ -521,8 +520,8 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3);
 }
 .section-dark .field label { color: var(--pa-gronn-dus); }
-.req { color: var(--gronn); }
-.section-dark .req { color: var(--blad); }
+.req { color: var(--navy); }
+.section-dark .req { color: var(--sjo); }
 .opt { text-transform: none; letter-spacing: 0.02em; opacity: 0.75; }
 .field input, .field select, .field textarea {
   font: inherit; font-size: var(--t--1); color: var(--blekk);
@@ -534,23 +533,23 @@ p { margin: 0; text-wrap: pretty; }
   border-color: transparent;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--gronn);
-  box-shadow: 0 0 0 3px rgba(30, 112, 51, 0.16);
+  outline: none; border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(17, 51, 73, 0.16);
 }
 .section-dark .field input:focus, .section-dark .field select:focus, .section-dark .field textarea:focus {
-  border-color: var(--blad); box-shadow: 0 0 0 3px rgba(169, 220, 175, 0.3);
+  border-color: var(--sjo); box-shadow: 0 0 0 3px rgba(163, 198, 218, 0.3);
 }
 .field input.err, .field select.err { border-color: #b4141e; box-shadow: 0 0 0 3px rgba(180, 20, 30, 0.14); }
 .field textarea { resize: vertical; min-height: 96px; }
 .form-note { font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-3); letter-spacing: 0.02em; }
 .section-dark .form-note { color: var(--pa-gronn-dus); }
 .check { display: flex; gap: 0.7em; align-items: flex-start; font-size: var(--t--1); cursor: pointer; }
-.check input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--gronn); flex: none; }
+.check input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--navy); flex: none; }
 .check a { border-bottom: 1px solid currentColor; }
 
 /* ── bunn — dyp grønn flate ─────────────────────────────────────── */
 
-.footer { background: var(--navy-natt); color: var(--pa-gronn); padding: var(--rom-l) 0 2rem; }
+.footer { background: var(--gronn-natt); color: var(--pa-gronn); padding: var(--rom-l) 0 2rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 0.9fr; gap: 2.5rem; }
 .footer-brand p { color: var(--pa-gronn-dus); margin-top: 0.8rem; max-width: 22em; font-size: var(--t--1); }
 .some { display: flex; gap: 0.7rem; margin-top: 1.4rem; }
@@ -567,7 +566,7 @@ p { margin: 0; text-wrap: pretty; }
 }
 .footer-col { display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
 .footer-col a { color: var(--pa-gronn); font-size: var(--t--1); transition: color 0.14s; }
-.footer-col a:hover { color: var(--blad); }
+.footer-col a:hover { color: var(--sjo); }
 .footer-adr { color: var(--pa-gronn-dus); font-size: var(--t--1); line-height: 1.9; margin: 0; }
 .footer-bottom {
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
@@ -579,13 +578,13 @@ p { margin: 0; text-wrap: pretty; }
 /* ── påmeldingsmodal ─────────────────────────────────────────────── */
 
 .modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 1.2rem; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(8, 27, 40, 0.55); }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(13, 42, 22, 0.55); }
 .modal-card {
   position: relative; background: var(--hvit); color: var(--blekk);
   width: min(580px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
-  border-top: 3px solid var(--gronn);
+  border-top: 3px solid var(--navy);
   border-radius: var(--radius);
-  box-shadow: 0 30px 70px -30px rgba(8, 27, 40, 0.5);
+  box-shadow: 0 30px 70px -30px rgba(13, 42, 22, 0.5);
   animation: modal-in 0.26s cubic-bezier(0.2, 0.65, 0.25, 1);
 }
 @keyframes modal-in { from { opacity: 0; transform: translateY(16px); } }
@@ -596,7 +595,7 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 0.9rem; cursor: pointer; color: var(--blekk-3);
   transition: border-color 0.14s, color 0.14s; z-index: 2;
 }
-.modal-close:hover { border-color: var(--gronn); color: var(--gronn); }
+.modal-close:hover { border-color: var(--navy); color: var(--navy); }
 .modal-form, .modal-success { padding: 1.8rem 2rem 2rem; display: grid; gap: 1.05rem; }
 .modal-form .kicker { margin: 0; }
 .modal-form h2 { font-size: var(--t-2); margin: -0.3rem 0 0.2rem; }
@@ -676,7 +675,7 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 760px) {
   .nav-links {
     position: fixed; top: var(--nav-h); left: 0; right: 0;
-    flex-direction: column; gap: 0; background: var(--gronn);
+    flex-direction: column; gap: 0; background: var(--navy);
     border-top: 1px solid var(--linje-gronn);
     padding: 0.4rem 1.5rem 1rem;
     transform: translateY(-8px); opacity: 0; pointer-events: none;
