@@ -50,11 +50,13 @@ tregere å levere, mer drift, unødvendig når kunden haster og FrontCore eier k
 (b) Next.js/SSG med FrontCore-API — mest fleksibelt på sikt, men overkill for «basic page» nå.
 Statisk side kan senere løftes til begge uten å kaste designet.
 
-> **Revisjon 3 (14.09):** Fargeprofilen er byttet fra nordsjøblå til **grønn**, hentet fra
-> bilfolieringen til Kompetanse Kurs (hvit bil, grønn bølge, nesten-sorte detaljer).
-> Nye kjerneverdier: flategrønn `#1E7033`, dyp `#155626`, natt `#0D2A16`, bladtint `#A9DCAF`,
-> frisk foliegrønn `#4FBE5A` (kun små punkter). Fargene er lest fra et lite foto — juster mot
-> eksakt foliekode (RAL/3M/Avery) når den foreligger. Struktur og typografi er uendret.
+> **Revisjon 3 (14.09):** Fargeprofilen følger nå **bilfolieringen** til Kompetanse Kurs
+> (hvit bil, grønn bølge, mørk navy, nesten-sorte detaljer) — tofarget system «Profilgrønn»:
+> **navy er struktur** (toppfelt `#113349`, dyp `#0C2636`, bunn `#081B28` — litt mørkere enn
+> den gamle nordsjøblå) og **grønn er handling** (knapper/lenker/etiketter `#1E7033`, dyp
+> `#155626`, bladtint `#A9DCAF`, frisk foliegrønn `#4FBE5A` kun som små punkter). Fargene er
+> lest fra et lite foto — juster mot eksakt foliekode (RAL/3M/Avery) når den foreligger.
+> Struktur og typografi er uendret.
 
 ## Designretning: «Nordsjø» (revisjon 2)
 

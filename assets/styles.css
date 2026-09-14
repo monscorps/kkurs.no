@@ -2,13 +2,14 @@
    kkurs.no — designsystem «Profilgrønn»
 
    Fargene er hentet fra bilfolieringen til Kompetanse Kurs:
-   hvit bil, grønn bølge, nesten-sorte detaljer. Prinsipper:
+   hvit bil, grønn bølge, mørk navy og nesten-sorte detaljer. Prinsipper:
 
-   - Grønn er FLATE, ikke pynt: toppfelt, «neste kurs»-kortet,
+   - NAVY er struktur-flatene: toppfelt, «neste kurs»-kortet,
      kurskalenderen, kontakt og bunn. Aldri som striper eller dekor.
+   - GRØNN er handling: knapper, lenker, etiketter, aksentstreker —
+     energien i bølgen. Den friske foliegrønnen brukes bare til små
+     punkter på mørk flate.
    - Papiret er kjølig hvitt som bilen, teksten grønnstukket nesten-sort.
-   - Dyp grønn er reservert til hover og dybde; den friske foliegrønnen
-     brukes bare til små punkter på mørk flate.
    - Ingen skygger, ingen mønstre, ingen dekorlinjer.
 
    Alltid lyst papir. Ingen mørk modus: siden ser lik ut for alle.
@@ -22,9 +23,12 @@
 :root {
   --gronn: #1e7033;
   --gronn-dyp: #155626;
-  --gronn-natt: #0d2a16;
   --blad: #a9dcaf;
   --frisk: #4fbe5a;
+
+  --navy: #113349;
+  --navy-dyp: #0c2636;
+  --navy-natt: #081b28;
 
   --papir: #f5f7f5;
   --papir-2: #ebf0ec;
@@ -165,13 +169,13 @@ p { margin: 0; text-wrap: pretty; }
   background: var(--hvit); border-color: var(--hvit); color: var(--gronn);
 }
 
-/* ── toppfelt — grønn flate ─────────────────────────────────────── */
+/* ── toppfelt — navy flate ──────────────────────────────────────── */
 
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
-  background: var(--gronn);
+  background: var(--navy);
 }
-.nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
+.nav.scrolled { box-shadow: 0 1px 0 var(--navy-dyp); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); }
 .brand {
   font-family: var(--font-display); font-weight: 700;
@@ -226,7 +230,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* «neste kurs»-kortet — grønn flate */
 .ticket {
-  background: var(--gronn); color: var(--pa-gronn);
+  background: var(--navy); color: var(--pa-gronn);
   border-radius: var(--radius); overflow: hidden;
   max-width: 430px; justify-self: end; width: 100%;
 }
@@ -298,7 +302,7 @@ p { margin: 0; text-wrap: pretty; }
 /* ── seksjoner ───────────────────────────────────────────────────── */
 
 .section { padding: var(--rom-l) 0; }
-.section-dark { background: var(--gronn); color: var(--pa-gronn); }
+.section-dark { background: var(--navy); color: var(--pa-gronn); }
 .section-mist { background: var(--papir-2); }
 
 .section-head { margin-bottom: var(--rom-m); }
@@ -446,7 +450,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* grønt kort under koordinatene */
 .om-kort {
-  margin-top: 1rem; background: var(--gronn); color: var(--pa-gronn);
+  margin-top: 1rem; background: var(--navy); color: var(--pa-gronn);
   border-radius: var(--radius); padding: 1.6rem;
 }
 .om-kort h3 { color: var(--hvit); font-size: var(--t-1); }
@@ -546,7 +550,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ── bunn — dyp grønn flate ─────────────────────────────────────── */
 
-.footer { background: var(--gronn-natt); color: var(--pa-gronn); padding: var(--rom-l) 0 2rem; }
+.footer { background: var(--navy-natt); color: var(--pa-gronn); padding: var(--rom-l) 0 2rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 0.9fr; gap: 2.5rem; }
 .footer-brand p { color: var(--pa-gronn-dus); margin-top: 0.8rem; max-width: 22em; font-size: var(--t--1); }
 .some { display: flex; gap: 0.7rem; margin-top: 1.4rem; }
@@ -575,13 +579,13 @@ p { margin: 0; text-wrap: pretty; }
 /* ── påmeldingsmodal ─────────────────────────────────────────────── */
 
 .modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 1.2rem; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(13, 42, 22, 0.55); }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(8, 27, 40, 0.55); }
 .modal-card {
   position: relative; background: var(--hvit); color: var(--blekk);
   width: min(580px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
   border-top: 3px solid var(--gronn);
   border-radius: var(--radius);
-  box-shadow: 0 30px 70px -30px rgba(13, 42, 22, 0.5);
+  box-shadow: 0 30px 70px -30px rgba(8, 27, 40, 0.5);
   animation: modal-in 0.26s cubic-bezier(0.2, 0.65, 0.25, 1);
 }
 @keyframes modal-in { from { opacity: 0; transform: translateY(16px); } }
