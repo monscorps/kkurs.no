@@ -1,12 +1,14 @@
 /* ═══════════════════════════════════════════════════════════════════
-   kkurs.no — designsystem «Nordsjø»
+   kkurs.no — designsystem «Profilgrønn»
 
-   Kompetanse Kurs sin egen profil. Prinsipper:
+   Fargene er hentet fra bilfolieringen til Kompetanse Kurs:
+   hvit bil, grønn bølge, nesten-sorte detaljer. Prinsipper:
 
-   - Marine er FLATE, ikke pynt: toppfelt, «neste kurs»-kortet,
+   - Grønn er FLATE, ikke pynt: toppfelt, «neste kurs»-kortet,
      kurskalenderen, kontakt og bunn. Aldri som striper eller dekor.
-   - Papiret er kjølig nordisk hvitt, teksten blåstukket nesten-sort.
-   - Dyp marine er reservert til hover og dybde, ikke til flater.
+   - Papiret er kjølig hvitt som bilen, teksten grønnstukket nesten-sort.
+   - Dyp grønn er reservert til hover og dybde; den friske foliegrønnen
+     brukes bare til små punkter på mørk flate.
    - Ingen skygger, ingen mønstre, ingen dekorlinjer.
 
    Alltid lyst papir. Ingen mørk modus: siden ser lik ut for alle.
@@ -18,24 +20,25 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --marine: #17455f;
-  --marine-dyp: #0f3349;
-  --marine-natt: #0b2737;
-  --sjo: #a3c6da;
+  --gronn: #1e7033;
+  --gronn-dyp: #155626;
+  --gronn-natt: #0d2a16;
+  --blad: #a9dcaf;
+  --frisk: #4fbe5a;
 
-  --papir: #f6f7f6;
-  --papir-2: #edf0ef;
+  --papir: #f5f7f5;
+  --papir-2: #ebf0ec;
   --hvit: #ffffff;
 
-  --blekk: #17222a;
-  --blekk-2: #44535d;
-  --blekk-3: #5c6d78;
-  --linje: #dbe1e0;
-  --linje-svak: #e7ebea;
+  --blekk: #14201a;
+  --blekk-2: #40514a;
+  --blekk-3: #56695e;
+  --linje: #dbe2dc;
+  --linje-svak: #e7ece8;
 
-  --pa-marine: #f6f4ef;
-  --pa-marine-dus: rgba(246, 244, 239, 0.75);
-  --linje-marine: rgba(246, 244, 239, 0.18);
+  --pa-gronn: #f3f7f2;
+  --pa-gronn-dus: rgba(243, 247, 242, 0.8);
+  --linje-gronn: rgba(243, 247, 242, 0.18);
 
   --ok: #2e7d54;
   --ok-lys: #bfe3cd;
@@ -106,14 +109,14 @@ p { margin: 0; text-wrap: pretty; }
 }
 .skip-link {
   position: fixed; top: -60px; left: 16px; z-index: 200;
-  background: var(--marine); color: var(--pa-marine); padding: 10px 16px;
+  background: var(--gronn); color: var(--pa-gronn); padding: 10px 16px;
   border-radius: var(--radius-knapp); font-family: var(--font-mono); font-size: var(--t--1);
   transition: top 0.2s;
 }
 .skip-link:focus { top: 12px; }
-:focus-visible { outline: 2px solid var(--marine); outline-offset: 2px; }
-.section-dark :focus-visible, .footer :focus-visible, .nav :focus-visible { outline-color: var(--sjo); }
-::selection { background: var(--marine); color: var(--hvit); }
+:focus-visible { outline: 2px solid var(--gronn); outline-offset: 2px; }
+.section-dark :focus-visible, .footer :focus-visible, .nav :focus-visible { outline-color: var(--blad); }
+::selection { background: var(--gronn); color: var(--hvit); }
 
 /* etiketter — mono, luftig sperring */
 .kicker {
@@ -126,7 +129,7 @@ p { margin: 0; text-wrap: pretty; }
   margin: 0 0 0.9rem;
   line-height: 1.3;
 }
-.section-dark .kicker, .on-dark.kicker { color: var(--pa-marine-dus); }
+.section-dark .kicker, .on-dark.kicker { color: var(--pa-gronn-dus); }
 
 /* ── knapper — flate, ingen skygger ──────────────────────────────── */
 
@@ -135,66 +138,66 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-body); font-weight: 600; font-size: 0.93rem;
   letter-spacing: 0.01em;
   padding: 0.7em 1.35em; border-radius: var(--radius-knapp);
-  border: 1.5px solid var(--marine); background: var(--marine); color: var(--pa-marine);
+  border: 1.5px solid var(--gronn); background: var(--gronn); color: var(--pa-gronn);
   cursor: pointer; white-space: nowrap;
   transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
-.btn:hover { background: var(--marine-dyp); border-color: var(--marine-dyp); }
+.btn:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
 .btn-lg { padding: 0.85em 1.7em; font-size: 1rem; }
 .btn-sm { padding: 0.5em 1em; font-size: 0.84rem; }
 .btn-block { width: 100%; }
-.btn-signal { background: var(--marine); border-color: var(--marine); color: var(--pa-marine); }
-.btn-signal:hover { background: var(--marine-dyp); border-color: var(--marine-dyp); }
+.btn-signal { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
+.btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
 .btn-ghost { background: transparent; border-color: var(--blekk-2); color: var(--blekk); }
-.btn-ghost:hover { background: var(--marine); border-color: var(--marine); color: var(--pa-marine); }
+.btn-ghost:hover { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
 
-/* på marine flater: primær blir hvit med marine skrift, sekundær hvit kontur */
+/* på grønne flater: primær blir hvit med grønn skrift, sekundær hvit kontur */
 .section-dark .btn-signal, .ticket .btn-signal, .footer .btn-signal, .om-kort .btn-signal {
-  background: var(--hvit); border-color: var(--hvit); color: var(--marine);
+  background: var(--hvit); border-color: var(--hvit); color: var(--gronn);
 }
 .section-dark .btn-signal:hover, .ticket .btn-signal:hover, .footer .btn-signal:hover, .om-kort .btn-signal:hover {
   background: var(--blekk); border-color: var(--blekk); color: var(--hvit);
 }
 .section-dark .btn-ghost, .ticket .btn-ghost, .footer .btn-ghost {
-  background: transparent; border-color: rgba(246, 244, 239, 0.65); color: var(--pa-marine);
+  background: transparent; border-color: rgba(243, 247, 242, 0.65); color: var(--pa-gronn);
 }
 .section-dark .btn-ghost:hover, .ticket .btn-ghost:hover, .footer .btn-ghost:hover {
-  background: var(--hvit); border-color: var(--hvit); color: var(--marine);
+  background: var(--hvit); border-color: var(--hvit); color: var(--gronn);
 }
 
-/* ── toppfelt — marine flate ─────────────────────────────────────── */
+/* ── toppfelt — grønn flate ─────────────────────────────────────── */
 
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
-  background: var(--marine);
+  background: var(--gronn);
 }
-.nav.scrolled { box-shadow: 0 1px 0 var(--marine-dyp); }
+.nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); }
 .brand {
   font-family: var(--font-display); font-weight: 700;
   font-size: 1.28rem; letter-spacing: -0.015em; line-height: 1;
-  color: var(--pa-marine);
+  color: var(--pa-gronn);
 }
-.brand-dot { color: var(--sjo); }
+.brand-dot { color: var(--frisk); }
 .nav-links { display: flex; gap: 1.5rem; margin-inline: auto; }
 .nav-links a {
   font-weight: 600; font-size: var(--t--1); letter-spacing: 0.02em;
-  color: var(--pa-marine-dus); padding: 4px 0;
+  color: var(--pa-gronn-dus); padding: 4px 0;
   transition: color 0.14s;
 }
-.nav-links a:hover { color: var(--pa-marine); }
+.nav-links a:hover { color: var(--pa-gronn); }
 .nav-cta { display: flex; gap: 0.6rem; }
-.nav-cta .btn-ghost { border-color: rgba(246, 244, 239, 0.5); color: var(--pa-marine); }
-.nav-cta .btn-ghost:hover { background: var(--hvit); border-color: var(--hvit); color: var(--marine); }
-.nav-cta .btn-signal { background: var(--hvit); border-color: var(--hvit); color: var(--marine); }
-.nav-cta .btn-signal:hover { background: var(--sjo); border-color: var(--sjo); color: var(--marine-dyp); }
+.nav-cta .btn-ghost { border-color: rgba(243, 247, 242, 0.5); color: var(--pa-gronn); }
+.nav-cta .btn-ghost:hover { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
+.nav-cta .btn-signal { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
+.nav-cta .btn-signal:hover { background: var(--blad); border-color: var(--blad); color: var(--gronn-dyp); }
 .nav-burger {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
   width: 44px; height: 44px; padding: 10px;
-  background: none; border: 1.5px solid rgba(246, 244, 239, 0.5); border-radius: var(--radius-knapp);
+  background: none; border: 1.5px solid rgba(243, 247, 242, 0.5); border-radius: var(--radius-knapp);
   cursor: pointer;
 }
-.nav-burger span { display: block; height: 2px; background: var(--pa-marine); transition: transform 0.2s, opacity 0.2s; }
+.nav-burger span { display: block; height: 2px; background: var(--pa-gronn); transition: transform 0.2s, opacity 0.2s; }
 .nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -219,11 +222,11 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; color: var(--blekk-3);
 }
 .hero-badges li { display: flex; align-items: center; gap: 0.6em; }
-.hero-badges li::before { content: ""; width: 6px; height: 6px; background: var(--marine); flex: none; }
+.hero-badges li::before { content: ""; width: 6px; height: 6px; background: var(--gronn); flex: none; }
 
-/* «neste kurs»-kortet — marine flate */
+/* «neste kurs»-kortet — grønn flate */
 .ticket {
-  background: var(--marine); color: var(--pa-marine);
+  background: var(--gronn); color: var(--pa-gronn);
   border-radius: var(--radius); overflow: hidden;
   max-width: 430px; justify-self: end; width: 100%;
 }
@@ -231,39 +234,39 @@ p { margin: 0; text-wrap: pretty; }
   display: flex; justify-content: space-between; align-items: baseline;
   padding: 1.3rem 1.6rem 0;
   font-size: var(--t--2); font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.16em; color: var(--pa-marine-dus);
+  letter-spacing: 0.16em; color: var(--pa-gronn-dus);
 }
 .ticket-body { padding: 0.5rem 1.6rem 1.4rem; }
 .ticket-title { font-size: var(--t-2); color: var(--hvit); margin-top: 0.3rem; }
-.ticket-title .cc-codes { color: var(--sjo); }
+.ticket-title .cc-codes { color: var(--blad); }
 .ticket-meta {
   display: grid; grid-template-columns: auto 1fr; gap: 5px 16px;
   margin-top: 1rem; font-size: var(--t--1);
 }
 .ticket-meta dt {
-  color: var(--pa-marine-dus); text-transform: uppercase;
+  color: var(--pa-gronn-dus); text-transform: uppercase;
   letter-spacing: 0.1em; font-size: 0.66rem; align-self: center;
 }
-.ticket-meta dd { margin: 0; color: var(--pa-marine); }
+.ticket-meta dd { margin: 0; color: var(--pa-gronn); }
 .ticket-row-cta { display: flex; align-items: center; justify-content: space-between; margin-top: 1.2rem; gap: 1rem; }
 .ticket-price { font-family: var(--font-mono); font-weight: 600; font-size: var(--t--1); color: var(--hvit); }
-.ticket-divider { border-top: 1px solid var(--linje-marine); margin: 0 1.6rem; }
+.ticket-divider { border-top: 1px solid var(--linje-gronn); margin: 0 1.6rem; }
 .ticket-list { list-style: none; margin: 0; padding: 0.4rem 1.6rem; }
-.ticket-list li + li { border-top: 1px solid var(--linje-marine); }
+.ticket-list li + li { border-top: 1px solid var(--linje-gronn); }
 .ticket-list button {
   display: flex; width: 100%; align-items: baseline; gap: 12px;
   background: none; border: 0; padding: 0.7rem 0; cursor: pointer;
-  font: inherit; text-align: left; color: var(--pa-marine);
+  font: inherit; text-align: left; color: var(--pa-gronn);
 }
-.ticket-list button:hover .tl-name { color: var(--sjo); }
-.tl-date { font-family: var(--font-mono); font-size: var(--t--2); color: var(--pa-marine-dus); flex: none; width: 4.6em; }
+.ticket-list button:hover .tl-name { color: var(--blad); }
+.tl-date { font-family: var(--font-mono); font-size: var(--t--2); color: var(--pa-gronn-dus); flex: none; width: 4.6em; }
 .tl-name { font-weight: 600; font-size: var(--t--1); flex: 1; transition: color 0.14s; }
-.tl-name em { font-style: normal; color: var(--pa-marine-dus); }
-.tl-arrow { color: var(--sjo); }
+.tl-name em { font-style: normal; color: var(--pa-gronn-dus); }
+.tl-arrow { color: var(--blad); }
 .ticket-more {
   display: block; padding: 0.9rem 1.6rem 1.2rem;
   font-size: var(--t--2); font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.12em; color: var(--pa-marine-dus);
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--pa-gronn-dus);
   transition: color 0.14s;
 }
 .ticket-more:hover { color: var(--hvit); }
@@ -280,7 +283,7 @@ p { margin: 0; text-wrap: pretty; }
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 2rem;
   margin: var(--rom-m) 0 0; padding-top: 1.3rem;
-  border-top: 2px solid var(--marine);
+  border-top: 2px solid var(--gronn);
 }
 .stats > div { padding: 0; }
 .stats dt {
@@ -295,12 +298,12 @@ p { margin: 0; text-wrap: pretty; }
 /* ── seksjoner ───────────────────────────────────────────────────── */
 
 .section { padding: var(--rom-l) 0; }
-.section-dark { background: var(--marine); color: var(--pa-marine); }
+.section-dark { background: var(--gronn); color: var(--pa-gronn); }
 .section-mist { background: var(--papir-2); }
 
 .section-head { margin-bottom: var(--rom-m); }
-.section-head::before { content: ""; display: block; width: 44px; height: 3px; background: var(--marine); margin-bottom: 1.1rem; }
-.section-dark .section-head::before { background: var(--sjo); }
+.section-head::before { content: ""; display: block; width: 44px; height: 3px; background: var(--gronn); margin-bottom: 1.1rem; }
+.section-dark .section-head::before { background: var(--blad); }
 .section-head .kicker { margin-bottom: 0.5rem; }
 .section-head-row {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -308,12 +311,12 @@ p { margin: 0; text-wrap: pretty; }
 }
 .section-dark h2 { color: var(--hvit); }
 .section-lead { max-width: 30em; font-size: var(--t-0); color: var(--blekk-2); }
-.section-dark .section-lead, .section-lead.on-dark { color: var(--pa-marine-dus); }
+.section-dark .section-lead, .section-lead.on-dark { color: var(--pa-gronn-dus); }
 .section-note { margin-top: 2rem; font-family: var(--font-mono); font-size: var(--t--1); color: var(--blekk-3); }
-.section-note.on-dark { color: var(--pa-marine-dus); }
-.section-note a { color: var(--marine); border-bottom: 1.5px solid currentColor; transition: color 0.14s; }
-.section-note a:hover { color: var(--marine-dyp); }
-.section-dark .section-note a { color: var(--sjo); }
+.section-note.on-dark { color: var(--pa-gronn-dus); }
+.section-note a { color: var(--gronn); border-bottom: 1.5px solid currentColor; transition: color 0.14s; }
+.section-note a:hover { color: var(--gronn-dyp); }
+.section-dark .section-note a { color: var(--blad); }
 .section-dark .section-note a:hover { color: var(--hvit); }
 
 /* filterknapper */
@@ -325,12 +328,12 @@ p { margin: 0; text-wrap: pretty; }
   border: 1px solid var(--linje); background: transparent; color: var(--blekk-2);
   cursor: pointer; transition: border-color 0.14s, background 0.14s, color 0.14s;
 }
-.chip:hover { border-color: var(--marine); color: var(--marine); }
-.chip[aria-pressed="true"] { background: var(--marine); border-color: var(--marine); color: var(--pa-marine); }
+.chip:hover { border-color: var(--gronn); color: var(--gronn); }
+.chip[aria-pressed="true"] { background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn); }
 .chip .count { opacity: 0.55; margin-left: 0.4em; }
-.chips-dark .chip { border-color: var(--linje-marine); color: var(--pa-marine-dus); }
-.chips-dark .chip:hover { border-color: var(--pa-marine); color: var(--pa-marine); }
-.chips-dark .chip[aria-pressed="true"] { background: var(--hvit); border-color: var(--hvit); color: var(--marine); }
+.chips-dark .chip { border-color: var(--linje-gronn); color: var(--pa-gronn-dus); }
+.chips-dark .chip:hover { border-color: var(--pa-gronn); color: var(--pa-gronn); }
+.chips-dark .chip[aria-pressed="true"] { background: var(--hvit); border-color: var(--hvit); color: var(--gronn); }
 
 /* ── kurskort ────────────────────────────────────────────────────── */
 
@@ -344,7 +347,7 @@ p { margin: 0; text-wrap: pretty; }
   overflow: hidden;
   transition: border-color 0.16s ease;
 }
-.course-card:hover { border-color: var(--marine); }
+.course-card:hover { border-color: var(--gronn); }
 .cc-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
 .cc-img img {
   width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
@@ -355,11 +358,11 @@ p { margin: 0; text-wrap: pretty; }
 .cc-top { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
 .cc-cat {
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.12em; color: var(--marine);
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--gronn);
 }
 .cc-codes { font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-3); }
 .course-card h3 { font-size: var(--t-1); transition: color 0.14s; }
-.course-card:hover h3 { color: var(--marine); }
+.course-card:hover h3 { color: var(--gronn); }
 .cc-desc { font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); flex-grow: 1; }
 .cc-meta {
   font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-2);
@@ -370,21 +373,21 @@ p { margin: 0; text-wrap: pretty; }
 .cc-next { font-size: var(--t--1); color: var(--blekk-3); }
 .cc-next strong { color: var(--blekk); font-family: var(--font-mono); font-weight: 500; }
 
-/* ── kurskalender — marine flate ─────────────────────────────────── */
+/* ── kurskalender — grønn flate ─────────────────────────────────── */
 
-.cal-wrap { overflow-x: auto; border-top: 1px solid var(--linje-marine); border-bottom: 1px solid var(--linje-marine); }
+.cal-wrap { overflow-x: auto; border-top: 1px solid var(--linje-gronn); border-bottom: 1px solid var(--linje-gronn); }
 .cal { width: 100%; min-width: 780px; border-collapse: collapse; font-size: var(--t--1); }
 .cal thead tr {
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.14em; color: var(--pa-marine-dus);
+  text-transform: uppercase; letter-spacing: 0.14em; color: var(--pa-gronn-dus);
 }
-.cal th { text-align: left; font-weight: 600; padding: 0.9rem 1rem 0.9rem 0; border-bottom: 1px solid var(--linje-marine); }
-.cal td { padding: 0.95rem 1rem 0.95rem 0; border-bottom: 1px solid var(--linje-marine); vertical-align: middle; }
+.cal th { text-align: left; font-weight: 600; padding: 0.9rem 1rem 0.9rem 0; border-bottom: 1px solid var(--linje-gronn); }
+.cal td { padding: 0.95rem 1rem 0.95rem 0; border-bottom: 1px solid var(--linje-gronn); vertical-align: middle; }
 .cal tbody tr:last-child td { border-bottom: 0; }
-.cal-date { font-family: var(--font-mono); font-size: var(--t--1); white-space: nowrap; color: var(--pa-marine); }
+.cal-date { font-family: var(--font-mono); font-size: var(--t--1); white-space: nowrap; color: var(--pa-gronn); }
 .cal-course { font-weight: 600; color: var(--hvit); }
-.cal-codes { display: block; font-family: var(--font-mono); font-weight: 400; font-size: var(--t--2); color: var(--pa-marine-dus); margin-top: 2px; }
-.cal-sted, .cal-dur { color: var(--pa-marine); white-space: nowrap; }
+.cal-codes { display: block; font-family: var(--font-mono); font-weight: 400; font-size: var(--t--2); color: var(--pa-gronn-dus); margin-top: 2px; }
+.cal-sted, .cal-dur { color: var(--pa-gronn); white-space: nowrap; }
 .cal td:last-child { text-align: right; }
 .status { display: inline-flex; align-items: center; gap: 0.5em; font-family: var(--font-mono); font-size: var(--t--2); white-space: nowrap; }
 .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
@@ -395,10 +398,10 @@ p { margin: 0; text-wrap: pretty; }
 .section-dark .status-ledig::before, .ticket .status-ledig::before { background: var(--ok-lys); }
 .section-dark .status-faa, .ticket .status-faa { color: var(--varsel-lys); }
 .section-dark .status-faa::before, .ticket .status-faa::before { background: var(--varsel-lys); }
-.section-dark .status-vente, .ticket .status-vente { color: var(--pa-marine-dus); }
-.section-dark .status-vente::before, .ticket .status-vente::before { box-shadow: inset 0 0 0 1.5px var(--pa-marine-dus); }
-.cal-empty { text-align: center; color: var(--pa-marine-dus); font-family: var(--font-mono); font-size: var(--t--1); padding: 2rem 0 !important; }
-.cal-hint { display: none; font-size: var(--t--2); color: var(--pa-marine-dus); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
+.section-dark .status-vente, .ticket .status-vente { color: var(--pa-gronn-dus); }
+.section-dark .status-vente::before, .ticket .status-vente::before { box-shadow: inset 0 0 0 1.5px var(--pa-gronn-dus); }
+.cal-empty { text-align: center; color: var(--pa-gronn-dus); font-family: var(--font-mono); font-size: var(--t--1); padding: 2rem 0 !important; }
+.cal-hint { display: none; font-size: var(--t--2); color: var(--pa-gronn-dus); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
 
 /* ── tjenester ───────────────────────────────────────────────────── */
 
@@ -418,7 +421,7 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3);
   white-space: nowrap; transition: color 0.14s;
 }
-.service-link:hover { color: var(--marine); }
+.service-link:hover { color: var(--gronn); }
 
 /* ── om oss ──────────────────────────────────────────────────────── */
 
@@ -428,7 +431,7 @@ p { margin: 0; text-wrap: pretty; }
 .om-copy p + p { margin-top: 1rem; }
 .om-badges { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 0.7rem; }
 .om-badges li { display: flex; gap: 0.7em; align-items: baseline; font-weight: 600; }
-.om-badges li::before { content: "—"; color: var(--marine); font-weight: 700; flex: none; }
+.om-badges li::before { content: "—"; color: var(--gronn); font-weight: 700; flex: none; }
 .om-foto { margin: 0 0 1rem; border-radius: var(--radius); overflow: hidden; }
 .om-foto img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
 .eier-kort {
@@ -438,16 +441,16 @@ p { margin: 0; text-wrap: pretty; }
 .eier-kort .kicker { margin-bottom: 0.4rem; }
 .eier-kort h3 { font-size: var(--t-2); }
 .eier-kort p:not(.kicker) { margin-top: 0.55rem; color: var(--blekk-2); font-size: var(--t--1); line-height: 1.55; }
-.eier-kontakt a { color: var(--marine); border-bottom: 1px solid currentColor; transition: color 0.14s; }
-.eier-kontakt a:hover { color: var(--marine-dyp); }
+.eier-kontakt a { color: var(--gronn); border-bottom: 1px solid currentColor; transition: color 0.14s; }
+.eier-kontakt a:hover { color: var(--gronn-dyp); }
 
-/* marine kort under koordinatene */
+/* grønt kort under koordinatene */
 .om-kort {
-  margin-top: 1rem; background: var(--marine); color: var(--pa-marine);
+  margin-top: 1rem; background: var(--gronn); color: var(--pa-gronn);
   border-radius: var(--radius); padding: 1.6rem;
 }
 .om-kort h3 { color: var(--hvit); font-size: var(--t-1); }
-.om-kort p { margin: 0.5rem 0 1.1rem; color: var(--pa-marine-dus); font-size: var(--t--1); line-height: 1.55; }
+.om-kort p { margin: 0.5rem 0 1.1rem; color: var(--pa-gronn-dus); font-size: var(--t--1); line-height: 1.55; }
 
 /* ── nyheter ─────────────────────────────────────────────────────── */
 
@@ -457,7 +460,7 @@ p { margin: 0; text-wrap: pretty; }
   overflow: hidden; display: flex; flex-direction: column;
   transition: border-color 0.16s ease;
 }
-.news-card:hover { border-color: var(--marine); }
+.news-card:hover { border-color: var(--gronn); }
 .news-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
 .news-img img {
   width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
@@ -471,10 +474,10 @@ p { margin: 0; text-wrap: pretty; }
 }
 .news-card h3 { font-size: var(--t-1); }
 .news-card h3 a { transition: color 0.14s; }
-.news-card h3 a:hover { color: var(--marine); }
+.news-card h3 a:hover { color: var(--gronn); }
 .news-card p:not(.news-meta) { font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); flex-grow: 1; }
 .news-more { font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3); }
-.news-card:hover .news-more { color: var(--marine); }
+.news-card:hover .news-more { color: var(--gronn); }
 
 /* ── partnere — stille rad ───────────────────────────────────────── */
 
@@ -486,23 +489,23 @@ p { margin: 0; text-wrap: pretty; }
   text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3);
 }
 
-/* ── kontakt — marine flate ──────────────────────────────────────── */
+/* ── kontakt — grønn flate ──────────────────────────────────────── */
 
 .kontakt-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
 .kontakt-copy h2 { margin-bottom: 1rem; }
-.kontakt-info { margin: 2.2rem 0 0; display: grid; gap: 0; border-top: 1px solid var(--linje-marine); }
+.kontakt-info { margin: 2.2rem 0 0; display: grid; gap: 0; border-top: 1px solid var(--linje-gronn); }
 .kontakt-info > div {
   display: grid; grid-template-columns: 110px 1fr; gap: 1rem;
-  padding: 0.8rem 0; border-bottom: 1px solid var(--linje-marine);
+  padding: 0.8rem 0; border-bottom: 1px solid var(--linje-gronn);
   font-size: var(--t--1);
 }
 .kontakt-info dt {
   font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.12em;
-  font-size: 0.66rem; font-weight: 600; color: var(--pa-marine-dus); align-self: center;
+  font-size: 0.66rem; font-weight: 600; color: var(--pa-gronn-dus); align-self: center;
 }
 .kontakt-info dd { margin: 0; font-family: var(--font-mono); }
-.kontakt-info a { color: var(--pa-marine); border-bottom: 1px solid var(--linje-marine); transition: color 0.14s, border-color 0.14s; }
-.kontakt-info a:hover { color: var(--sjo); border-color: var(--sjo); }
+.kontakt-info a { color: var(--pa-gronn); border-bottom: 1px solid var(--linje-gronn); transition: color 0.14s, border-color 0.14s; }
+.kontakt-info a:hover { color: var(--blad); border-color: var(--blad); }
 
 /* ── skjema ──────────────────────────────────────────────────────── */
 
@@ -513,9 +516,9 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3);
 }
-.section-dark .field label { color: var(--pa-marine-dus); }
-.req { color: var(--marine); }
-.section-dark .req { color: var(--sjo); }
+.section-dark .field label { color: var(--pa-gronn-dus); }
+.req { color: var(--gronn); }
+.section-dark .req { color: var(--blad); }
 .opt { text-transform: none; letter-spacing: 0.02em; opacity: 0.75; }
 .field input, .field select, .field textarea {
   font: inherit; font-size: var(--t--1); color: var(--blekk);
@@ -527,58 +530,58 @@ p { margin: 0; text-wrap: pretty; }
   border-color: transparent;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--marine);
-  box-shadow: 0 0 0 3px rgba(23, 69, 95, 0.16);
+  outline: none; border-color: var(--gronn);
+  box-shadow: 0 0 0 3px rgba(30, 112, 51, 0.16);
 }
 .section-dark .field input:focus, .section-dark .field select:focus, .section-dark .field textarea:focus {
-  border-color: var(--sjo); box-shadow: 0 0 0 3px rgba(163, 198, 218, 0.28);
+  border-color: var(--blad); box-shadow: 0 0 0 3px rgba(169, 220, 175, 0.3);
 }
 .field input.err, .field select.err { border-color: #b4141e; box-shadow: 0 0 0 3px rgba(180, 20, 30, 0.14); }
 .field textarea { resize: vertical; min-height: 96px; }
 .form-note { font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-3); letter-spacing: 0.02em; }
-.section-dark .form-note { color: var(--pa-marine-dus); }
+.section-dark .form-note { color: var(--pa-gronn-dus); }
 .check { display: flex; gap: 0.7em; align-items: flex-start; font-size: var(--t--1); cursor: pointer; }
-.check input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--marine); flex: none; }
+.check input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--gronn); flex: none; }
 .check a { border-bottom: 1px solid currentColor; }
 
-/* ── bunn — dyp marine flate ─────────────────────────────────────── */
+/* ── bunn — dyp grønn flate ─────────────────────────────────────── */
 
-.footer { background: var(--marine-natt); color: var(--pa-marine); padding: var(--rom-l) 0 2rem; }
+.footer { background: var(--gronn-natt); color: var(--pa-gronn); padding: var(--rom-l) 0 2rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 0.9fr; gap: 2.5rem; }
-.footer-brand p { color: var(--pa-marine-dus); margin-top: 0.8rem; max-width: 22em; font-size: var(--t--1); }
+.footer-brand p { color: var(--pa-gronn-dus); margin-top: 0.8rem; max-width: 22em; font-size: var(--t--1); }
 .some { display: flex; gap: 0.7rem; margin-top: 1.4rem; }
 .some a {
   display: grid; place-items: center; width: 40px; height: 40px;
-  border: 1px solid var(--linje-marine); border-radius: var(--radius-knapp);
+  border: 1px solid var(--linje-gronn); border-radius: var(--radius-knapp);
   transition: border-color 0.14s, background 0.14s;
 }
-.some a:hover { border-color: var(--pa-marine); background: rgba(246, 244, 239, 0.08); }
-.some svg { width: 16px; height: 16px; fill: var(--pa-marine); }
+.some a:hover { border-color: var(--pa-gronn); background: rgba(243, 247, 242, 0.08); }
+.some svg { width: 16px; height: 16px; fill: var(--pa-gronn); }
 .footer-head {
   font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.16em; color: var(--pa-marine-dus); margin: 0 0 1rem;
+  text-transform: uppercase; letter-spacing: 0.16em; color: var(--pa-gronn-dus); margin: 0 0 1rem;
 }
 .footer-col { display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
-.footer-col a { color: var(--pa-marine); font-size: var(--t--1); transition: color 0.14s; }
-.footer-col a:hover { color: var(--sjo); }
-.footer-adr { color: var(--pa-marine-dus); font-size: var(--t--1); line-height: 1.9; margin: 0; }
+.footer-col a { color: var(--pa-gronn); font-size: var(--t--1); transition: color 0.14s; }
+.footer-col a:hover { color: var(--blad); }
+.footer-adr { color: var(--pa-gronn-dus); font-size: var(--t--1); line-height: 1.9; margin: 0; }
 .footer-bottom {
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-  margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--linje-marine);
-  font-size: var(--t--2); color: var(--pa-marine-dus); letter-spacing: 0.02em;
+  margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--linje-gronn);
+  font-size: var(--t--2); color: var(--pa-gronn-dus); letter-spacing: 0.02em;
 }
 .footer-bottom p { margin: 0; }
 
 /* ── påmeldingsmodal ─────────────────────────────────────────────── */
 
 .modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 1.2rem; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(11, 39, 55, 0.55); }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(13, 42, 22, 0.55); }
 .modal-card {
   position: relative; background: var(--hvit); color: var(--blekk);
   width: min(580px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
-  border-top: 3px solid var(--marine);
+  border-top: 3px solid var(--gronn);
   border-radius: var(--radius);
-  box-shadow: 0 30px 70px -30px rgba(11, 39, 55, 0.5);
+  box-shadow: 0 30px 70px -30px rgba(13, 42, 22, 0.5);
   animation: modal-in 0.26s cubic-bezier(0.2, 0.65, 0.25, 1);
 }
 @keyframes modal-in { from { opacity: 0; transform: translateY(16px); } }
@@ -589,7 +592,7 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 0.9rem; cursor: pointer; color: var(--blekk-3);
   transition: border-color 0.14s, color 0.14s; z-index: 2;
 }
-.modal-close:hover { border-color: var(--marine); color: var(--marine); }
+.modal-close:hover { border-color: var(--gronn); color: var(--gronn); }
 .modal-form, .modal-success { padding: 1.8rem 2rem 2rem; display: grid; gap: 1.05rem; }
 .modal-form .kicker { margin: 0; }
 .modal-form h2 { font-size: var(--t-2); margin: -0.3rem 0 0.2rem; }
@@ -669,14 +672,14 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 760px) {
   .nav-links {
     position: fixed; top: var(--nav-h); left: 0; right: 0;
-    flex-direction: column; gap: 0; background: var(--marine);
-    border-top: 1px solid var(--linje-marine);
+    flex-direction: column; gap: 0; background: var(--gronn);
+    border-top: 1px solid var(--linje-gronn);
     padding: 0.4rem 1.5rem 1rem;
     transform: translateY(-8px); opacity: 0; pointer-events: none;
     transition: opacity 0.2s, transform 0.2s;
   }
   .nav-links.open { transform: none; opacity: 1; pointer-events: auto; }
-  .nav-links a { padding: 0.85rem 0; border-bottom: 1px solid var(--linje-marine); color: var(--pa-marine); }
+  .nav-links a { padding: 0.85rem 0; border-bottom: 1px solid var(--linje-gronn); color: var(--pa-gronn); }
   .nav-links a:last-child { border-bottom: 0; }
   .nav-burger { display: flex; }
   .nav-cta { margin-left: auto; }
