@@ -106,7 +106,7 @@ const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
 
 /* Alle oppsatte datoer, flatet ut og sortert — dette blir kalenderen */
-const CAL = COURSES.flatMap((c) => c.datoer.map((dt) => ({ ...dt, course: c })))
+const CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ ...dt, course: c, idx })))
   .sort((a, b) => a.d.localeCompare(b.d));
 
 /* ---------- «neste kurs»-kortet i hero ---------- */
@@ -126,7 +126,7 @@ function renderTicket() {
       <button class="btn btn-signal btn-sm" data-book="${first.course.id}" data-date="0">Meld deg på</button>
     </div>`;
   $("#ticket-list").innerHTML = rest.slice(0, 3).map((e) => `
-    <li><button data-book="${e.course.id}" data-date="${e.course.datoer.indexOf(e)}">
+    <li><button data-book="${e.course.id}" data-date="${e.idx}">
       <span class="tl-date">${fmtDatoKort(e.d)}</span>
       <span class="tl-name">${e.course.navn}${e.merk ? ` <em>(${e.merk})</em>` : ""}</span>
       <span class="tl-arrow" aria-hidden="true">→</span>
@@ -191,7 +191,7 @@ function renderCal(sted = "Alle steder") {
       <td class="cal-sted">${e.sted}</td>
       <td class="cal-dur">${e.course.varighet}</td>
       <td><span class="status ${st.cls}">${st.label}</span></td>
-      <td><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.course.datoer.indexOf(e)}">Meld deg på</button></td>
+      <td><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">Meld deg på</button></td>
     </tr>`;
   }).join("");
 }

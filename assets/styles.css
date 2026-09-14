@@ -229,7 +229,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* «neste kurs»-kortet — grønn flate */
 .ticket {
-  background: var(--gronn); color: var(--pa-gronn);
+  background: var(--navy); color: var(--pa-gronn);
   border-radius: var(--radius); overflow: hidden;
   max-width: 430px; justify-self: end; width: 100%;
 }
@@ -273,6 +273,13 @@ p { margin: 0; text-wrap: pretty; }
   transition: color 0.14s;
 }
 .ticket-more:hover { color: var(--hvit); }
+/* påmeldingsknappen i billetten: sidegrønn på navy flate */
+.ticket .btn-signal {
+  background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn);
+}
+.ticket .btn-signal:hover {
+  background: var(--gronn-dyp); border-color: var(--gronn-dyp); color: var(--pa-gronn);
+}
 
 /* hero-foto — bredt fotofelt under hero-innholdet */
 .hero-foto {
@@ -376,7 +383,15 @@ p { margin: 0; text-wrap: pretty; }
 .cc-next { font-size: var(--t--1); color: var(--blekk-3); }
 .cc-next strong { color: var(--blekk); font-family: var(--font-mono); font-weight: 500; }
 
-/* ── kurskalender — grønn flate ─────────────────────────────────── */
+/* ── kurskalender — navy flate, grønne påmeldingsknapper ────────── */
+
+#kalender { background: var(--navy); }
+#kalender .cal .btn-ghost {
+  background: var(--gronn); border-color: var(--gronn); color: var(--pa-gronn);
+}
+#kalender .cal .btn-ghost:hover {
+  background: var(--gronn-dyp); border-color: var(--gronn-dyp); color: var(--pa-gronn);
+}
 
 .cal-wrap { overflow-x: auto; border-top: 1px solid var(--linje-gronn); border-bottom: 1px solid var(--linje-gronn); }
 .cal { width: 100%; min-width: 780px; border-collapse: collapse; font-size: var(--t--1); }
