@@ -93,6 +93,22 @@ Skjemaer validerer og viser kvittering lokalt, med diskret merknad «Forhåndsvi
 FrontCore ved lansering». Ingen data sendes noe sted. Footer merker siden som forhåndsvisning
 med eksempeldata.
 
+## Bookingkrav (20.09) og hvordan de løses
+
+Kravliste mottatt 20.09: faktura/Vipps ved påmelding, ledige plasser i kalenderen, automatisk
+bekreftelses-e-post + varsel til bestilling@kkurs.no, nedtrekk av plasser — og enklest mulig
+kursadministrasjon uten dobbeltarbeid.
+
+**Alle fire dekkes av FrontCore** (verifisert på frontcore.no/frontcore.com 20.09): betaling
+med Vipps, Visa/Mastercard og faktura; deltakergrenser med venteliste og overbooking-håndtering;
+automatiske bekreftelses- og påminnelses-e-poster + varsling til arrangør; kurs legges inn
+én gang i FrontCore-adminen og publiseres automatisk til kalender og kursoversikt på nettsiden
+(embed/API). Ingen egenutviklet backend nødvendig.
+
+**Forhåndsvisningen simulerer hele flyten** (se README), slik at kunden kan kjenne på
+opplevelsen før FrontCore-kontoen er på plass. Frem til da driftes kursinnholdet i én fil,
+`assets/kurs.json`, som automatisk mater katalog + kalender + påmelding.
+
 ## Neste steg etter visuell godkjenning
 
 1. Avklare endelig navn/logo og domenepeking for kkurs.no.

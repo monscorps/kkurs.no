@@ -25,11 +25,28 @@ python3 -m http.server 4173 --directory .
 | `assets/app.js` | **Kursdata (eksempel)** øverst i filen + rendering, filtre, modal og skjema-demo |
 | `docs/DESIGN.md` | Designnotat, research-funn og anbefalt teknisk retning |
 
-## Endre innhold
+## Endre innhold (slik driftes kursene i dag)
 
-Alt kursinnhold (navn, koder, priser, datoer, steder, status) ligger i `COURSES`-listen øverst i
-`assets/app.js`. Kurskalenderen, «neste kurs»-billetten i heroen og påmeldingsmodalen genereres
-derfra — endre ett sted, oppdateres overalt.
+Alt kursinnhold ligger i **én fil: [`assets/kurs.json`](assets/kurs.json)** — navn, koder,
+priser, beskrivelser, datoer, sted og antall plasser (`plasser` totalt / `ledige` nå).
+Kurskatalogen, kurskalenderen, «neste kurs»-kortet og påmeldingsskjemaet genereres derfra:
+**endre ett sted, oppdateres overalt** — ingen dobbeltarbeid.
+
+Enkleste arbeidsflyt for drifter: åpne filen på GitHub → blyantikonet (rediger) → endre/legg
+til kurs → «Commit changes». Siden bygges og publiseres automatisk på under ett minutt.
+
+Ved lansering byttes filen ut med FrontCore som kilde, og da administreres kursene i
+FrontCore-adminen i stedet (samme prinsipp: legg inn kurset ett sted, alt oppdateres).
+
+## Bookingflyt i forhåndsvisningen (simulert)
+
+Påmeldingen demonstrerer hele den ønskede flyten, uten at noe faktisk sendes:
+valg av **faktura eller Vipps**, kalender som viser **antall ledige plasser**, kapasitetssjekk
+(kan ikke melde på flere enn det er plasser til), **venteliste** når et kurs er fullt, og en
+kvittering som viser hva som skjer automatisk ved lansering: bekreftelses-e-post til
+bestilleren, varsel til `bestilling@kkurs.no`, og nedtrekk av ledige plasser i kalenderen.
+I produksjon leveres alt dette av FrontCore (Vipps/kort/faktura, e-poster, venteliste,
+plasstelling).
 
 ## Ved lansering (FrontCore-kobling)
 

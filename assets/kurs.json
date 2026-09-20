@@ -1,0 +1,88 @@
+{
+  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurskatalogen, kurskalenderen, «neste kurs»-kortet og påmeldingen oppdateres automatisk. 'plasser' = totalt antall, 'ledige' = ledige nå. Ved lansering erstattes filen av FrontCore som kilde.",
+  "kategorier": {
+    "truck": "Truck og maskin",
+    "kran": "Kran og løft",
+    "hms": "HMS og ledelse"
+  },
+  "kurs": [
+    {
+      "id": "truck", "navn": "Truckførerkurs", "koder": "T1–T4", "kat": "truck",
+      "varighet": "3 dager", "pris": 6900,
+      "desc": "Sertifisert sikkerhetsopplæring for gaffeltruck inntil 10 tonn. Teori og praksiskjøring med erfarne instruktører.",
+      "datoer": [
+        { "d": "2026-09-29", "sted": "Bergen", "plasser": 12, "ledige": 8 },
+        { "d": "2026-10-27", "sted": "Bergen", "plasser": 12, "ledige": 10 }
+      ]
+    },
+    {
+      "id": "teleskop", "navn": "Teleskoptruckkurs", "koder": "C1–C2", "kat": "truck",
+      "varighet": "2 dager", "pris": 8500,
+      "desc": "For deg som skal kjøre teleskoptruck med fast eller rundtsvingende bom — sertifisert opplæring i klasse C1 og C2.",
+      "datoer": [
+        { "d": "2026-09-22", "sted": "Bergen", "plasser": 12, "ledige": 2 },
+        { "d": "2026-11-17", "sted": "Bergen", "plasser": 12, "ledige": 12 }
+      ]
+    },
+    {
+      "id": "maskin", "navn": "Maskinførerkurs", "koder": "M1–M6", "kat": "truck",
+      "varighet": "4 dager", "pris": 9500,
+      "desc": "Masseforflytningsmaskiner: gravemaskin, hjullaster, dumper og flere. Modulbasert — ta klassene dere trenger.",
+      "datoer": [{ "d": "2026-11-03", "sted": "Bergen", "plasser": 8, "ledige": 6 }]
+    },
+    {
+      "id": "personlofter", "navn": "Personløfterkurs", "koder": "Klasse A–B", "kat": "truck",
+      "varighet": "1 dag", "pris": 3500,
+      "desc": "Dokumentert opplæring i sikker bruk av personløfter (lift), klasse A og B — for arbeid i høyden.",
+      "datoer": [{ "d": "2026-11-10", "sted": "Bergen", "plasser": 12, "ledige": 11 }]
+    },
+    {
+      "id": "kran-g4", "navn": "Kranførerkurs G4", "koder": "Traverskran", "kat": "kran",
+      "varighet": "3 dager + praksis", "pris": 12900,
+      "desc": "Sertifisert opplæring for traverskran og søylesvingkran, med praksis på eget øvingsanlegg.",
+      "datoer": [{ "d": "2026-10-13", "sted": "Bergen", "plasser": 8, "ledige": 1 }]
+    },
+    {
+      "id": "kran-g8", "navn": "Lastebilkrankurs G8", "koder": "G8", "kat": "kran",
+      "varighet": "3 dager", "pris": 9900,
+      "desc": "Teori og praktisk bruk av lastebilmontert kran — inkludert lastsikring og daglig kontroll.",
+      "datoer": [{ "d": "2026-11-05", "sted": "Bergen", "plasser": 8, "ledige": 4 }]
+    },
+    {
+      "id": "stropp", "navn": "Stropp- og signalkurs", "koder": "G11", "kat": "kran",
+      "varighet": "2 dager", "pris": 5900,
+      "desc": "Anhuking, stropping og signalgiving for alle som jobber rundt løfteoperasjoner.",
+      "datoer": [{ "d": "2026-10-06", "sted": "Bergen", "plasser": 12, "ledige": 0 }]
+    },
+    {
+      "id": "fallsikring", "navn": "Fallsikringskurs", "koder": "Dokumentert", "kat": "hms",
+      "varighet": "1 dag", "pris": 2900,
+      "desc": "Riktig bruk og kontroll av fallsikringsutstyr for trygt arbeid i høyden.",
+      "datoer": [{ "d": "2026-10-08", "sted": "Bergen", "plasser": 12, "ledige": 5 }]
+    },
+    {
+      "id": "varme", "navn": "Kurs i varme arbeider", "koder": "Sertifikat 5 år", "kat": "hms",
+      "varighet": "1 dag", "pris": 2400,
+      "desc": "Sertifikatkurs for alle som utfører sveising, skjæring eller andre varme arbeider. Tilbys også på engelsk.",
+      "datoer": [
+        { "d": "2026-09-24", "sted": "Bergen", "plasser": 12, "ledige": 6, "merk": "på engelsk" },
+        { "d": "2026-11-12", "sted": "Bergen", "plasser": 12, "ledige": 9 }
+      ]
+    },
+    {
+      "id": "hms-leder", "navn": "HMS-kurs for ledere", "koder": "AML § 3-5", "kat": "hms",
+      "varighet": "1 dag", "pris": 3900,
+      "desc": "Lovpålagt HMS-opplæring for daglig leder og arbeidsgivere — praktisk og rett på sak.",
+      "datoer": [
+        { "d": "2026-10-01", "sted": "Bergen", "plasser": 12, "ledige": 9 },
+        { "d": "2026-11-19", "sted": "Digitalt", "plasser": 30, "ledige": 24 }
+      ]
+    },
+    {
+      "id": "verneombud", "navn": "Verneombudskurs", "koder": "Grunnopplæring", "kat": "hms",
+      "varighet": "2 dager", "pris": 5500,
+      "desc": "Grunnopplæring i arbeidsmiljø for verneombud og AMU-medlemmer, tilpasset egen bransje.",
+      "datoer": [{ "d": "2026-10-21", "sted": "Bergen", "plasser": 12, "ledige": 7 }]
+    }
+  ]
+}

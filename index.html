@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=7">
+  <link rel="stylesheet" href="assets/styles.css?v=8">
 </head>
 <body>
 
@@ -407,6 +407,19 @@
           <input id="m-orgnr" name="orgnr" type="text" inputmode="numeric" placeholder="000 000 000">
         </div>
       </div>
+      <fieldset class="pay">
+        <legend>Betaling</legend>
+        <div class="pay-valg">
+          <label class="pay-opt">
+            <input type="radio" name="betaling" value="faktura" checked>
+            <span><strong>Faktura</strong><small>Sendes til bedriften</small></span>
+          </label>
+          <label class="pay-opt">
+            <input type="radio" name="betaling" value="vipps">
+            <span><strong>Vipps</strong><small>Betal med en gang</small></span>
+          </label>
+        </div>
+      </fieldset>
       <label class="check">
         <input type="checkbox" id="m-vilkar" required>
         <span>Jeg godtar <a href="#" data-demo-link>kursvilkårene</a> og at Kompetanse Kurs kontakter meg om påmeldingen.</span>
@@ -424,8 +437,9 @@
       </div>
       <h2>Takk! Påmeldingen er registrert.</h2>
       <p id="success-detail"></p>
-      <p class="form-note mono">Forhåndsvisning: ingen data er sendt. Ved lansering går påmeldingen
-        rett til FrontCore, som sender bekreftelse og kursinformasjon på e-post.</p>
+      <ul class="success-flow mono" id="success-flow" aria-label="Dette skjer nå"></ul>
+      <p class="form-note mono">Forhåndsvisning: alt over er simulert, ingen data er sendt.
+        Ved lansering håndterer FrontCore betaling, e-poster og plasstelling automatisk.</p>
       <div class="modal-actions">
         <button class="btn btn-ghost" type="button" data-close>Lukk</button>
         <button class="btn btn-signal" type="button" id="ny-pamelding">Ny påmelding</button>
@@ -436,6 +450,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=7"></script>
+<script src="assets/app.js?v=8"></script>
 </body>
 </html>

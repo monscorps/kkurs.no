@@ -558,6 +558,36 @@ p { margin: 0; text-wrap: pretty; }
 .field textarea { resize: vertical; min-height: 96px; }
 .form-note { font-family: var(--font-mono); font-size: var(--t--2); color: var(--blekk-3); letter-spacing: 0.02em; }
 .section-dark .form-note { color: var(--pa-gronn-dus); }
+/* betalingsvalg — faktura / Vipps */
+.pay { border: 0; padding: 0; margin: 0; display: grid; gap: 0.4rem; }
+.pay legend {
+  font-family: var(--font-mono); font-size: 0.66rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3);
+  padding: 0; margin-bottom: 0.4rem;
+}
+.pay-valg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.pay-opt {
+  display: flex; gap: 0.7em; align-items: flex-start;
+  border: 1.5px solid var(--linje); border-radius: var(--radius-knapp);
+  padding: 0.75rem 0.9rem; cursor: pointer;
+  transition: border-color 0.14s, background 0.14s;
+}
+.pay-opt:hover { border-color: var(--blekk-2); }
+.pay-opt:has(input:checked) { border-color: var(--navy); background: var(--papir); }
+.pay-opt input { accent-color: var(--navy); margin-top: 3px; flex: none; }
+.pay-opt strong { display: block; font-size: var(--t--1); font-weight: 600; }
+.pay-opt small { display: block; font-size: 0.74rem; color: var(--blekk-3); margin-top: 1px; }
+
+/* «dette skjer nå»-listen i kvitteringen */
+.success-flow {
+  list-style: none; margin: 0.4rem 0 0; padding: 0.9rem 1.1rem;
+  background: var(--papir); border: 1px solid var(--linje); border-radius: var(--radius-knapp);
+  text-align: left; display: grid; gap: 0.45rem; font-size: var(--t--2);
+  color: var(--blekk-2);
+}
+.success-flow li { display: flex; gap: 0.6em; align-items: baseline; }
+.success-flow li::before { content: "✓"; color: var(--ok); font-weight: 700; flex: none; }
+
 .check { display: flex; gap: 0.7em; align-items: flex-start; font-size: var(--t--1); cursor: pointer; }
 .check input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--navy); flex: none; }
 .check a { border-bottom: 1px solid currentColor; }

@@ -1,102 +1,21 @@
 /* ============================================================
    kkurs.no — prototype for Kompetanse Kurs
-   Kursdata under er EKSEMPELDATA. Ved lansering erstattes dette
-   av FrontCore (embed/API), og «Meld deg på» peker til FrontCore-
-   påmelding. Strukturen speiler feltene FrontCore leverer.
+
+   Alt kursinnhold hentes fra assets/kurs.json (én kilde —
+   katalog, kalender, «neste kurs»-kort og påmelding oppdateres
+   derfra automatisk). Påmelding, betaling (faktura/Vipps),
+   e-poster og plasstelling er SIMULERT i denne forhåndsvisningen;
+   ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const KATEGORIER = {
-  truck: "Truck og maskin",
-  kran: "Kran og løft",
-  hms: "HMS og ledelse",
-};
+const APP_V = "8";
+const VARSEL_EPOST = "bestilling@kkurs.no";
 
-const COURSES = [
-  {
-    id: "truck", navn: "Truckførerkurs", koder: "T1–T4", kat: "truck",
-    varighet: "3 dager", pris: 6900,
-    desc: "Sertifisert sikkerhetsopplæring for gaffeltruck inntil 10 tonn. Teori og praksiskjøring med erfarne instruktører.",
-    datoer: [
-      { d: "2026-09-29", sted: "Bergen", status: "ledig" },
-      { d: "2026-10-27", sted: "Bergen", status: "ledig" },
-    ],
-  },
-  {
-    id: "teleskop", navn: "Teleskoptruckkurs", koder: "C1–C2", kat: "truck",
-    varighet: "2 dager", pris: 8500,
-    desc: "For deg som skal kjøre teleskoptruck med fast eller rundtsvingende bom — sertifisert opplæring i klasse C1 og C2.",
-    datoer: [
-      { d: "2026-09-22", sted: "Bergen", status: "faa" },
-      { d: "2026-11-17", sted: "Bergen", status: "ledig" },
-    ],
-  },
-  {
-    id: "maskin", navn: "Maskinførerkurs", koder: "M1–M6", kat: "truck",
-    varighet: "4 dager", pris: 9500,
-    desc: "Masseforflytningsmaskiner: gravemaskin, hjullaster, dumper og flere. Modulbasert — ta klassene dere trenger.",
-    datoer: [{ d: "2026-11-03", sted: "Bergen", status: "ledig" }],
-  },
-  {
-    id: "personlofter", navn: "Personløfterkurs", koder: "Klasse A–B", kat: "truck",
-    varighet: "1 dag", pris: 3500,
-    desc: "Dokumentert opplæring i sikker bruk av personløfter (lift), klasse A og B — for arbeid i høyden.",
-    datoer: [{ d: "2026-11-10", sted: "Bergen", status: "ledig" }],
-  },
-  {
-    id: "kran-g4", navn: "Kranførerkurs G4", koder: "Traverskran", kat: "kran",
-    varighet: "3 dager + praksis", pris: 12900,
-    desc: "Sertifisert opplæring for traverskran og søylesvingkran, med praksis på eget øvingsanlegg.",
-    datoer: [{ d: "2026-10-13", sted: "Bergen", status: "faa" }],
-  },
-  {
-    id: "kran-g8", navn: "Lastebilkrankurs G8", koder: "G8", kat: "kran",
-    varighet: "3 dager", pris: 9900,
-    desc: "Teori og praktisk bruk av lastebilmontert kran — inkludert lastsikring og daglig kontroll.",
-    datoer: [{ d: "2026-11-05", sted: "Bergen", status: "ledig" }],
-  },
-  {
-    id: "stropp", navn: "Stropp- og signalkurs", koder: "G11", kat: "kran",
-    varighet: "2 dager", pris: 5900,
-    desc: "Anhuking, stropping og signalgiving for alle som jobber rundt løfteoperasjoner.",
-    datoer: [{ d: "2026-10-06", sted: "Bergen", status: "vente" }],
-  },
-  {
-    id: "fallsikring", navn: "Fallsikringskurs", koder: "Dokumentert", kat: "hms",
-    varighet: "1 dag", pris: 2900,
-    desc: "Riktig bruk og kontroll av fallsikringsutstyr for trygt arbeid i høyden.",
-    datoer: [{ d: "2026-10-08", sted: "Bergen", status: "ledig" }],
-  },
-  {
-    id: "varme", navn: "Kurs i varme arbeider", koder: "Sertifikat 5 år", kat: "hms",
-    varighet: "1 dag", pris: 2400,
-    desc: "Sertifikatkurs for alle som utfører sveising, skjæring eller andre varme arbeider. Tilbys også på engelsk.",
-    datoer: [
-      { d: "2026-09-24", sted: "Bergen", status: "ledig", merk: "på engelsk" },
-      { d: "2026-11-12", sted: "Bergen", status: "ledig" },
-    ],
-  },
-  {
-    id: "hms-leder", navn: "HMS-kurs for ledere", koder: "AML § 3-5", kat: "hms",
-    varighet: "1 dag", pris: 3900,
-    desc: "Lovpålagt HMS-opplæring for daglig leder og arbeidsgivere — praktisk og rett på sak.",
-    datoer: [
-      { d: "2026-10-01", sted: "Bergen", status: "ledig" },
-      { d: "2026-11-19", sted: "Digitalt", status: "ledig" },
-    ],
-  },
-  {
-    id: "verneombud", navn: "Verneombudskurs", koder: "Grunnopplæring", kat: "hms",
-    varighet: "2 dager", pris: 5500,
-    desc: "Grunnopplæring i arbeidsmiljø for verneombud og AMU-medlemmer, tilpasset egen bransje.",
-    datoer: [{ d: "2026-10-21", sted: "Bergen", status: "ledig" }],
-  },
-];
-
-const STATUS = {
-  ledig: { label: "Ledige plasser", cls: "status-ledig" },
-  faa: { label: "Få plasser igjen", cls: "status-faa" },
-  vente: { label: "Venteliste", cls: "status-vente" },
-};
+let KATEGORIER = {};
+let COURSES = [];
+let CAL = [];
+let aktivKat = "alle";
+let aktivSted = "Alle steder";
 
 /* ---------- hjelpere ---------- */
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -105,30 +24,33 @@ const fmtDato = (iso) => { const [y, m, d] = iso.split("-"); return `${d}.${m}.$
 const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m}`; };
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
 
-/* Alle oppsatte datoer, flatet ut og sortert — dette blir kalenderen */
-const CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ ...dt, course: c, idx })))
-  .sort((a, b) => a.d.localeCompare(b.d));
+/* Status utledes av antall ledige plasser */
+function statusFor(dt) {
+  if (dt.ledige <= 0) return { cls: "status-vente", label: "Venteliste" };
+  if (dt.ledige <= 3) return { cls: "status-faa", label: `${dt.ledige} ${dt.ledige === 1 ? "plass" : "plasser"} igjen` };
+  return { cls: "status-ledig", label: `${dt.ledige} ledige plasser` };
+}
 
 /* ---------- «neste kurs»-kortet i hero ---------- */
 function renderTicket() {
   const [first, ...rest] = CAL;
-  const st = STATUS[first.status];
+  const st = statusFor(first.dt);
   $("#ticket-featured").innerHTML = `
     <h3 class="ticket-title">${first.course.navn} <span class="cc-codes">${first.course.koder}</span></h3>
     <dl class="ticket-meta mono">
-      <dt>Dato</dt><dd>${fmtDato(first.d)}${first.merk ? ` · ${first.merk}` : ""}</dd>
-      <dt>Sted</dt><dd>${first.sted}</dd>
+      <dt>Dato</dt><dd>${fmtDato(first.dt.d)}${first.dt.merk ? ` · ${first.dt.merk}` : ""}</dd>
+      <dt>Sted</dt><dd>${first.dt.sted}</dd>
       <dt>Varighet</dt><dd>${first.course.varighet}</dd>
       <dt>Status</dt><dd><span class="status ${st.cls}">${st.label}</span></dd>
     </dl>
     <div class="ticket-row-cta">
       <span class="ticket-price">fra ${fmtPris(first.course.pris)}</span>
-      <button class="btn btn-signal btn-sm" data-book="${first.course.id}" data-date="0">Meld deg på</button>
+      <button class="btn btn-signal btn-sm" data-book="${first.course.id}" data-date="${first.idx}">Meld deg på</button>
     </div>`;
   $("#ticket-list").innerHTML = rest.slice(0, 3).map((e) => `
     <li><button data-book="${e.course.id}" data-date="${e.idx}">
-      <span class="tl-date">${fmtDatoKort(e.d)}</span>
-      <span class="tl-name">${e.course.navn}${e.merk ? ` <em>(${e.merk})</em>` : ""}</span>
+      <span class="tl-date">${fmtDatoKort(e.dt.d)}</span>
+      <span class="tl-name">${e.course.navn}${e.dt.merk ? ` <em>(${e.dt.merk})</em>` : ""}</span>
       <span class="tl-arrow" aria-hidden="true">→</span>
     </button></li>`).join("");
 }
@@ -139,13 +61,13 @@ function renderKursFilter() {
   COURSES.forEach((c) => { counts[c.kat] = (counts[c.kat] || 0) + 1; });
   const chips = [["alle", "Alle kurs"], ...Object.entries(KATEGORIER)];
   $("#kurs-filter").innerHTML = chips.map(([key, label]) => `
-    <button class="chip" data-cat="${key}" aria-pressed="${key === "alle"}">
+    <button class="chip" data-cat="${key}" aria-pressed="${key === aktivKat}">
       ${label}<span class="count">${counts[key] || 0}</span>
     </button>`).join("");
 }
 
-function renderCourses(cat = "alle") {
-  const list = COURSES.filter((c) => cat === "alle" || c.kat === cat);
+function renderCourses() {
+  const list = COURSES.filter((c) => aktivKat === "alle" || c.kat === aktivKat);
   $("#course-grid").innerHTML = list.map((c) => {
     const neste = c.datoer[0];
     return `
@@ -170,31 +92,33 @@ function renderCourses(cat = "alle") {
 
 /* ---------- kurskalender ---------- */
 function renderKalenderFilter() {
-  const steder = ["Alle steder", ...new Set(CAL.map((e) => e.sted))];
-  $("#kalender-filter").innerHTML = steder.map((s, i) => `
-    <button class="chip" data-sted="${s}" aria-pressed="${i === 0}">${s}</button>`).join("");
+  const steder = ["Alle steder", ...new Set(CAL.map((e) => e.dt.sted))];
+  $("#kalender-filter").innerHTML = steder.map((s) => `
+    <button class="chip" data-sted="${s}" aria-pressed="${s === aktivSted}">${s}</button>`).join("");
 }
 
-function renderCal(sted = "Alle steder") {
-  const rows = CAL.filter((e) => sted === "Alle steder" || e.sted === sted);
+function renderCal() {
+  const rows = CAL.filter((e) => aktivSted === "Alle steder" || e.dt.sted === aktivSted);
   if (!rows.length) {
     $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Ingen oppsatte kurs her akkurat nå — be om tilbud, så setter vi opp kurs.</td></tr>`;
     return;
   }
   $("#cal-body").innerHTML = rows.map((e) => {
-    const st = STATUS[e.status];
+    const st = statusFor(e.dt);
     return `
     <tr>
-      <td class="cal-date">${fmtDato(e.d)}</td>
-      <td class="cal-course">${e.course.navn}${e.merk ? ` (${e.merk})` : ""}
+      <td class="cal-date">${fmtDato(e.dt.d)}</td>
+      <td class="cal-course">${e.course.navn}${e.dt.merk ? ` (${e.dt.merk})` : ""}
         <span class="cal-codes">${e.course.koder} · fra ${fmtPris(e.course.pris)}</span></td>
-      <td class="cal-sted">${e.sted}</td>
+      <td class="cal-sted">${e.dt.sted}</td>
       <td class="cal-dur">${e.course.varighet}</td>
       <td><span class="status ${st.cls}">${st.label}</span></td>
-      <td><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">Meld deg på</button></td>
+      <td><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
     </tr>`;
   }).join("");
 }
+
+function renderAlt() { renderTicket(); renderCourses(); renderCal(); }
 
 /* ---------- påmeldingsmodal (FrontCore-attrapp) ---------- */
 const modal = $("#modal");
@@ -210,18 +134,28 @@ function fyllKursSelect(valgtId) {
 function fyllDatoSelect(courseId, valgtIdx = 0) {
   const c = COURSES.find((x) => x.id === courseId);
   const opts = c.datoer.map((dt, i) => {
-    const st = STATUS[dt.status];
+    const st = statusFor(dt);
     return `<option value="${i}" ${i === Number(valgtIdx) ? "selected" : ""}>${fmtDato(dt.d)} — ${dt.sted}${dt.merk ? ` (${dt.merk})` : ""} · ${st.label}</option>`;
   });
   opts.push(`<option value="forespørsel">Annen dato / bedriftsinternt kurs (forespørsel)</option>`);
   $("#m-dato").innerHTML = opts.join("");
 }
 
-function oppdaterSum() {
+function valgtDato() {
   const c = COURSES.find((x) => x.id === $("#m-kurs").value);
+  const v = $("#m-dato").value;
+  return { c, dt: v === "forespørsel" ? null : c.datoer[Number(v)] };
+}
+
+function oppdaterSum() {
+  const { c, dt } = valgtDato();
   const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
-  if ($("#m-dato").value === "forespørsel") {
+  if (!dt) {
     $("#modal-sum").innerHTML = `<span>Bedriftsinternt / annen dato</span><strong>Pris etter avtale</strong>`;
+    return;
+  }
+  if (dt.ledige <= 0) {
+    $("#modal-sum").innerHTML = `<span>Kurset er fullt — du settes på venteliste</span><strong>Ingen betaling nå</strong>`;
     return;
   }
   $("#modal-sum").innerHTML =
@@ -267,7 +201,7 @@ function toast(msg) {
   t.textContent = msg;
   t.hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.hidden = true; }, 3200);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 3600);
 }
 
 /* ---------- hendelser ---------- */
@@ -286,35 +220,71 @@ document.addEventListener("keydown", (ev) => {
 $("#kurs-filter").addEventListener("click", (ev) => {
   const chip = ev.target.closest(".chip");
   if (!chip) return;
+  aktivKat = chip.dataset.cat;
   $$("#kurs-filter .chip").forEach((c) => c.setAttribute("aria-pressed", c === chip));
-  renderCourses(chip.dataset.cat);
+  renderCourses();
 });
 
 $("#kalender-filter").addEventListener("click", (ev) => {
   const chip = ev.target.closest(".chip");
   if (!chip) return;
+  aktivSted = chip.dataset.sted;
   $$("#kalender-filter .chip").forEach((c) => c.setAttribute("aria-pressed", c === chip));
-  renderCal(chip.dataset.sted);
+  renderCal();
 });
 
 $("#m-kurs").addEventListener("change", () => { fyllDatoSelect($("#m-kurs").value); oppdaterSum(); });
 $("#m-dato").addEventListener("change", oppdaterSum);
 $("#m-antall").addEventListener("input", oppdaterSum);
 
+/* ---------- bestillingsflyt (simulert) ---------- */
 modalForm.addEventListener("submit", (ev) => {
   ev.preventDefault();
   if (!valider(modalForm)) return;
-  const c = COURSES.find((x) => x.id === $("#m-kurs").value);
-  const datoVal = $("#m-dato").value;
+
+  const { c, dt } = valgtDato();
   const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
-  const datoTekst = datoVal === "forespørsel"
-    ? "annen dato / bedriftsinternt"
-    : `${fmtDato(c.datoer[datoVal].d)} · ${c.datoer[datoVal].sted}`;
+  const epost = $("#m-epost").value.trim();
+  const betaling = (modalForm.querySelector('[name="betaling"]:checked') || {}).value || "faktura";
+  const venteliste = dt && dt.ledige <= 0;
+
+  /* kapasitetssjekk */
+  if (dt && !venteliste && antall > dt.ledige) {
+    const felt = $("#m-antall");
+    felt.classList.add("err"); felt.focus();
+    toast(`Bare ${dt.ledige} ${dt.ledige === 1 ? "plass" : "plasser"} igjen på denne datoen — velg færre deltakere eller en annen dato.`);
+    return;
+  }
+
+  /* trekk ned ledige plasser og oppdater kalender/kort */
+  if (dt && !venteliste) {
+    dt.ledige = Math.max(0, dt.ledige - antall);
+    renderAlt();
+  }
+
+  const datoTekst = dt ? `${fmtDato(dt.d)} · ${dt.sted}` : "annen dato / bedriftsinternt";
   $("#success-detail").textContent =
     `${c.navn} (${c.koder}) · ${datoTekst} · ${antall} deltaker${antall > 1 ? "e" : ""}`;
+
+  const flyt = [];
+  if (venteliste) {
+    flyt.push(`Du er satt på venteliste — vi kontakter deg på ${epost} ved ledig plass`);
+  } else {
+    flyt.push(betaling === "vipps"
+      ? `Vipps-betaling på ${fmtPris(c.pris * antall)} gjennomføres`
+      : `Faktura på ${fmtPris(c.pris * antall)} sendes til bedriften`);
+    if (dt) flyt.push(`Ledige plasser i kalenderen er nedjustert (${statusFor(dt).label.toLowerCase()})`);
+  }
+  flyt.push(`Bekreftelse sendt til ${epost}`);
+  flyt.push(`Varsel sendt til ${VARSEL_EPOST}`);
+  $("#success-flow").innerHTML = flyt.map((f) => `<li>${f}</li>`).join("");
+
+  $("#modal-success h2").textContent = venteliste
+    ? "Du står på ventelisten."
+    : "Takk! Påmeldingen er registrert.";
+
   modalForm.hidden = true;
   modalSuccess.hidden = false;
-  modalSuccess.querySelector("h2").focus?.();
 });
 
 $("#ny-pamelding").addEventListener("click", () => {
@@ -365,10 +335,25 @@ if (document.visibilityState === "hidden") {
     document.documentElement.classList.remove("no-anim");
   }, { once: true });
 }
-renderTicket();
-renderKursFilter();
-renderCourses();
-renderKalenderFilter();
-renderCal();
-$$(".reveal").forEach((el) => io.observe(el));
-nav.classList.toggle("scrolled", scrollY > 10);
+
+async function init() {
+  try {
+    const res = await fetch(`assets/kurs.json?v=${APP_V}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    KATEGORIER = data.kategorier;
+    COURSES = data.kurs;
+    /* CAL peker på dato-objektene (ikke kopier), så plasstelling oppdateres overalt */
+    CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ course: c, dt, idx })))
+      .sort((a, b) => a.dt.d.localeCompare(b.dt.d));
+    renderKursFilter();
+    renderKalenderFilter();
+    renderAlt();
+  } catch (err) {
+    $("#course-grid").innerHTML = `<p class="section-note mono">Kunne ikke laste kursdata (${err.message}). Prøv å laste siden på nytt.</p>`;
+    $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Kunne ikke laste kurskalenderen.</td></tr>`;
+  }
+  $$(".reveal").forEach((el) => io.observe(el));
+  nav.classList.toggle("scrolled", scrollY > 10);
+}
+init();
