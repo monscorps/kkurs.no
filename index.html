@@ -10,20 +10,21 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kkurs.no/">
   <meta property="og:locale" content="nb_NO">
-  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=9">
+  <link rel="stylesheet" href="assets/styles.css?v=10">
 </head>
 <body>
 
 <a class="skip-link" href="#innhold">Hopp til innhold</a>
 
 <header class="nav" id="topp">
+  <div class="lesebar" id="lesebar" aria-hidden="true"></div>
   <div class="container nav-inner">
     <a class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen">
-      <img class="brand-logo" src="assets/img/logo.svg" alt="" width="40" height="40">
+      <img class="brand-logo" src="assets/img/mark.svg" alt="" width="40" height="40">
       <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
     </a>
     <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
@@ -85,8 +86,51 @@
     </div>
   </section>
 
+  <!-- ============ FAGOMRÅDER (interaktivt emblem) ============ -->
+  <section class="section" id="fagfelt">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">Fagområder</p>
+        <div class="section-head-row">
+          <h2>Ett emblem — hele sikkerhetsfaget</h2>
+          <p class="section-lead">Emblemet vårt viser feltene vi dekker. Pek på et felt for å se
+            hva det rommer — trykk for å gå rett til kursene.</p>
+        </div>
+      </header>
+      <div class="fagfelt-grid">
+        <div class="emblem reveal" id="emblem">
+          <img src="assets/img/logo.svg" alt="Kompetanse Kurs-emblemet: truck, personløfter, varme arbeider, fallsikring, kompetansebevis og HMS" width="520" height="520">
+          <button class="emblem-spot" style="--x:27%;--y:27%" data-kat="truck" data-navn="Truck og maskin" aria-label="Truck og maskin – se kurs"></button>
+          <button class="emblem-spot" style="--x:73%;--y:27%" data-kat="truck" data-navn="Personløfter og lift" aria-label="Personløfter og lift – se kurs"></button>
+          <button class="emblem-spot" style="--x:79%;--y:58%" data-kat="hms" data-navn="Varme arbeider" aria-label="Varme arbeider – se kurs"></button>
+          <button class="emblem-spot" style="--x:50%;--y:84%" data-mal="#kalender" data-navn="Kompetansebevis og kurskalender" aria-label="Kompetansebevis – se kurskalenderen"></button>
+          <button class="emblem-spot" style="--x:21%;--y:58%" data-kat="hms" data-navn="Fallsikring" aria-label="Fallsikring – se kurs"></button>
+          <button class="emblem-spot emblem-spot--senter" style="--x:50%;--y:52%" data-kat="hms" data-navn="HMS og ledelse" aria-label="HMS og ledelse – se kurs"></button>
+          <p class="emblem-caption mono" id="emblem-caption" aria-live="polite">Velg et fagområde i emblemet</p>
+        </div>
+        <div class="fagfelt-side reveal d1">
+          <ul class="fagstripe" aria-label="Alle fagområder">
+            <li><button class="mono" data-kat="truck">Truck</button></li>
+            <li><button class="mono" data-kat="truck">Lift</button></li>
+            <li><button class="mono" data-kat="kran">Kran</button></li>
+            <li><button class="mono" data-kat="truck">Maskinfører</button></li>
+            <li><button class="mono" data-kat="hms">HMS</button></li>
+            <li><button class="mono" data-kat="hms">Varme arbeider</button></li>
+            <li><button class="mono" data-kat="hms">Fallsikring</button></li>
+            <li><button class="mono" data-kat="hms">Førstehjelp</button></li>
+            <li><button class="mono" data-kat="alle">Og mer</button></li>
+          </ul>
+          <p class="fagfelt-note">Alle felt fører til sertifisert eller dokumentert opplæring —
+            med kompetansebevis registrert i Sentralregisteret. Finner du ikke faget ditt,
+            setter vi opp kurs på forespørsel.</p>
+          <a class="btn btn-signal" href="#kurs" data-kat="alle">Se alle kurs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ KURS ============ -->
-  <section class="section" id="kurs">
+  <section class="section section-mist" id="kurs">
     <div class="container">
       <header class="section-head reveal">
         <p class="kicker">Kurskatalog</p>
@@ -328,7 +372,7 @@
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="brand on-dark" href="#topp">
-        <img class="brand-logo" src="assets/img/logo.svg" alt="" width="48" height="48">
+        <img class="brand-logo" src="assets/img/mark.svg" alt="" width="44" height="44">
         <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
       </a>
       <p>Sertifisert sikkerhetsopplæring og HMS-kompetanse i Bergen.</p>
@@ -456,6 +500,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=9"></script>
+<script src="assets/app.js?v=10"></script>
 </body>
 </html>

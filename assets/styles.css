@@ -179,7 +179,13 @@ p { margin: 0; text-wrap: pretty; }
   background: var(--gronn);
 }
 .nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
-.nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); }
+.nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); transition: height 0.25s ease; }
+.nav.scrolled .nav-inner { height: 54px; }
+/* leseindikator — tynn stripe som viser hvor langt du er kommet */
+.lesebar {
+  position: absolute; top: 0; left: 0; height: 3px; width: 0;
+  background: var(--frisk); z-index: 2;
+}
 .brand {
   display: inline-flex; align-items: center; gap: 0.65rem;
   font-family: var(--font-display); font-weight: 700;
@@ -294,7 +300,9 @@ p { margin: 0; text-wrap: pretty; }
 }
 .hero-foto img {
   width: 100%; aspect-ratio: 21 / 8; object-fit: cover; display: block;
+  animation: hero-zoom 26s ease-in-out infinite alternate;
 }
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
 
 /* nøkkeltall */
 .stats {
@@ -351,6 +359,49 @@ p { margin: 0; text-wrap: pretty; }
 .chips-dark .chip { border-color: var(--linje-gronn); color: var(--pa-gronn-dus); }
 .chips-dark .chip:hover { border-color: var(--pa-gronn); color: var(--pa-gronn); }
 .chips-dark .chip[aria-pressed="true"] { background: var(--hvit); border-color: var(--hvit); color: var(--navy); }
+
+/* ── fagområder — interaktivt emblem ─────────────────────────────── */
+
+.fagfelt-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem); align-items: center;
+}
+.emblem { position: relative; max-width: 520px; justify-self: center; width: 100%; }
+.emblem > img { width: 100%; height: auto; }
+.emblem-spot {
+  position: absolute; left: var(--x); top: var(--y);
+  transform: translate(-50%, -50%);
+  width: 25%; aspect-ratio: 1; border-radius: 50%;
+  background: transparent; border: 0; padding: 0; cursor: pointer;
+}
+.emblem-spot--senter { width: 21%; }
+.emblem-spot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 3px solid var(--gronn); opacity: 0;
+  transform: scale(0.85); transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.emblem-spot:hover::after, .emblem-spot:focus-visible::after { opacity: 1; transform: scale(1); }
+.emblem-spot:focus-visible { outline: none; }
+.emblem-caption {
+  margin-top: 1rem; min-height: 1.5em; text-align: center;
+  font-size: var(--t--1); color: var(--blekk-2);
+}
+.emblem-caption strong { color: var(--navy); font-weight: 600; }
+
+/* fagstripen — gjenskapt fra profilarket (navy pille med hvite felt) */
+.fagstripe {
+  list-style: none; margin: 0 0 1.4rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.fagstripe button {
+  font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  background: var(--navy); color: #fff; border: 1.5px solid var(--navy);
+  border-radius: 999px; padding: 0.55em 1.05em; cursor: pointer;
+  transition: background 0.14s, border-color 0.14s;
+}
+.fagstripe button:hover { background: var(--gronn); border-color: var(--gronn); }
+.fagfelt-note { color: var(--blekk-2); font-size: var(--t--1); margin-bottom: 1.4rem; max-width: 34em; }
 
 /* ── kurskort ────────────────────────────────────────────────────── */
 
@@ -718,7 +769,8 @@ body.modal-open { overflow: hidden; }
   .ticket { justify-self: stretch; max-width: 560px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .news-grid { grid-template-columns: 1fr; }
-  .om-grid, .kontakt-grid { grid-template-columns: 1fr; }
+  .om-grid, .kontakt-grid, .fagfelt-grid { grid-template-columns: 1fr; }
+  .emblem { max-width: 400px; }
   .section-head-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
   .service { grid-template-columns: 1fr; align-items: start; }
   .service-img { max-width: 420px; }

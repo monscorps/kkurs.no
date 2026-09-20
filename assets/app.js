@@ -309,11 +309,72 @@ $("#kontakt-form").addEventListener("submit", (ev) => {
     </div>`;
 });
 
+/* ---------- fagområder: interaktivt emblem + fagstripe ---------- */
+const glatt = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+const caption = $("#emblem-caption");
+const captionStandard = caption ? caption.textContent : "";
+
+function visFag(navn) {
+  if (caption) caption.innerHTML = navn ? `<strong>${navn}</strong> →` : captionStandard;
+}
+
+function velgFag(kat, mal) {
+  if (mal) { const t = $(mal); if (t) t.scrollIntoView({ behavior: glatt }); return; }
+  aktivKat = kat || "alle";
+  renderKursFilter();
+  renderCourses();
+  $("#kurs").scrollIntoView({ behavior: glatt });
+}
+
+const emblem = $("#emblem");
+if (emblem) {
+  emblem.addEventListener("mouseover", (ev) => {
+    const s = ev.target.closest(".emblem-spot");
+    if (s) visFag(s.dataset.navn);
+  });
+  emblem.addEventListener("mouseout", (ev) => {
+    if (!ev.relatedTarget || !ev.relatedTarget.closest(".emblem-spot")) visFag(null);
+  });
+  emblem.addEventListener("focusin", (ev) => {
+    const s = ev.target.closest(".emblem-spot");
+    if (s) visFag(s.dataset.navn);
+  });
+  emblem.addEventListener("focusout", () => visFag(null));
+  emblem.addEventListener("click", (ev) => {
+    const s = ev.target.closest(".emblem-spot");
+    if (s) velgFag(s.dataset.kat, s.dataset.mal);
+  });
+}
+$$(".fagstripe button, .fagfelt-side .btn[data-kat]").forEach((b) =>
+  b.addEventListener("click", (ev) => { ev.preventDefault(); velgFag(b.dataset.kat); }));
+
+/* ---------- nøkkeltall teller opp ---------- */
+function tellOpp() {
+  $$(".stats dd").forEach((dd) => {
+    const m = dd.textContent.match(/^(\d+)(.*)$/s);
+    if (!m) return;
+    const maal = +m[1], suffiks = m[2], start = performance.now();
+    const steg = (t) => {
+      const p = Math.min(1, (t - start) / 900);
+      dd.textContent = Math.round(maal * (1 - Math.pow(1 - p, 3))) + suffiks;
+      if (p < 1) requestAnimationFrame(steg);
+    };
+    requestAnimationFrame(steg);
+  });
+}
+
 /* ---------- nav ---------- */
 const nav = $(".nav");
 const burger = $(".nav-burger");
 const menu = $("#hovedmeny");
-addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 10), { passive: true });
+const lesebar = $("#lesebar");
+addEventListener("scroll", () => {
+  nav.classList.toggle("scrolled", scrollY > 10);
+  if (lesebar) {
+    const m = document.documentElement.scrollHeight - innerHeight;
+    lesebar.style.width = (m > 0 ? (scrollY / m) * 100 : 0) + "%";
+  }
+}, { passive: true });
 burger.addEventListener("click", () => {
   const open = menu.classList.toggle("open");
   burger.setAttribute("aria-expanded", open);
@@ -355,5 +416,12 @@ async function init() {
   }
   $$(".reveal").forEach((el) => io.observe(el));
   nav.classList.toggle("scrolled", scrollY > 10);
+
+  const statsEl = $(".stats");
+  if (statsEl && glatt === "smooth") {
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) { tellOpp(); obs.disconnect(); }
+    }, { threshold: 0.4 }).observe(statsEl);
+  }
 }
 init();
