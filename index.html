@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=10">
+  <link rel="stylesheet" href="assets/styles.css?v=12">
 </head>
 <body>
 
@@ -100,12 +100,12 @@
       <div class="fagfelt-grid">
         <div class="emblem reveal" id="emblem">
           <img src="assets/img/logo.svg" alt="Kompetanse Kurs-emblemet: truck, personløfter, varme arbeider, fallsikring, kompetansebevis og HMS" width="520" height="520">
-          <button class="emblem-spot" style="--x:27%;--y:27%" data-kat="truck" data-navn="Truck og maskin" aria-label="Truck og maskin – se kurs"></button>
-          <button class="emblem-spot" style="--x:73%;--y:27%" data-kat="truck" data-navn="Personløfter og lift" aria-label="Personløfter og lift – se kurs"></button>
-          <button class="emblem-spot" style="--x:79%;--y:58%" data-kat="hms" data-navn="Varme arbeider" aria-label="Varme arbeider – se kurs"></button>
-          <button class="emblem-spot" style="--x:50%;--y:84%" data-mal="#kalender" data-navn="Kompetansebevis og kurskalender" aria-label="Kompetansebevis – se kurskalenderen"></button>
-          <button class="emblem-spot" style="--x:21%;--y:58%" data-kat="hms" data-navn="Fallsikring" aria-label="Fallsikring – se kurs"></button>
-          <button class="emblem-spot emblem-spot--senter" style="--x:50%;--y:52%" data-kat="hms" data-navn="HMS og ledelse" aria-label="HMS og ledelse – se kurs"></button>
+          <button class="emblem-spot" style="--x:27%;--y:27%" data-sektor="truck" data-kat="truck" data-navn="Truck og maskin" aria-label="Truck og maskin – se kurs"></button>
+          <button class="emblem-spot" style="--x:73%;--y:27%" data-sektor="lift" data-kat="truck" data-navn="Personløfter og lift" aria-label="Personløfter og lift – se kurs"></button>
+          <button class="emblem-spot" style="--x:79%;--y:58%" data-sektor="brann" data-kat="hms" data-navn="Varme arbeider" aria-label="Varme arbeider – se kurs"></button>
+          <button class="emblem-spot" style="--x:50%;--y:84%" data-sektor="sertifikat" data-mal="#kalender" data-navn="Kompetansebevis og kurskalender" aria-label="Kompetansebevis – se kurskalenderen"></button>
+          <button class="emblem-spot" style="--x:21%;--y:58%" data-sektor="fallsikring" data-kat="hms" data-navn="Fallsikring" aria-label="Fallsikring – se kurs"></button>
+          <button class="emblem-spot emblem-spot--senter" style="--x:50%;--y:52%" data-sektor="senter" data-kat="hms" data-navn="HMS og ledelse" aria-label="HMS og ledelse – se kurs"></button>
           <p class="emblem-caption mono" id="emblem-caption" aria-live="polite">Velg et fagområde i emblemet</p>
         </div>
         <div class="fagfelt-side reveal d1">
@@ -500,6 +500,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=10"></script>
+<script src="assets/app.js?v=12"></script>
 </body>
 </html>

@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Forenklet merke for Kompetanse Kurs — avledet av hovedlogoen
-     (todelt ring i profilfargene + HMS-skjoldet). Brukes der hele
-     emblemet blir for detaljert: toppfelt, favicon, små flater. -->
+<!-- Forenklet merke for Kompetanse Kurs — avledet av hovedemblemet:
+     hvit skive, todelt ring (grønn høyre / navy venstre, 24° luft i
+     topp og bunn, eksakte buepunkter på r=25) og HMS-skjoldet med hake.
+     Tegnet for å lese klart helt ned til 16px. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kompetanse Kurs-merket">
-  <!-- hvit skive i bunn, som hovedemblemet — merket leser på alle flater -->
   <circle cx="32" cy="32" r="32" fill="#FFFFFF"/>
-  <!-- ring: grønn høyre halvdel, navy venstre, luft i topp og bunn som i emblemet -->
-  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#02752D" stroke-width="6"
-          stroke-dasharray="79.6 99.5" transform="rotate(280 32 32)"/>
-  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#022A59" stroke-width="6"
-          stroke-dasharray="79.6 99.5" transform="rotate(100 32 32)"/>
-  <!-- HMS-skjoldet med hake -->
-  <path d="M32 17.5 L44.5 22 V32 C44.5 40.8 39.4 47 32 50.5 C24.6 47 19.5 40.8 19.5 32 V22 Z"
-        fill="#022A59"/>
-  <path d="M26 32.5 L30.5 37 L38.5 27.5" fill="none" stroke="#02752D"
-        stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M26 32.5 L30.5 37 L38.5 27.5" fill="none" stroke="#FFFFFF"
-        stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M37.21 7.55 A25 25 0 0 1 37.21 56.45" fill="none" stroke="#02752D" stroke-width="8"/>
+  <path d="M26.79 56.45 A25 25 0 0 1 26.79 7.55" fill="none" stroke="#022A59" stroke-width="8"/>
+  <path d="M32 16.5 L44 21 V32.5 C44 40 39.2 45.5 32 48.5 C24.8 45.5 20 40 20 32.5 V21 Z" fill="#022A59"/>
+  <path d="M25.5 32 L30.5 37 L38.5 26" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

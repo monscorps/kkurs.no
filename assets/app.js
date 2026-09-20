@@ -8,8 +8,21 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "8";
+const APP_V = "12";
 const VARSEL_EPOST = "bestilling@kkurs.no";
+
+/* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
+   peking kan dimme alt utenom det aktive feltet. g-fast = skive, ring
+   og delelinjer som alltid står. */
+const SEKTORER = {
+  fast: [0, 1, 2, 7, 22, 26, 27, 30, 31],
+  senter: [3, 11, 13, 16, 19, 46, 49],
+  truck: [4, 12, 24, 25, 43, 44, 51],
+  lift: [6, 10, 28, 29, 42, 47, 48, 50, 54],
+  brann: [5, 8, 20, 21, 23, 32],
+  fallsikring: [9, 15, 17, 33, 35, 36, 52, 53, 55],
+  sertifikat: [14, 18, 34, 37, 38, 39, 40, 41, 45],
+};
 
 let KATEGORIER = {};
 let COURSES = [];
@@ -327,19 +340,49 @@ function velgFag(kat, mal) {
 }
 
 const emblem = $("#emblem");
+
+/* Bytt <img> med selve SVG-en og merk hvert element med fagfelt-klasse,
+   slik at CSS kan dimme alt utenom aktivt felt. */
+async function lastEmblem() {
+  if (!emblem) return;
+  try {
+    const txt = await (await fetch(`assets/img/logo.svg?v=${APP_V}`)).text();
+    const holder = document.createElement("div");
+    holder.innerHTML = txt;
+    const svg = holder.querySelector("svg");
+    if (!svg) return;
+    svg.removeAttribute("width"); svg.removeAttribute("height");
+    svg.setAttribute("role", "img");
+    const bilde = emblem.querySelector("img");
+    svg.setAttribute("aria-label", bilde ? bilde.alt : "Kompetanse Kurs-emblemet");
+    const deler = svg.querySelectorAll("path, circle, polygon");
+    deler.forEach((el) => el.classList.add("g-el"));
+    Object.entries(SEKTORER).forEach(([grp, idxs]) =>
+      idxs.forEach((i) => deler[i] && deler[i].classList.add(`g-${grp}`)));
+    if (bilde) bilde.replaceWith(svg);
+  } catch { /* beholder <img>-fallback */ }
+}
+
+function aktivSektor(s) {
+  if (!emblem) return;
+  if (s) emblem.dataset.aktiv = s; else delete emblem.dataset.aktiv;
+}
+
 if (emblem) {
   emblem.addEventListener("mouseover", (ev) => {
     const s = ev.target.closest(".emblem-spot");
-    if (s) visFag(s.dataset.navn);
+    if (s) { visFag(s.dataset.navn); aktivSektor(s.dataset.sektor); }
   });
   emblem.addEventListener("mouseout", (ev) => {
-    if (!ev.relatedTarget || !ev.relatedTarget.closest(".emblem-spot")) visFag(null);
+    if (!ev.relatedTarget || !ev.relatedTarget.closest(".emblem-spot")) {
+      visFag(null); aktivSektor(null);
+    }
   });
   emblem.addEventListener("focusin", (ev) => {
     const s = ev.target.closest(".emblem-spot");
-    if (s) visFag(s.dataset.navn);
+    if (s) { visFag(s.dataset.navn); aktivSektor(s.dataset.sektor); }
   });
-  emblem.addEventListener("focusout", () => visFag(null));
+  emblem.addEventListener("focusout", () => { visFag(null); aktivSektor(null); });
   emblem.addEventListener("click", (ev) => {
     const s = ev.target.closest(".emblem-spot");
     if (s) velgFag(s.dataset.kat, s.dataset.mal);
@@ -410,6 +453,7 @@ async function init() {
     renderKursFilter();
     renderKalenderFilter();
     renderAlt();
+    lastEmblem();
   } catch (err) {
     $("#course-grid").innerHTML = `<p class="section-note mono">Kunne ikke laste kursdata (${err.message}). Prøv å laste siden på nytt.</p>`;
     $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Kunne ikke laste kurskalenderen.</td></tr>`;

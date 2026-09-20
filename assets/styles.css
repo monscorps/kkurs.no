@@ -375,13 +375,17 @@ p { margin: 0; text-wrap: pretty; }
   background: transparent; border: 0; padding: 0; cursor: pointer;
 }
 .emblem-spot--senter { width: 21%; }
-.emblem-spot::after {
-  content: ""; position: absolute; inset: 0; border-radius: 50%;
-  border: 3px solid var(--gronn); opacity: 0;
-  transform: scale(0.85); transition: opacity 0.18s ease, transform 0.18s ease;
-}
-.emblem-spot:hover::after, .emblem-spot:focus-visible::after { opacity: 1; transform: scale(1); }
-.emblem-spot:focus-visible { outline: none; }
+.emblem-spot:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+
+/* peking dimmer resten av emblemet — det aktive feltet står igjen */
+.emblem svg { width: 100%; height: auto; display: block; }
+.emblem svg .g-el { transition: opacity 0.3s ease; }
+.emblem[data-aktiv="truck"] svg .g-el:not(.g-fast):not(.g-truck),
+.emblem[data-aktiv="lift"] svg .g-el:not(.g-fast):not(.g-lift),
+.emblem[data-aktiv="brann"] svg .g-el:not(.g-fast):not(.g-brann),
+.emblem[data-aktiv="fallsikring"] svg .g-el:not(.g-fast):not(.g-fallsikring),
+.emblem[data-aktiv="sertifikat"] svg .g-el:not(.g-fast):not(.g-sertifikat),
+.emblem[data-aktiv="senter"] svg .g-el:not(.g-fast):not(.g-senter) { opacity: 0.13; }
 .emblem-caption {
   margin-top: 1rem; min-height: 1.5em; text-align: center;
   font-size: var(--t--1); color: var(--blekk-2);
@@ -803,3 +807,65 @@ body.modal-open { overflow: hidden; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; }
   .footer-bottom { flex-direction: column; gap: 0.4rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Atmosfære — tillegg til «Profilgrønn». Én stor lavalfa-lysning bak
+   innholdet i hero og de to mørke flatene; alt annet forblir helt
+   flatt. Malt rett i background på seksjonen: ingen pseudo-lag,
+   ingen filter/blur, null scrollkostnad. Ligger sist i filen med
+   vilje: vinner over «#kalender { background: var(--navy); }».
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Hero: grønnstukket lysfelt bak tittelen. 6 % grønn på papir lander
+   mellom --papir og --papir-2 — bare toner siden allerede har.
+   max()-ankeret følger innholdskolonnen og glir aldri av på mobil. */
+.hero {
+  background: radial-gradient(
+      58rem 36rem at max(14%, calc(50% - 24rem)) 9rem,
+      rgba(2, 117, 45, 0.06),
+      rgba(2, 117, 45, 0.028) 42%,
+      transparent 72%
+    )
+    no-repeat;
+}
+
+/* Navy kurskalender: sjøblått pust ovenfra — sentrum ligger OVER
+   seksjonskanten, så bare nedre halvdel når inn: lys som faller,
+   ikke spot. Første linje er fallback for pre-max()-motorer. */
+#kalender {
+  background: var(--navy);
+  background:
+    radial-gradient(
+      64rem 40rem at max(10%, calc(50% - 30rem)) -6rem,
+      rgba(169, 195, 232, 0.09),
+      rgba(169, 195, 232, 0.035) 45%,
+      transparent 74%
+    )
+    no-repeat,
+    #022a59;
+}
+
+/* Grønn kontakt: samme grep med 5 % hvitt bak «Skal vi ta en prat?»,
+   falt til ren flate før skjemaet tar over. */
+#kontakt {
+  background: var(--gronn);
+  background:
+    radial-gradient(
+      60rem 38rem at max(12%, calc(50% - 28rem)) -4rem,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02) 45%,
+      transparent 72%
+    )
+    no-repeat,
+    #02752d;
+}
+
+/* Kontakt → footer: footeren starter på grønn-dyp og mørkner til
+   grønn-natt — de to grønne flatene leses som ett stykke skumring. */
+.footer {
+  background: var(--gronn-natt);
+  background: linear-gradient(180deg, #025a23 0, #023a18 240px) #023a18;
+}
+
+/* Bevisst urørt: .section, .section-mist, kortene og .cal-wrap får
+   ingen atmosfære — begrensningen er det som gjør grepet umerkelig. */
