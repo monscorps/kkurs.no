@@ -50,6 +50,15 @@ tregere å levere, mer drift, unødvendig når kunden haster og FrontCore eier k
 (b) Next.js/SSG med FrontCore-API — mest fleksibelt på sikt, men overkill for «basic page» nå.
 Statisk side kan senere løftes til begge uten å kaste designet.
 
+> **Revisjon 4 (20.09):** Offisielle profilfiler mottatt (RGB-oversikt, logo-SVG, Myriad-fonter).
+> Palett låst til spesifikasjonen: **grønn `#02752D` (R2 G117 B45)** og **navy `#022A59`
+> (R2 G42 B89)**; rød `#BC1917` finnes kun inne i logoen og brukes ikke som UI-farge.
+> Logoen (rundt HMS-emblem) ligger i `assets/img/logo.svg` og brukes i toppfelt, bunn og som
+> favicon. Merkevarefonten er **Myriad Arabic** (Adobe) — OTF-filene kan ikke lovlig legges ut
+> på et offentlig nettsted uten web-lisens, så siden bruker **Source Sans 3** (Adobes frie
+> humanistiske sans, nærmeste lovlige slektning). Vil kunden ha ekte Myriad på nett, løses det
+> med Adobe Fonts-abonnement. Rollene (grønn struktur / navy handling+booking) er uendret.
+
 > **Revisjon 3 (14.09):** Fargeprofilen følger nå **bilfolieringen** til Kompetanse Kurs
 > (hvit bil, grønn bølge, mørk navy, nesten-sorte detaljer) — tofarget system «Profilgrønn»:
 > **navy er struktur** (toppfelt `#113349`, dyp `#0C2636`, bunn `#081B28` — litt mørkere enn

@@ -14,20 +14,22 @@
    Alltid lyst papir. Ingen mørk modus: siden ser lik ut for alle.
 
    Registre:
-     display  Familjen Grotesk — titler, navnetrekk
-     body     Familjen Grotesk — brødtekst, kort, navigasjon
+     display  Source Sans 3 (Myriad-slektning) — titler, navnetrekk
+     body     Source Sans 3 — brødtekst, kort, navigasjon
      mono     Spline Sans Mono — datoer, koder, priser, etiketter
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --gronn: #1e7033;
-  --gronn-dyp: #155626;
-  --gronn-natt: #0d2a16;
+  /* Offisielle profilfarger fra «RGB-Oversikt» (20.09):
+     grønn R2 G117 B45, navy R2 G42 B89. Rød #BC1917 finnes kun i logoen. */
+  --gronn: #02752d;
+  --gronn-dyp: #025a23;
+  --gronn-natt: #023a18;
 
-  --navy: #113349;
-  --navy-dyp: #0c2636;
-  --sjo: #a3c6da;
-  --frisk: #8cc3e8;
+  --navy: #022a59;
+  --navy-dyp: #021f42;
+  --sjo: #a9c3e8;
+  --frisk: #9fc0ee;
 
   --papir: #f5f7f5;
   --papir-2: #ebf0ec;
@@ -48,8 +50,10 @@
   --varsel: #97671b;
   --varsel-lys: #f2d9a7;
 
-  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  /* Merkevarefonten er Myriad (Adobe, lisensiert) — Source Sans 3 er Adobes
+     frie humanistiske sans og nærmeste lovlige nettversjon. */
+  --font-display: "Source Sans 3", "Myriad Pro", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Myriad Pro", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Spline Sans Mono", "SF Mono", Menlo, monospace;
 
   --wide: 74rem;
@@ -97,7 +101,7 @@ h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.06;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 h1 { font-size: var(--t-4); }
@@ -177,10 +181,13 @@ p { margin: 0; text-wrap: pretty; }
 .nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); }
 .brand {
+  display: inline-flex; align-items: center; gap: 0.65rem;
   font-family: var(--font-display); font-weight: 700;
-  font-size: 1.28rem; letter-spacing: -0.015em; line-height: 1;
+  font-size: 1.28rem; letter-spacing: -0.01em; line-height: 1;
   color: var(--pa-gronn);
 }
+.brand-logo { width: 40px; height: 40px; flex: none; border-radius: 50%; }
+.footer .brand-logo { width: 48px; height: 48px; }
 .brand-dot { color: var(--frisk); }
 .nav-links { display: flex; gap: 1.5rem; margin-inline: auto; }
 .nav-links a {
@@ -549,10 +556,10 @@ p { margin: 0; text-wrap: pretty; }
 }
 .field input:focus, .field select:focus, .field textarea:focus {
   outline: none; border-color: var(--navy);
-  box-shadow: 0 0 0 3px rgba(17, 51, 73, 0.16);
+  box-shadow: 0 0 0 3px rgba(2, 42, 89, 0.14);
 }
 .section-dark .field input:focus, .section-dark .field select:focus, .section-dark .field textarea:focus {
-  border-color: var(--sjo); box-shadow: 0 0 0 3px rgba(163, 198, 218, 0.3);
+  border-color: var(--sjo); box-shadow: 0 0 0 3px rgba(169, 195, 232, 0.32);
 }
 .field input.err, .field select.err { border-color: #b4141e; box-shadow: 0 0 0 3px rgba(180, 20, 30, 0.14); }
 .field textarea { resize: vertical; min-height: 96px; }
@@ -623,13 +630,13 @@ p { margin: 0; text-wrap: pretty; }
 /* ── påmeldingsmodal ─────────────────────────────────────────────── */
 
 .modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 1.2rem; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(13, 42, 22, 0.55); }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(2, 31, 66, 0.55); }
 .modal-card {
   position: relative; background: var(--hvit); color: var(--blekk);
   width: min(580px, 100%); max-height: min(88vh, 780px); overflow-y: auto;
   border-top: 3px solid var(--navy);
   border-radius: var(--radius);
-  box-shadow: 0 30px 70px -30px rgba(13, 42, 22, 0.5);
+  box-shadow: 0 30px 70px -30px rgba(2, 31, 66, 0.5);
   animation: modal-in 0.26s cubic-bezier(0.2, 0.65, 0.25, 1);
 }
 @keyframes modal-in { from { opacity: 0; transform: translateY(16px); } }

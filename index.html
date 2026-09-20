@@ -10,11 +10,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kkurs.no/">
   <meta property="og:locale" content="nb_NO">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231e7033'/%3E%3Ctext x='25' y='46' font-family='Helvetica,Arial,sans-serif' font-size='38' font-weight='700' text-anchor='middle' fill='%23f3f7f2'%3Ek%3C/text%3E%3Ccircle cx='45' cy='41' r='5' fill='%238cc3e8'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/styles.css?v=9">
 </head>
 <body>
 
@@ -22,7 +22,10 @@
 
 <header class="nav" id="topp">
   <div class="container nav-inner">
-    <a class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen">Kompetanse Kurs<span class="brand-dot">.</span></a>
+    <a class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen">
+      <img class="brand-logo" src="assets/img/logo.svg" alt="" width="40" height="40">
+      <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
+    </a>
     <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
       <a href="#kurs">Kurs</a>
       <a href="#kalender">Kurskalender</a>
@@ -324,7 +327,10 @@
 <footer class="footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <a class="brand on-dark" href="#topp">Kompetanse Kurs<span class="brand-dot">.</span></a>
+      <a class="brand on-dark" href="#topp">
+        <img class="brand-logo" src="assets/img/logo.svg" alt="" width="48" height="48">
+        <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
+      </a>
       <p>Sertifisert sikkerhetsopplæring og HMS-kompetanse i Bergen.</p>
       <div class="some" aria-label="Følg oss">
         <a href="#" aria-label="LinkedIn (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.49 2.49 0 1 1 0 3.5a2.49 2.49 0 0 1 4.98 0zM.4 8.6h4.6V24H.4zM8.6 8.6h4.4v2.1h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.5 3.1 5.5 7V24h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24H8.6z"/></svg></a>
@@ -450,6 +456,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=8"></script>
+<script src="assets/app.js?v=9"></script>
 </body>
 </html>
