@@ -176,9 +176,10 @@ p { margin: 0; text-wrap: pretty; }
 
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
-  background: var(--gronn);
+  background: transparent;
+  transition: background 0.25s ease;
 }
-.nav.scrolled { box-shadow: 0 1px 0 var(--gronn-dyp); }
+.nav.scrolled { background: var(--gronn); box-shadow: 0 1px 0 var(--gronn-dyp); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); transition: height 0.25s ease; }
 .nav.scrolled .nav-inner { height: 54px; }
 /* leseindikator — tynn stripe som viser hvor langt du er kommet */
@@ -218,9 +219,47 @@ p { margin: 0; text-wrap: pretty; }
 .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ── hero — rent papir ───────────────────────────────────────────── */
+/* ── hero — fullbredde fotobakteppe med navy slør ────────────────── */
 
-.hero { padding: calc(var(--nav-h) + var(--rom-l)) 0 var(--rom-m); }
+.hero { padding: calc(var(--nav-h) + var(--rom-l)) 0 var(--rom-l); }
+.hero--foto {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; align-items: center;
+  min-height: min(88vh, 780px);
+  color: var(--pa-gronn);
+}
+.hero-bakteppe { position: absolute; inset: 0; z-index: -1; background: var(--navy-dyp); }
+.hero-bakteppe img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 62%;
+  animation: hero-zoom 26s ease-in-out infinite alternate;
+}
+/* slør: navy tyngst mot tekstsiden, lettere over fotoet — pluss en
+   mørk stripe øverst så den transparente toppmenyen alltid leser */
+.hero-bakteppe::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(98deg,
+    rgba(2, 26, 50, 0.87) 8%, rgba(2, 31, 66, 0.62) 44%,
+    rgba(2, 42, 89, 0.28) 68%, rgba(2, 31, 66, 0.46) 100%);
+}
+.hero-bakteppe::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 160px; z-index: 1;
+  background: linear-gradient(180deg, rgba(2, 26, 50, 0.55), transparent);
+}
+.hero--foto .kicker { color: var(--sjo); }
+.hero--foto h1 { color: #fff; }
+.hero--foto .lead { color: rgba(243, 247, 242, 0.88); }
+.hero--foto .hero-badges { color: rgba(243, 247, 242, 0.82); }
+.hero--foto .hero-badges li::before { background: var(--frisk); }
+.hero--foto .btn-signal { background: var(--gronn); border-color: var(--gronn); color: #fff; }
+.hero--foto .btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
+.hero--foto .btn-ghost { border-color: rgba(255, 255, 255, 0.65); color: #fff; background: transparent; }
+.hero--foto .btn-ghost:hover { background: #fff; border-color: #fff; color: var(--navy); }
+.hero--foto .ticket {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 60px -30px rgba(2, 26, 50, 0.6);
+}
+.hero--foto .ticket .btn-signal { background: var(--gronn); border-color: var(--gronn); color: #fff; }
+.hero--foto .ticket .btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
 .hero-grid {
   display: grid; grid-template-columns: 1.15fr 0.85fr;
   gap: clamp(2rem, 5vw, 4.5rem); align-items: start;
@@ -294,20 +333,13 @@ p { margin: 0; text-wrap: pretty; }
   background: var(--gronn-dyp); border-color: var(--gronn-dyp); color: var(--pa-gronn);
 }
 
-/* hero-foto — bredt fotofelt under hero-innholdet */
-.hero-foto {
-  margin: var(--rom-m) 0 0; border-radius: var(--radius); overflow: hidden;
-}
-.hero-foto img {
-  width: 100%; aspect-ratio: 21 / 8; object-fit: cover; display: block;
-  animation: hero-zoom 26s ease-in-out infinite alternate;
-}
 @keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
 
-/* nøkkeltall */
+/* nøkkeltall — eget bånd på papir under fotoheroen */
+.stats-band { background: var(--papir); padding: var(--rom-m) 0; }
 .stats {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 2rem;
-  margin: var(--rom-m) 0 0; padding-top: 1.3rem;
+  margin: 0; padding-top: 1.3rem;
   border-top: 2px solid var(--navy);
 }
 .stats > div { padding: 0; }
@@ -778,9 +810,10 @@ body.modal-open { overflow: hidden; }
   .section-head-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
   .service { grid-template-columns: 1fr; align-items: start; }
   .service-img { max-width: 420px; }
-  .hero-foto img { aspect-ratio: 16 / 9; }
+  .hero--foto { min-height: 0; }
 }
 @media (max-width: 760px) {
+  .nav { background: var(--gronn); }
   .nav-links {
     position: fixed; top: var(--nav-h); left: 0; right: 0;
     flex-direction: column; gap: 0; background: var(--navy);
@@ -816,18 +849,7 @@ body.modal-open { overflow: hidden; }
    vilje: vinner over «#kalender { background: var(--navy); }».
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Hero: grønnstukket lysfelt bak tittelen. 6 % grønn på papir lander
-   mellom --papir og --papir-2 — bare toner siden allerede har.
-   max()-ankeret følger innholdskolonnen og glir aldri av på mobil. */
-.hero {
-  background: radial-gradient(
-      58rem 36rem at max(14%, calc(50% - 24rem)) 9rem,
-      rgba(2, 117, 45, 0.06),
-      rgba(2, 117, 45, 0.028) 42%,
-      transparent 72%
-    )
-    no-repeat;
-}
+/* Hero har nå fotobakteppe med eget slør — ingen ekstra lysning der. */
 
 /* Navy kurskalender: sjøblått pust ovenfra — sentrum ligger OVER
    seksjonskanten, så bare nedre halvdel når inn: lys som faller,
@@ -845,18 +867,13 @@ body.modal-open { overflow: hidden; }
     #022a59;
 }
 
-/* Grønn kontakt: samme grep med 5 % hvitt bak «Skal vi ta en prat?»,
-   falt til ren flate før skjemaet tar over. */
+/* Grønn kontakt: instruktørfoto anes under et tett grønt slør —
+   dybde som i heroen, men rolig nok for skjemaet. */
 #kontakt {
   background: var(--gronn);
   background:
-    radial-gradient(
-      60rem 38rem at max(12%, calc(50% - 28rem)) -4rem,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.02) 45%,
-      transparent 72%
-    )
-    no-repeat,
+    linear-gradient(rgba(2, 90, 35, 0.93), rgba(2, 58, 24, 0.95)),
+    url("img/tjeneste-bedriftsintern.jpg") center 30% / cover no-repeat,
     #02752d;
 }
 

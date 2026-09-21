@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=12">
+  <link rel="stylesheet" href="assets/styles.css?v=13">
 </head>
 <body>
 
@@ -47,8 +47,11 @@
 
 <main id="innhold">
 
-  <!-- ============ HERO ============ -->
-  <section class="hero" aria-label="Introduksjon">
+  <!-- ============ HERO — fullbredde fotobakteppe ============ -->
+  <section class="hero hero--foto" aria-label="Introduksjon">
+    <div class="hero-bakteppe" aria-hidden="true">
+      <img src="assets/img/hero.jpg" alt="" width="1600" height="610" fetchpriority="high">
+    </div>
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="kicker reveal">Sertifisert sikkerhetsopplæring i Bergen</p>
@@ -74,17 +77,18 @@
         <a class="ticket-more mono" href="#kalender">Se hele kurskalenderen ↓</a>
       </aside>
     </div>
+  </section>
+
+  <!-- nøkkeltall — eget bånd under fotoheroen -->
+  <div class="stats-band">
     <div class="container">
-      <figure class="hero-foto reveal">
-        <img src="assets/img/hero.jpg" alt="Industrikai med kraner og fjell i bakgrunnen, Bergen" width="1600" height="610" fetchpriority="high">
-      </figure>
       <dl class="stats mono" aria-label="Nøkkeltall">
         <div><dt>Kurstyper i katalogen</dt><dd>10+</dd></div>
         <div><dt>Maks deltakere per kurs</dt><dd>12</dd></div>
         <div><dt>Svar på forespørsler innen</dt><dd>1 dag</dd></div>
       </dl>
     </div>
-  </section>
+  </div>
 
   <!-- ============ FAGOMRÅDER (interaktivt emblem) ============ -->
   <section class="section" id="fagfelt">
@@ -500,6 +504,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=12"></script>
+<script src="assets/app.js?v=13"></script>
 </body>
 </html>
