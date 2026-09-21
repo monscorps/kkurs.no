@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "18";
+const APP_V = "19";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -458,6 +458,9 @@ async function init() {
     $("#course-grid").innerHTML = `<p class="section-note mono">Kunne ikke laste kursdata (${err.message}). Prøv å laste siden på nytt.</p>`;
     $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Kunne ikke laste kurskalenderen.</td></tr>`;
   }
+  /* hero-innholdet er alltid i første skjermbilde — vent aldri på
+     IntersectionObserver der (den kan svikte i bakgrunnsfaner) */
+  $$(".hero--foto .reveal").forEach((el) => el.classList.add("in"));
   $$(".reveal").forEach((el) => io.observe(el));
   nav.classList.toggle("scrolled", scrollY > 10);
 

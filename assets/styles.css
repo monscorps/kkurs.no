@@ -270,10 +270,16 @@ p { margin: 0; text-wrap: pretty; }
 .hero--foto .btn-signal:hover { background: var(--papir-2); border-color: var(--papir-2); color: var(--navy-dyp); }
 .hero--foto .btn-ghost { border-color: rgba(255, 255, 255, 0.65); color: #fff; background: transparent; }
 .hero--foto .btn-ghost:hover { background: #fff; border-color: #fff; color: var(--navy); }
+/* kurskortet som mørkt glass — hører til fotoet, ikke limt oppå */
 .hero--foto .ticket {
+  background: rgba(2, 26, 50, 0.62);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 30px 60px -30px rgba(2, 22, 44, 0.7);
 }
+.hero--foto .ticket .ticket-divider,
+.hero--foto .ticket .ticket-list li + li { border-color: rgba(255, 255, 255, 0.16); }
 .hero--foto .ticket .btn-signal { background: var(--gronn); border-color: var(--gronn); color: #fff; }
 .hero--foto .ticket .btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
 .hero-grid {
@@ -281,9 +287,11 @@ p { margin: 0; text-wrap: pretty; }
   gap: clamp(2rem, 5vw, 4.5rem); align-items: start;
 }
 .hero h1 { max-width: 12em; }
+/* NB: ingen farge her — heroen er alltid foto, fargen settes i
+   .hero--foto .lead (kaskadefellen som gjorde ingressen uleselig). */
 .hero .lead {
-  font-size: var(--t-1); line-height: 1.55; color: var(--blekk-2);
-  max-width: 32em; margin-top: 1.3rem;
+  font-size: var(--t-1); line-height: 1.55;
+  max-width: 30em; margin-top: 1.3rem;
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 2rem; }
 .hero-badges {
