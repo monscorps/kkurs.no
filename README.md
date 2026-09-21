@@ -40,8 +40,9 @@ FrontCore-adminen i stedet (samme prinsipp: legg inn kurset ett sted, alt oppdat
 
 ## Bytte herobilde
 
-Heroen bruker `assets/img/hero.jpg` (gyllen fjord + gravemaskin). Tre ferdige alternativer
-ligger klare: `hero-alt-kran.jpg` (kranløft i motlys), `hero-alt-lager.jpg` (varm lagerhall),
+Heroen bruker `assets/img/hero.jpg` (kundens egen collage: offshore + gravemaskin med grønn
+stripe). Fire alternativer ligger klare: `hero-alt-fjord.jpg` (gyllen fjord + gravemaskin),
+`hero-alt-kran.jpg` (kranløft i motlys), `hero-alt-lager.jpg` (varm lagerhall),
 `hero-alt-kurs.jpg` (kurssituasjon i dagslys). Bytt ved å erstatte `hero.jpg` og bumpe
 `?v=` på bildelenken i `index.html`.
 

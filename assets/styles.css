@@ -234,7 +234,7 @@ p { margin: 0; text-wrap: pretty; }
    aldri krympe den; fotoet dekker alltid hele heroen. */
 .hero-bakteppe img {
   position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover; object-position: center 62%;
+  width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
   animation: hero-zoom 26s ease-in-out infinite alternate;
 }
 /* slør: ETT jevnt NØYTRALT mørkt lag — ingen gradientskjøter, ingen
