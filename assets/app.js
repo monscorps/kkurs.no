@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "19";
+const APP_V = "20";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -44,7 +44,7 @@ function statusFor(dt) {
   return { cls: "status-ledig", label: `${dt.ledige} ledige plasser` };
 }
 
-/* ---------- «neste kurs»-kortet i hero ---------- */
+/* ---------- «neste kurs»-kortet i kurskalenderen ---------- */
 function renderTicket() {
   const [first, ...rest] = CAL;
   const st = statusFor(first.dt);

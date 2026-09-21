@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=19">
+  <link rel="stylesheet" href="assets/styles.css?v=20">
 </head>
 <body>
 
@@ -69,13 +69,6 @@
           <li>Kurs på norsk og engelsk</li>
         </ul>
       </div>
-      <aside class="ticket reveal d2" aria-label="Neste oppsatte kurs">
-        <div class="ticket-head"><span>Neste kurs</span></div>
-        <div class="ticket-body" id="ticket-featured"><!-- fylles av app.js --></div>
-        <div class="ticket-divider" aria-hidden="true"></div>
-        <ul class="ticket-list" id="ticket-list"><!-- fylles av app.js --></ul>
-        <a class="ticket-more mono" href="#kalender">Se hele kurskalenderen ↓</a>
-      </aside>
     </div>
   </section>
 
@@ -154,14 +147,22 @@
   <!-- ============ KURSKALENDER ============ -->
   <section class="section section-dark" id="kalender">
     <div class="container">
-      <header class="section-head reveal">
-        <p class="kicker">Kurskalender</p>
-        <div class="section-head-row">
-          <h2>Neste oppsatte kurs</h2>
-          <p class="section-lead">Meld deg på direkte. Bekreftelse, kursbevis og fakturering
-            håndteres digitalt.</p>
-        </div>
-      </header>
+      <div class="kalender-intro">
+        <header class="section-head reveal">
+          <p class="kicker">Kurskalender</p>
+          <div class="section-head-row">
+            <h2>Kurs og datoer</h2>
+            <p class="section-lead">Meld deg på direkte. Bekreftelse, kursbevis og fakturering
+              håndteres digitalt.</p>
+          </div>
+        </header>
+        <aside class="ticket reveal d1" aria-label="Neste oppsatte kurs">
+          <div class="ticket-head"><span>Neste kurs</span></div>
+          <div class="ticket-body" id="ticket-featured"><!-- fylles av app.js --></div>
+          <div class="ticket-divider" aria-hidden="true"></div>
+          <ul class="ticket-list" id="ticket-list"><!-- fylles av app.js --></ul>
+        </aside>
+      </div>
       <div class="chips chips-dark reveal" id="kalender-filter" role="group" aria-label="Filtrer kalender etter sted"></div>
       <p class="cal-hint mono" aria-hidden="true">Sveip sidelengs for å se hele tabellen →</p>
       <div class="cal-wrap reveal">
@@ -504,6 +505,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=19"></script>
+<script src="assets/app.js?v=20"></script>
 </body>
 </html>
