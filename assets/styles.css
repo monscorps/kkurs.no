@@ -177,9 +177,25 @@ p { margin: 0; text-wrap: pretty; }
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   background: transparent;
-  transition: background 0.25s ease;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
 }
-.nav.scrolled { background: var(--gronn); box-shadow: 0 1px 0 var(--gronn-dyp); }
+/* ved scroll: glassaktig hvit i stedet for farget felt — flatene på
+   siden får ro, merkefargene bor i handlingene */
+.nav.scrolled {
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--linje);
+}
+.nav.scrolled .brand, .nav.scrolled .nav-links a { color: var(--blekk); }
+.nav.scrolled .nav-links a:hover { color: var(--navy); }
+.nav.scrolled .brand-dot { color: var(--gronn); }
+.nav.scrolled .lesebar { background: var(--gronn); }
+.nav.scrolled .nav-cta .btn-ghost { border-color: var(--linje); color: var(--blekk); }
+.nav.scrolled .nav-cta .btn-ghost:hover { background: var(--navy); border-color: var(--navy); color: #fff; }
+.nav.scrolled .nav-cta .btn-signal { background: var(--navy); border-color: var(--navy); color: #fff; }
+.nav.scrolled .nav-cta .btn-signal:hover { background: var(--navy-dyp); border-color: var(--navy-dyp); color: #fff; }
+.nav.scrolled .nav-burger { border-color: var(--linje); }
+.nav.scrolled .nav-burger span { background: var(--blekk); }
 .nav-inner { display: flex; align-items: center; gap: 2rem; height: var(--nav-h); transition: height 0.25s ease; }
 .nav.scrolled .nav-inner { height: 54px; }
 /* leseindikator — tynn stripe som viser hvor langt du er kommet */
@@ -237,19 +253,21 @@ p { margin: 0; text-wrap: pretty; }
   width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
   animation: hero-zoom 26s ease-in-out infinite alternate;
 }
-/* slør: ETT jevnt NØYTRALT mørkt lag — ingen gradientskjøter, ingen
-   fargestikk; fotoet beholder sin egen varme */
+/* slør: nøytral, LANG rampe — tyngst bak tekstkolonnen, aldri farget,
+   aldri synlig skjøt; fotoet beholder sin egen varme */
 .hero-bakteppe::after {
   content: ""; position: absolute; inset: 0;
-  background: rgba(9, 14, 20, 0.55);
+  background: linear-gradient(92deg,
+    rgba(7, 10, 14, 0.84) 0%, rgba(7, 10, 14, 0.6) 34%,
+    rgba(7, 10, 14, 0.34) 60%, rgba(7, 10, 14, 0.22) 100%);
 }
 .hero--foto .kicker { color: var(--sjo); }
 .hero--foto h1 { color: #fff; }
-.hero--foto .lead { color: rgba(243, 247, 242, 0.95); }
+.hero--foto .lead { color: #fff; font-weight: 500; max-width: 30em; }
 .hero--foto .hero-badges { color: rgba(243, 247, 242, 0.82); }
 .hero--foto .hero-badges li::before { background: var(--frisk); }
-.hero--foto .btn-signal { background: var(--gronn); border-color: var(--gronn); color: #fff; }
-.hero--foto .btn-signal:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
+.hero--foto .btn-signal { background: #fff; border-color: #fff; color: var(--navy); }
+.hero--foto .btn-signal:hover { background: var(--papir-2); border-color: var(--papir-2); color: var(--navy-dyp); }
 .hero--foto .btn-ghost { border-color: rgba(255, 255, 255, 0.65); color: #fff; background: transparent; }
 .hero--foto .btn-ghost:hover { background: #fff; border-color: #fff; color: var(--navy); }
 .hero--foto .ticket {
@@ -430,11 +448,11 @@ p { margin: 0; text-wrap: pretty; }
 .fagstripe button {
   font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.1em;
-  background: var(--navy); color: #fff; border: 1.5px solid var(--navy);
+  background: transparent; color: var(--blekk-2); border: 1.5px solid var(--linje);
   border-radius: 999px; padding: 0.55em 1.05em; cursor: pointer;
-  transition: background 0.14s, border-color 0.14s;
+  transition: color 0.14s, border-color 0.14s, background 0.14s;
 }
-.fagstripe button:hover { background: var(--gronn); border-color: var(--gronn); }
+.fagstripe button:hover { border-color: var(--navy); color: var(--navy); }
 .fagfelt-note { color: var(--blekk-2); font-size: var(--t--1); margin-bottom: 1.4rem; max-width: 34em; }
 
 /* ── kurskort ────────────────────────────────────────────────────── */
@@ -811,17 +829,28 @@ body.modal-open { overflow: hidden; }
   .hero--foto { min-height: 0; }
 }
 @media (max-width: 760px) {
-  .nav { background: var(--gronn); }
+  /* mobil: alltid hvit glass-meny med mørk tekst */
+  .nav {
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 var(--linje);
+  }
+  .nav .brand, .nav .nav-links a { color: var(--blekk); }
+  .nav .brand-dot { color: var(--gronn); }
+  .nav .lesebar { background: var(--gronn); }
+  .nav .nav-cta .btn-signal { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .nav .nav-burger { border-color: var(--linje); }
+  .nav .nav-burger span { background: var(--blekk); }
   .nav-links {
     position: fixed; top: var(--nav-h); left: 0; right: 0;
-    flex-direction: column; gap: 0; background: var(--navy);
-    border-top: 1px solid var(--linje-gronn);
+    flex-direction: column; gap: 0; background: #fff;
+    border-top: 1px solid var(--linje);
     padding: 0.4rem 1.5rem 1rem;
     transform: translateY(-8px); opacity: 0; pointer-events: none;
     transition: opacity 0.2s, transform 0.2s;
   }
   .nav-links.open { transform: none; opacity: 1; pointer-events: auto; }
-  .nav-links a { padding: 0.85rem 0; border-bottom: 1px solid var(--linje-gronn); color: var(--pa-gronn); }
+  .nav-links a { padding: 0.85rem 0; border-bottom: 1px solid var(--linje-svak); color: var(--blekk); }
   .nav-links a:last-child { border-bottom: 0; }
   .nav-burger { display: flex; }
   .nav-cta { margin-left: auto; }
@@ -865,21 +894,21 @@ body.modal-open { overflow: hidden; }
     #022a59;
 }
 
-/* Grønn kontakt: instruktørfoto anes under et tett grønt slør —
-   dybde som i heroen, men rolig nok for skjemaet. */
+/* Kontakt: dyp, rik grønn med fotoet så vidt tilstede — store flater
+   dempes, merkefargen får bo i handlingene. */
 #kontakt {
-  background: var(--gronn);
+  background: var(--gronn-natt);
   background:
-    linear-gradient(rgba(2, 90, 35, 0.93), rgba(2, 58, 24, 0.95)),
+    linear-gradient(rgba(2, 46, 20, 0.94), rgba(2, 34, 15, 0.96)),
     url("img/tjeneste-bedriftsintern.jpg") center 30% / cover no-repeat,
-    #02752d;
+    #023a18;
 }
 
 /* Kontakt → footer: footeren starter på grønn-dyp og mørkner til
    grønn-natt — de to grønne flatene leses som ett stykke skumring. */
 .footer {
   background: var(--gronn-natt);
-  background: linear-gradient(180deg, #025a23 0, #023a18 240px) #023a18;
+  background: linear-gradient(180deg, #023a18 0, #022410 260px) #022410;
 }
 
 /* Bevisst urørt: .section, .section-mist, kortene og .cal-wrap får
