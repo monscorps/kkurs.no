@@ -2,7 +2,7 @@
 <html lang="nb">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Kompetanse Kurs – sertifiserte sikkerhetskurs i Bergen</title>
   <meta name="description" content="Sertifisert sikkerhetsopplæring og HMS-kompetanse i Bergen. Truckførerkurs, kranførerkurs, maskinførerkurs, varme arbeider og HMS – åpne kurs og bedriftsinterne kurs.">
   <meta property="og:title" content="Kompetanse Kurs – sertifiserte sikkerhetskurs i Bergen">
@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=21">
+  <link rel="stylesheet" href="assets/styles.css?v=22">
 </head>
 <body>
 
@@ -34,6 +34,7 @@
       <a href="#om">Om oss</a>
       <a href="#nyheter">Nyheter</a>
       <a href="#kontakt">Kontakt</a>
+      <a class="btn btn-signal nav-links-cta" href="#kalender">Se kurskalender</a>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="#kontakt">Be om tilbud</a>
@@ -156,7 +157,6 @@
         </div>
       </header>
       <div class="chips chips-dark reveal" id="kalender-filter" role="group" aria-label="Filtrer kalender etter sted"></div>
-      <p class="cal-hint mono" aria-hidden="true">Sveip sidelengs for å se hele tabellen →</p>
       <div class="cal-wrap reveal">
         <table class="cal" aria-describedby="cal-note">
           <thead>
@@ -183,7 +183,7 @@
       </header>
       <ol class="service-list">
         <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-radgivning.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="service-img"><img src="assets/img/tjeneste-radgivning.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="service-body">
             <h3>HMS-rådgivning</h3>
             <p>Risikovurderinger, internkontroll og HMS-system som faktisk brukes. Vi går gjennom
@@ -192,7 +192,7 @@
           <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
         </li>
         <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-bedriftsintern.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="service-img"><img src="assets/img/tjeneste-bedriftsintern.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="service-body">
             <h3>Bedriftsintern opplæring</h3>
             <p>Vi kommer til dere — med instruktør, utstyr og dokumentasjon. Kurs tilpasset
@@ -201,7 +201,7 @@
           <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
         </li>
         <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-utstyr.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="service-img"><img src="assets/img/tjeneste-utstyr.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="service-body">
             <h3>Dokumentert opplæring på deres utstyr</h3>
             <p>Sikker bruk av maskiner og verktøy som ikke krever sertifikat, dokumentert etter
@@ -232,7 +232,7 @@
         </ul>
       </div>
       <div class="om-side reveal d1">
-        <figure class="om-foto"><img src="assets/img/om-bergen.jpg" alt="Industriområde ved fjorden i Bergen" loading="lazy" width="900" height="600"></figure>
+        <figure class="om-foto"><img src="assets/img/om-bergen.jpg" alt="Industriområde ved fjorden i Bergen" loading="lazy" decoding="async" width="900" height="600"></figure>
         <div class="eier-kort">
           <p class="kicker">Daglig leder</p>
           <h3>Stian Holgersen</h3>
@@ -262,7 +262,7 @@
       </header>
       <div class="news-grid">
         <article class="news-card reveal">
-          <figure class="news-img"><img src="assets/img/nytt-varme.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="news-img"><img src="assets/img/nytt-varme.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="news-body">
             <p class="news-meta mono"><time datetime="2026-09-08">08.09.2026</time> · Kurs</p>
             <h3><a href="#kalender">Hot Work Certificate — kurs på engelsk</a></h3>
@@ -272,7 +272,7 @@
           </div>
         </article>
         <article class="news-card reveal d1">
-          <figure class="news-img"><img src="assets/img/nytt-elaering.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="news-img"><img src="assets/img/nytt-elaering.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="news-body">
             <p class="news-meta mono"><time datetime="2026-09-01">01.09.2026</time> · E-læring</p>
             <h3><a href="#kalender">Teoridelen kan nå tas digitalt</a></h3>
@@ -282,7 +282,7 @@
           </div>
         </article>
         <article class="news-card reveal d2">
-          <figure class="news-img"><img src="assets/img/nytt-oppstart.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+          <figure class="news-img"><img src="assets/img/nytt-oppstart.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
           <div class="news-body">
             <p class="news-meta mono"><time datetime="2026-08-25">25.08.2026</time> · Selskapet</p>
             <h3><a href="#om">Kompetanse Kurs er i gang i Bergen</a></h3>
@@ -326,7 +326,7 @@
         <div class="form-row">
           <div class="field">
             <label for="f-navn">Navn <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-navn" name="navn" type="text" autocomplete="name" required>
+            <input id="f-navn" name="navn" type="text" autocomplete="name" autocapitalize="words" required>
           </div>
           <div class="field">
             <label for="f-bedrift">Bedrift</label>
@@ -336,7 +336,7 @@
         <div class="form-row">
           <div class="field">
             <label for="f-epost">E-post <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-epost" name="epost" type="email" autocomplete="email" required>
+            <input id="f-epost" name="epost" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
           </div>
           <div class="field">
             <label for="f-tlf">Telefon</label>
@@ -402,7 +402,6 @@
   </div>
   <div class="container footer-bottom mono">
     <p>© 2026 Kompetanse Kurs AS · Org.nr. 000 000 000 (plassholder)</p>
-    <p>Forhåndsvisning med eksempeldata — påmelding og kalender kobles til FrontCore ved lansering.</p>
   </div>
 </footer>
 
@@ -437,11 +436,11 @@
       <div class="form-row">
         <div class="field">
           <label for="m-navn">Kontaktperson <span class="req" aria-hidden="true">*</span></label>
-          <input id="m-navn" name="navn" type="text" autocomplete="name" required>
+          <input id="m-navn" name="navn" type="text" autocomplete="name" autocapitalize="words" required>
         </div>
         <div class="field">
           <label for="m-epost">E-post <span class="req" aria-hidden="true">*</span></label>
-          <input id="m-epost" name="epost" type="email" autocomplete="email" required>
+          <input id="m-epost" name="epost" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
         </div>
       </div>
       <div class="form-row">
@@ -472,10 +471,11 @@
         <span>Jeg godtar <a href="#" data-demo-link>kursvilkårene</a> og at Kompetanse Kurs kontakter meg om påmeldingen.</span>
       </label>
 
-      <div class="modal-sum mono" id="modal-sum" aria-live="polite"></div>
-
-      <button class="btn btn-signal btn-lg btn-block" type="submit">Send påmelding</button>
-      <p class="form-note mono">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
+      <div class="modal-foot">
+        <div class="modal-sum mono" id="modal-sum" aria-live="polite"></div>
+        <button class="btn btn-signal btn-lg btn-block" type="submit">Send påmelding</button>
+        <p class="form-note mono">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
+      </div>
     </form>
 
     <div class="modal-success" id="modal-success" hidden>
@@ -497,6 +497,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=21"></script>
+<script src="assets/app.js?v=22"></script>
 </body>
 </html>

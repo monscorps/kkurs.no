@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "21";
+const APP_V = "22";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -61,7 +61,7 @@ function renderCourses() {
     const neste = c.datoer[0];
     return `
     <article class="course-card">
-      <figure class="cc-img"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" width="900" height="600"></figure>
+      <figure class="cc-img"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
       <div class="cc-body">
         <div class="cc-top">
           <span class="cc-cat">${KATEGORIER[c.kat]}</span>
@@ -101,8 +101,8 @@ function renderCal() {
         <span class="cal-codes">${e.course.koder}</span></td>
       <td class="cal-sted">${e.dt.sted}</td>
       <td class="cal-dur">${e.course.varighet}</td>
-      <td><span class="status ${st.cls}">${st.label}</span></td>
-      <td><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
+      <td class="cal-status"><span class="status ${st.cls}">${st.label}</span></td>
+      <td class="cal-act"><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
     </tr>`;
   }).join("");
 }
@@ -114,6 +114,7 @@ const modal = $("#modal");
 const modalForm = $("#modal-form");
 const modalSuccess = $("#modal-success");
 let lastFocus = null;
+let scrollLaas = 0;
 
 function fyllKursSelect(valgtId) {
   $("#m-kurs").innerHTML = COURSES.map((c) =>
@@ -159,6 +160,8 @@ function openModal(courseId, dateIdx = 0) {
   modalForm.hidden = false;
   modalSuccess.hidden = true;
   modal.hidden = false;
+  scrollLaas = scrollY;
+  document.body.style.top = `-${scrollLaas}px`;
   document.body.classList.add("modal-open");
   $(".modal-close").focus();
 }
@@ -166,6 +169,8 @@ function openModal(courseId, dateIdx = 0) {
 function closeModal() {
   modal.hidden = true;
   document.body.classList.remove("modal-open");
+  document.body.style.top = "";
+  scrollTo({ top: scrollLaas, behavior: "instant" });
   modalForm.reset();
   $$(".err", modalForm).forEach((el) => el.classList.remove("err"));
   if (lastFocus) lastFocus.focus();
@@ -344,6 +349,9 @@ function aktivSektor(s) {
   if (s) emblem.dataset.aktiv = s; else delete emblem.dataset.aktiv;
 }
 
+/* touch har ingen hover: emblemets dimming vises på trykk 1, trykk 2 navigerer */
+const beroring = matchMedia("(hover: none)").matches;
+let sistSektor = null;
 if (emblem) {
   emblem.addEventListener("mouseover", (ev) => {
     const s = ev.target.closest(".emblem-spot");
@@ -351,17 +359,24 @@ if (emblem) {
   });
   emblem.addEventListener("mouseout", (ev) => {
     if (!ev.relatedTarget || !ev.relatedTarget.closest(".emblem-spot")) {
-      visFag(null); aktivSektor(null);
+      visFag(null); aktivSektor(null); sistSektor = null;
     }
   });
   emblem.addEventListener("focusin", (ev) => {
     const s = ev.target.closest(".emblem-spot");
     if (s) { visFag(s.dataset.navn); aktivSektor(s.dataset.sektor); }
   });
-  emblem.addEventListener("focusout", () => { visFag(null); aktivSektor(null); });
+  emblem.addEventListener("focusout", () => { visFag(null); aktivSektor(null); sistSektor = null; });
   emblem.addEventListener("click", (ev) => {
     const s = ev.target.closest(".emblem-spot");
-    if (s) velgFag(s.dataset.kat, s.dataset.mal);
+    if (!s) return;
+    if (beroring && s.dataset.sektor !== sistSektor) {
+      sistSektor = s.dataset.sektor;
+      aktivSektor(s.dataset.sektor);
+      if (caption) caption.innerHTML = `<strong>${s.dataset.navn}</strong> — trykk igjen for å åpne`;
+      return;
+    }
+    velgFag(s.dataset.kat, s.dataset.mal);
   });
 }
 $$(".fagstripe button, .fagfelt-side .btn[data-kat]").forEach((b) =>
@@ -397,9 +412,14 @@ addEventListener("scroll", () => {
 burger.addEventListener("click", () => {
   const open = menu.classList.toggle("open");
   burger.setAttribute("aria-expanded", open);
+  document.body.classList.toggle("menu-open", open);
 });
 menu.addEventListener("click", (ev) => {
-  if (ev.target.tagName === "A") { menu.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); }
+  if (ev.target.tagName === "A") {
+    menu.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
+  }
 });
 
 /* ---------- scroll-avdekking ---------- */
