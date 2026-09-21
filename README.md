@@ -29,7 +29,7 @@ python3 -m http.server 4173 --directory .
 
 Alt kursinnhold ligger i **én fil: [`assets/kurs.json`](assets/kurs.json)** — navn, koder,
 priser, beskrivelser, datoer, sted og antall plasser (`plasser` totalt / `ledige` nå).
-Kurskatalogen, kurskalenderen, «neste kurs»-kortet og påmeldingsskjemaet genereres derfra:
+Kurskatalogen, kurskalenderen og påmeldingsskjemaet genereres derfra:
 **endre ett sted, oppdateres overalt** — ingen dobbeltarbeid.
 
 Enkleste arbeidsflyt for drifter: åpne filen på GitHub → blyantikonet (rediger) → endre/legg

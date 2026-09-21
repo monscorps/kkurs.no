@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "20";
+const APP_V = "21";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -42,30 +42,6 @@ function statusFor(dt) {
   if (dt.ledige <= 0) return { cls: "status-vente", label: "Venteliste" };
   if (dt.ledige <= 3) return { cls: "status-faa", label: `${dt.ledige} ${dt.ledige === 1 ? "plass" : "plasser"} igjen` };
   return { cls: "status-ledig", label: `${dt.ledige} ledige plasser` };
-}
-
-/* ---------- «neste kurs»-kortet i kurskalenderen ---------- */
-function renderTicket() {
-  const [first, ...rest] = CAL;
-  const st = statusFor(first.dt);
-  $("#ticket-featured").innerHTML = `
-    <h3 class="ticket-title">${first.course.navn} <span class="cc-codes">${first.course.koder}</span></h3>
-    <dl class="ticket-meta mono">
-      <dt>Dato</dt><dd>${fmtDato(first.dt.d)}${first.dt.merk ? ` · ${first.dt.merk}` : ""}</dd>
-      <dt>Sted</dt><dd>${first.dt.sted}</dd>
-      <dt>Varighet</dt><dd>${first.course.varighet}</dd>
-      <dt>Status</dt><dd><span class="status ${st.cls}">${st.label}</span></dd>
-    </dl>
-    <div class="ticket-row-cta">
-      <span class="ticket-price">fra ${fmtPris(first.course.pris)}</span>
-      <button class="btn btn-signal btn-sm" data-book="${first.course.id}" data-date="${first.idx}">Meld deg på</button>
-    </div>`;
-  $("#ticket-list").innerHTML = rest.slice(0, 3).map((e) => `
-    <li><button data-book="${e.course.id}" data-date="${e.idx}">
-      <span class="tl-date">${fmtDatoKort(e.dt.d)}</span>
-      <span class="tl-name">${e.course.navn}${e.dt.merk ? ` <em>(${e.dt.merk})</em>` : ""}</span>
-      <span class="tl-arrow" aria-hidden="true">→</span>
-    </button></li>`).join("");
 }
 
 /* ---------- kurskatalog ---------- */
@@ -122,7 +98,7 @@ function renderCal() {
     <tr>
       <td class="cal-date">${fmtDato(e.dt.d)}</td>
       <td class="cal-course">${e.course.navn}${e.dt.merk ? ` (${e.dt.merk})` : ""}
-        <span class="cal-codes">${e.course.koder} · fra ${fmtPris(e.course.pris)}</span></td>
+        <span class="cal-codes">${e.course.koder}</span></td>
       <td class="cal-sted">${e.dt.sted}</td>
       <td class="cal-dur">${e.course.varighet}</td>
       <td><span class="status ${st.cls}">${st.label}</span></td>
@@ -131,7 +107,7 @@ function renderCal() {
   }).join("");
 }
 
-function renderAlt() { renderTicket(); renderCourses(); renderCal(); }
+function renderAlt() { renderCourses(); renderCal(); }
 
 /* ---------- påmeldingsmodal (FrontCore-attrapp) ---------- */
 const modal = $("#modal");
