@@ -235,14 +235,13 @@ p { margin: 0; text-wrap: pretty; }
 .hero-bakteppe img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; object-position: center 62%;
-  filter: saturate(0.88) brightness(0.92);
   animation: hero-zoom 26s ease-in-out infinite alternate;
 }
-/* slør: ETT jevnt mørkt lag — ingen gradientskjøter, fotoet leses som
-   foto (bevisst dempet), ikke som blå maling */
+/* slør: ETT jevnt NØYTRALT mørkt lag — ingen gradientskjøter, ingen
+   fargestikk; fotoet beholder sin egen varme */
 .hero-bakteppe::after {
   content: ""; position: absolute; inset: 0;
-  background: rgba(2, 22, 44, 0.6);
+  background: rgba(9, 14, 20, 0.55);
 }
 .hero--foto .kicker { color: var(--sjo); }
 .hero--foto h1 { color: #fff; }

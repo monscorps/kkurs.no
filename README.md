@@ -38,6 +38,13 @@ til kurs → «Commit changes». Siden bygges og publiseres automatisk på under
 Ved lansering byttes filen ut med FrontCore som kilde, og da administreres kursene i
 FrontCore-adminen i stedet (samme prinsipp: legg inn kurset ett sted, alt oppdateres).
 
+## Bytte herobilde
+
+Heroen bruker `assets/img/hero.jpg` (gyllen fjord + gravemaskin). Tre ferdige alternativer
+ligger klare: `hero-alt-kran.jpg` (kranløft i motlys), `hero-alt-lager.jpg` (varm lagerhall),
+`hero-alt-kurs.jpg` (kurssituasjon i dagslys). Bytt ved å erstatte `hero.jpg` og bumpe
+`?v=` på bildelenken i `index.html`.
+
 ## Bookingflyt i forhåndsvisningen (simulert)
 
 Påmeldingen demonstrerer hele den ønskede flyten, uten at noe faktisk sendes:
