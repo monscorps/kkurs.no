@@ -1087,3 +1087,21 @@ body.modal-open { overflow: hidden; }
   .check input { width: 20px; height: 20px; }
   .pay-opt { min-height: 52px; }
 }
+
+/* mobil: lange lister foldes — «Vis alle»-knappene finnes kun <=760 */
+.vis-alle { display: none; }
+@media (max-width: 760px) {
+  .m-fold { display: none; }
+  .vis-alle {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 48px; margin-top: 1rem;
+    font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--blekk-2); background: transparent;
+    border: 1px solid var(--linje); border-radius: var(--radius);
+    cursor: pointer; transition: border-color 0.14s, color 0.14s;
+  }
+  .vis-alle:active { border-color: var(--navy); color: var(--navy); }
+  #kalender .vis-alle { color: var(--pa-gronn-dus); border-color: var(--linje-gronn); }
+  #kalender .vis-alle:active { border-color: var(--pa-gronn); color: var(--pa-gronn); }
+}

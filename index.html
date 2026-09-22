@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=22">
+  <link rel="stylesheet" href="assets/styles.css?v=23">
 </head>
 <body>
 
@@ -140,6 +140,7 @@
       </header>
       <div class="chips reveal" id="kurs-filter" role="group" aria-label="Filtrer kurs etter kategori"></div>
       <div class="course-grid" id="course-grid"><!-- fylles av app.js --></div>
+      <button class="vis-alle" id="vis-alle-kurs" type="button" hidden aria-expanded="false"></button>
       <p class="section-note mono reveal">Fant du ikke kurset dere trenger? Vi setter opp
         bedriftsinterne kurs på forespørsel — <a href="#kontakt">be om tilbud</a>.</p>
     </div>
@@ -165,6 +166,7 @@
           <tbody id="cal-body"><!-- fylles av app.js --></tbody>
         </table>
       </div>
+      <button class="vis-alle" id="vis-alle-kalender" type="button" hidden aria-expanded="false"></button>
       <p class="section-note mono on-dark" id="cal-note">◍ Forhåndsvisning med eksempeldata.
         Ved lansering synkroniseres kalender og påmelding direkte fra FrontCore&nbsp;TMS.</p>
     </div>
@@ -292,6 +294,7 @@
           </div>
         </article>
       </div>
+      <button class="vis-alle" id="vis-alle-nyheter" type="button" hidden aria-expanded="false"></button>
     </div>
   </section>
 
@@ -497,6 +500,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=22"></script>
+<script src="assets/app.js?v=23"></script>
 </body>
 </html>

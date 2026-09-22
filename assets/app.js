@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "22";
+const APP_V = "23";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -44,6 +44,26 @@ function statusFor(dt) {
   return { cls: "status-ledig", label: `${dt.ledige} ledige plasser` };
 }
 
+/* ---------- mobil: lange lister foldes bak «Vis alle» ----------
+   Kortene/radene finnes alltid i DOM — .m-fold skjules kun av
+   mobil-CSS (<=760px), så desktop viser alt uansett. */
+const FOLD = { kurs: 4, kalender: 6, nyheter: 1 };
+const FOLD_ORD = { kurs: "kurs", kalender: "datoer", nyheter: "nyheter" };
+const FOLD_VELGER = { kurs: "#course-grid .course-card", kalender: "#cal-body tr", nyheter: ".news-grid .news-card" };
+const utvidet = { kurs: false, kalender: false, nyheter: false };
+
+function foldeliste(nokkel) {
+  const knapp = $(`#vis-alle-${nokkel}`);
+  if (!knapp) return;
+  const alle = $$(FOLD_VELGER[nokkel]);
+  alle.forEach((el, i) => el.classList.toggle("m-fold", !utvidet[nokkel] && i >= FOLD[nokkel]));
+  knapp.hidden = alle.length <= FOLD[nokkel];
+  knapp.setAttribute("aria-expanded", String(utvidet[nokkel]));
+  knapp.textContent = utvidet[nokkel]
+    ? "Vis f\u00e6rre \u2191"
+    : `Vis alle ${alle.length} ${FOLD_ORD[nokkel]} \u2193`;
+}
+
 /* ---------- kurskatalog ---------- */
 function renderKursFilter() {
   const counts = { alle: COURSES.length };
@@ -77,6 +97,7 @@ function renderCourses() {
       </div>
     </article>`;
   }).join("");
+  foldeliste("kurs");
 }
 
 /* ---------- kurskalender ---------- */
@@ -90,6 +111,7 @@ function renderCal() {
   const rows = CAL.filter((e) => aktivSted === "Alle steder" || e.dt.sted === aktivSted);
   if (!rows.length) {
     $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Ingen oppsatte kurs her akkurat nå — be om tilbud, så setter vi opp kurs.</td></tr>`;
+    foldeliste("kalender");
     return;
   }
   $("#cal-body").innerHTML = rows.map((e) => {
@@ -105,6 +127,7 @@ function renderCal() {
       <td class="cal-act"><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
     </tr>`;
   }).join("");
+  foldeliste("kalender");
 }
 
 function renderAlt() { renderCourses(); renderCal(); }
@@ -210,6 +233,13 @@ document.addEventListener("click", (ev) => {
 document.addEventListener("keydown", (ev) => {
   if (ev.key === "Escape" && !modal.hidden) closeModal();
 });
+
+$$(".vis-alle").forEach((knapp) => knapp.addEventListener("click", () => {
+  const nokkel = knapp.id.replace("vis-alle-", "");
+  utvidet[nokkel] = !utvidet[nokkel];
+  foldeliste(nokkel);
+  if (!utvidet[nokkel]) knapp.scrollIntoView({ block: "center" });
+}));
 
 $("#kurs-filter").addEventListener("click", (ev) => {
   const chip = ev.target.closest(".chip");
@@ -457,6 +487,7 @@ async function init() {
   /* hero-innholdet er alltid i første skjermbilde — vent aldri på
      IntersectionObserver der (den kan svikte i bakgrunnsfaner) */
   $$(".hero--foto .reveal").forEach((el) => el.classList.add("in"));
+  foldeliste("nyheter");
   $$(".reveal").forEach((el) => io.observe(el));
   nav.classList.toggle("scrolled", scrollY > 10);
 
