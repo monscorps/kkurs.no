@@ -64,7 +64,7 @@ plasstelling).
 3. Pek «Meld deg på»-knappene til FrontCore-påmelding.
 4. Koble kontaktskjemaet til e-post/CRM, legg inn Google Analytics + samtykkebanner,
    og fjern «forhåndsvisning»-merknadene (søk etter «Forhåndsvisning» i `index.html`).
-5. Bytt plassholdere: org.nr., adresser, telefon, partnerlogoer, SoMe-lenker.
+5. Bytt plassholdere: org.nr., adresser, telefon, SoMe-lenker.
 
 ## Hosting
 
