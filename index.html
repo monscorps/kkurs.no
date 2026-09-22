@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=23">
+  <link rel="stylesheet" href="assets/styles.css?v=24">
 </head>
 <body>
 
@@ -139,8 +139,7 @@
         </div>
       </header>
       <div class="chips reveal" id="kurs-filter" role="group" aria-label="Filtrer kurs etter kategori"></div>
-      <div class="course-grid" id="course-grid"><!-- fylles av app.js --></div>
-      <button class="vis-alle" id="vis-alle-kurs" type="button" hidden aria-expanded="false"></button>
+      <div class="kurs-liste" id="course-grid"><!-- fylles av app.js --></div>
       <p class="section-note mono reveal">Fant du ikke kurset dere trenger? Vi setter opp
         bedriftsinterne kurs på forespørsel — <a href="#kontakt">be om tilbud</a>.</p>
     </div>
@@ -324,45 +323,10 @@
           <div><dt>E-post</dt><dd><a href="mailto:post@kkurs.no">post@kkurs.no</a></dd></div>
           <div><dt>Kurssenter</dt><dd>Kanalveien 1, 5068 Bergen</dd></div>
         </dl>
+        <div class="kontakt-handling reveal d1">
+          <button class="btn btn-signal btn-lg" type="button" data-tilbud>Be om tilbud</button>
+        </div>
       </div>
-      <form class="form reveal d1" id="kontakt-form" novalidate>
-        <div class="form-row">
-          <div class="field">
-            <label for="f-navn">Navn <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-navn" name="navn" type="text" autocomplete="name" autocapitalize="words" required>
-          </div>
-          <div class="field">
-            <label for="f-bedrift">Bedrift</label>
-            <input id="f-bedrift" name="bedrift" type="text" autocomplete="organization">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="f-epost">E-post <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-epost" name="epost" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
-          </div>
-          <div class="field">
-            <label for="f-tlf">Telefon</label>
-            <input id="f-tlf" name="telefon" type="tel" autocomplete="tel">
-          </div>
-        </div>
-        <div class="field">
-          <label for="f-tema">Hva gjelder det?</label>
-          <select id="f-tema" name="tema">
-            <option>Kurs for bedrift</option>
-            <option>Åpne kurs og påmelding</option>
-            <option>HMS-rådgivning</option>
-            <option>Digital HMS og KI</option>
-            <option>Annet</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-melding">Melding</label>
-          <textarea id="f-melding" name="melding" rows="4" placeholder="F.eks. «Vi trenger truckførerkurs for 6 ansatte i oktober»"></textarea>
-        </div>
-        <button class="btn btn-signal btn-lg" type="submit">Send forespørsel</button>
-        <p class="form-note mono">Forhåndsvisning — skjemaet kobles til e-post/CRM ved lansering.</p>
-      </form>
     </div>
   </section>
 
@@ -498,8 +462,55 @@
   </div>
 </div>
 
+<div class="modal" id="kontakt-modal" role="dialog" aria-modal="true" aria-labelledby="kontakt-tittel" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close aria-label="Lukk skjema">✕</button>
+    <form class="modal-form" id="kontakt-form" novalidate>
+      <p class="kicker">Be om tilbud</p>
+      <h2 id="kontakt-tittel">Fortell oss hva dere trenger</h2>
+        <div class="form-row">
+        <div class="field">
+        <label for="f-navn">Navn <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-navn" name="navn" type="text" autocomplete="name" autocapitalize="words" required>
+        </div>
+        <div class="field">
+        <label for="f-bedrift">Bedrift</label>
+        <input id="f-bedrift" name="bedrift" type="text" autocomplete="organization">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+        <label for="f-epost">E-post <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-epost" name="epost" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+        </div>
+        <div class="field">
+        <label for="f-tlf">Telefon</label>
+        <input id="f-tlf" name="telefon" type="tel" autocomplete="tel">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-tema">Hva gjelder det?</label>
+        <select id="f-tema" name="tema">
+        <option>Kurs for bedrift</option>
+        <option>Åpne kurs og påmelding</option>
+        <option>HMS-rådgivning</option>
+        <option>Digital HMS og KI</option>
+        <option>Annet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-melding">Melding</label>
+        <textarea id="f-melding" name="melding" rows="4" placeholder="F.eks. «Vi trenger truckførerkurs for 6 ansatte i oktober»"></textarea>
+      </div>
+      <button class="btn btn-signal btn-lg btn-block" type="submit">Send forespørsel</button>
+      <p class="form-note mono">Forhåndsvisning — skjemaet kobles til e-post/CRM ved lansering.</p>
+    </form>
+  </div>
+</div>
+
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=23"></script>
+<script src="assets/app.js?v=24"></script>
 </body>
 </html>

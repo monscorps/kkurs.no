@@ -8,7 +8,7 @@
    ved lansering leveres alt av FrontCore (embed/API).
    ============================================================ */
 
-const APP_V = "23";
+const APP_V = "24";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -47,10 +47,10 @@ function statusFor(dt) {
 /* ---------- mobil: lange lister foldes bak «Vis alle» ----------
    Kortene/radene finnes alltid i DOM — .m-fold skjules kun av
    mobil-CSS (<=760px), så desktop viser alt uansett. */
-const FOLD = { kurs: 4, kalender: 6, nyheter: 1 };
-const FOLD_ORD = { kurs: "kurs", kalender: "datoer", nyheter: "nyheter" };
-const FOLD_VELGER = { kurs: "#course-grid .course-card", kalender: "#cal-body tr", nyheter: ".news-grid .news-card" };
-const utvidet = { kurs: false, kalender: false, nyheter: false };
+const FOLD = { kalender: 6, nyheter: 1 };
+const FOLD_ORD = { kalender: "datoer", nyheter: "nyheter" };
+const FOLD_VELGER = { kalender: "#cal-body tr", nyheter: ".news-grid .news-card" };
+const utvidet = { kalender: false, nyheter: false };
 
 function foldeliste(nokkel) {
   const knapp = $(`#vis-alle-${nokkel}`);
@@ -78,26 +78,34 @@ function renderKursFilter() {
 function renderCourses() {
   const list = COURSES.filter((c) => aktivKat === "alle" || c.kat === aktivKat);
   $("#course-grid").innerHTML = list.map((c) => {
-    const neste = c.datoer[0];
+    const datoer = c.datoer.slice(0, 3).map((dt, idx) => {
+      const st = statusFor(dt);
+      return `
+        <li><button type="button" data-book="${c.id}" data-date="${idx}">
+          <span class="kd-dato">${fmtDatoKort(dt.d)}</span>
+          <span class="kd-sted">${dt.sted}${dt.merk ? ` \u00b7 ${dt.merk}` : ""}</span>
+          <span class="status ${st.cls}">${st.label}</span>
+        </button></li>`;
+    }).join("");
     return `
-    <article class="course-card">
-      <figure class="cc-img"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
-      <div class="cc-body">
-        <div class="cc-top">
-          <span class="cc-cat">${KATEGORIER[c.kat]}</span>
-          <span class="cc-codes">${c.koder}</span>
-        </div>
-        <h3>${c.navn}</h3>
-        <p class="cc-desc">${c.desc}</p>
-        <div class="cc-meta"><span>${c.varighet}</span><span>fra ${fmtPris(c.pris)}</span></div>
-        <div class="cc-foot">
-          <span class="cc-next">Neste: <strong>${neste ? fmtDato(neste.d) : "på forespørsel"}</strong></span>
-          <button class="btn btn-ghost btn-sm" data-book="${c.id}" data-date="0">Meld deg på</button>
+    <article class="kursrad">
+      <button class="kursrad-topp" type="button" aria-expanded="false" aria-controls="kursrad-${c.id}">
+        <span class="kursrad-navn">${c.navn} <span class="cc-codes">${c.koder}</span></span>
+        <span class="kursrad-tall mono kr-var">${c.varighet}</span>
+        <span class="kursrad-tall mono">fra ${fmtPris(c.pris)}</span>
+        <span class="kursrad-pil" aria-hidden="true">\u2193</span>
+      </button>
+      <div class="kursrad-innhold" id="kursrad-${c.id}" hidden>
+        <figure class="kursrad-foto"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" decoding="async"></figure>
+        <div class="kursrad-tekst">
+          <p>${c.desc}</p>
+          <p class="kursrad-fakta mono">${c.varighet} \u00b7 fra ${fmtPris(c.pris)}</p>
+          <ul class="kursrad-datoer">${datoer}</ul>
+          <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="0">Meld deg p\u00e5</button>
         </div>
       </div>
     </article>`;
   }).join("");
-  foldeliste("kurs");
 }
 
 /* ---------- kurskalender ---------- */
@@ -183,19 +191,40 @@ function openModal(courseId, dateIdx = 0) {
   modalForm.hidden = false;
   modalSuccess.hidden = true;
   modal.hidden = false;
-  scrollLaas = scrollY;
-  document.body.style.top = `-${scrollLaas}px`;
-  document.body.classList.add("modal-open");
-  $(".modal-close").focus();
+  laasScroll();
+  $("#modal .modal-close").focus();
 }
 
 function closeModal() {
   modal.hidden = true;
+  frigjorScroll();
+  modalForm.reset();
+  $$(".err", modalForm).forEach((el) => el.classList.remove("err"));
+  if (lastFocus) lastFocus.focus();
+}
+
+function laasScroll() {
+  scrollLaas = scrollY;
+  document.body.style.top = `-${scrollLaas}px`;
+  document.body.classList.add("modal-open");
+}
+function frigjorScroll() {
   document.body.classList.remove("modal-open");
   document.body.style.top = "";
   scrollTo({ top: scrollLaas, behavior: "instant" });
-  modalForm.reset();
-  $$(".err", modalForm).forEach((el) => el.classList.remove("err"));
+}
+
+/* ---------- kontakt-popup («Be om tilbud» / «ta en prat») ---------- */
+const kontaktModal = $("#kontakt-modal");
+function apneKontakt() {
+  lastFocus = document.activeElement;
+  kontaktModal.hidden = false;
+  laasScroll();
+  $("#kontakt-modal .modal-close").focus();
+}
+function lukkKontakt() {
+  kontaktModal.hidden = true;
+  frigjorScroll();
   if (lastFocus) lastFocus.focus();
 }
 
@@ -225,13 +254,27 @@ function toast(msg) {
 document.addEventListener("click", (ev) => {
   const book = ev.target.closest("[data-book]");
   if (book) { openModal(book.dataset.book, book.dataset.date || 0); return; }
-  if (ev.target.closest("[data-close]")) { closeModal(); return; }
+  const lukk = ev.target.closest("[data-close]");
+  if (lukk) { (lukk.closest("#kontakt-modal") ? lukkKontakt : closeModal)(); return; }
+  if (ev.target.closest("[data-tilbud]")) { apneKontakt(); return; }
+  const tilbud = ev.target.closest('a.btn[href="#kontakt"]');
+  if (tilbud) { ev.preventDefault(); apneKontakt(); return; }
   const demo = ev.target.closest("[data-demo-link]");
   if (demo) { ev.preventDefault(); toast("Plassholder-lenke — innholdet kommer ved lansering."); }
 });
 
 document.addEventListener("keydown", (ev) => {
-  if (ev.key === "Escape" && !modal.hidden) closeModal();
+  if (ev.key !== "Escape") return;
+  if (!modal.hidden) closeModal();
+  else if (kontaktModal && !kontaktModal.hidden) lukkKontakt();
+});
+
+$("#course-grid").addEventListener("click", (ev) => {
+  const topp = ev.target.closest(".kursrad-topp");
+  if (!topp) return;
+  const apen = topp.getAttribute("aria-expanded") === "true";
+  topp.setAttribute("aria-expanded", String(!apen));
+  $("#" + topp.getAttribute("aria-controls")).hidden = apen;
 });
 
 $$(".vis-alle").forEach((knapp) => knapp.addEventListener("click", () => {
