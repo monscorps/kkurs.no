@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=24">
+  <link rel="stylesheet" href="assets/styles.css?v=25">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
   <div class="lesebar" id="lesebar" aria-hidden="true"></div>
   <div class="container nav-inner">
     <a class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen">
-      <img class="brand-logo" src="assets/img/mark.svg" alt="" width="40" height="40">
+      <img class="brand-logo" src="assets/img/logo.svg" alt="" width="44" height="44">
       <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
     </a>
     <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
@@ -145,32 +145,6 @@
     </div>
   </section>
 
-  <!-- ============ KURSKALENDER ============ -->
-  <section class="section section-dark" id="kalender">
-    <div class="container">
-      <header class="section-head reveal">
-        <p class="kicker">Kurskalender</p>
-        <div class="section-head-row">
-          <h2>Kurs og datoer</h2>
-          <p class="section-lead">Meld deg på direkte. Bekreftelse, kursbevis og fakturering
-            håndteres digitalt.</p>
-        </div>
-      </header>
-      <div class="chips chips-dark reveal" id="kalender-filter" role="group" aria-label="Filtrer kalender etter sted"></div>
-      <div class="cal-wrap reveal">
-        <table class="cal" aria-describedby="cal-note">
-          <thead>
-            <tr class="mono"><th scope="col">Dato</th><th scope="col">Kurs</th><th scope="col">Sted</th><th scope="col">Varighet</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Påmelding</span></th></tr>
-          </thead>
-          <tbody id="cal-body"><!-- fylles av app.js --></tbody>
-        </table>
-      </div>
-      <button class="vis-alle" id="vis-alle-kalender" type="button" hidden aria-expanded="false"></button>
-      <p class="section-note mono on-dark" id="cal-note">◍ Forhåndsvisning med eksempeldata.
-        Ved lansering synkroniseres kalender og påmelding direkte fra FrontCore&nbsp;TMS.</p>
-    </div>
-  </section>
-
   <!-- ============ TJENESTER ============ -->
   <section class="section" id="tjenester">
     <div class="container">
@@ -211,6 +185,32 @@
           <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <!-- ============ KURSKALENDER ============ -->
+  <section class="section section-dark" id="kalender">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="kicker">Kurskalender</p>
+        <div class="section-head-row">
+          <h2>Kurs og datoer</h2>
+          <p class="section-lead">Meld deg på direkte. Bekreftelse, kursbevis og fakturering
+            håndteres digitalt.</p>
+        </div>
+      </header>
+      <div class="chips chips-dark reveal" id="kalender-filter" role="group" aria-label="Filtrer kalender etter sted"></div>
+      <div class="cal-wrap reveal">
+        <table class="cal" aria-describedby="cal-note">
+          <thead>
+            <tr class="mono"><th scope="col">Dato</th><th scope="col">Kurs</th><th scope="col">Sted</th><th scope="col">Varighet</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Påmelding</span></th></tr>
+          </thead>
+          <tbody id="cal-body"><!-- fylles av app.js --></tbody>
+        </table>
+      </div>
+      <button class="vis-alle" id="vis-alle-kalender" type="button" hidden aria-expanded="false"></button>
+      <p class="section-note mono on-dark" id="cal-note">◍ Forhåndsvisning med eksempeldata.
+        Ved lansering synkroniseres kalender og påmelding direkte fra FrontCore&nbsp;TMS.</p>
     </div>
   </section>
 
@@ -304,7 +304,10 @@
     </div>
     <div class="container">
       <p class="partner-rad reveal">
-        <span>Smart Utleie AS</span><span>Stropp AS</span><span>Wilson Gruppen AS</span><span>Drageide Eiendomstjenester AS</span>
+        <a href="https://smartutleie.no/" target="_blank" rel="noopener">Smart Utleie AS</a>
+        <a href="https://stropp.no/" target="_blank" rel="noopener">Stropp AS</a>
+        <a href="https://www.wilsongruppen.no/" target="_blank" rel="noopener">Wilson Gruppen AS</a>
+        <a href="https://drageideas.no/" target="_blank" rel="noopener">Drageide Eiendomstjenester AS</a>
       </p>
     </div>
   </section>
@@ -511,6 +514,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=24"></script>
+<script src="assets/app.js?v=25"></script>
 </body>
 </html>

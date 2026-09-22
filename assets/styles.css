@@ -209,7 +209,7 @@ p { margin: 0; text-wrap: pretty; }
   font-size: 1.28rem; letter-spacing: -0.01em; line-height: 1;
   color: var(--pa-gronn);
 }
-.brand-logo { width: 40px; height: 40px; flex: none; border-radius: 50%; }
+.brand-logo { width: 44px; height: 44px; flex: none; border-radius: 50%; }
 .footer .brand-logo { width: 48px; height: 48px; }
 .brand-dot { color: var(--frisk); }
 .nav-links { display: flex; gap: 1.5rem; margin-inline: auto; }
@@ -264,12 +264,16 @@ p { margin: 0; text-wrap: pretty; }
 .hero--foto .kicker { color: var(--sjo); }
 .hero--foto h1 { color: #fff; }
 .hero--foto .lead { color: #fff; font-weight: 500; max-width: 30em; }
-.hero--foto .hero-badges { color: rgba(243, 247, 242, 0.82); }
+.hero--foto .hero-badges { color: rgba(255, 255, 255, 0.92); }
 .hero--foto .hero-badges li::before { background: var(--frisk); }
 .hero--foto .btn-signal { background: #fff; border-color: #fff; color: var(--navy); }
 .hero--foto .btn-signal:hover { background: var(--papir-2); border-color: var(--papir-2); color: var(--navy-dyp); }
-.hero--foto .btn-ghost { border-color: rgba(255, 255, 255, 0.65); color: #fff; background: transparent; }
-.hero--foto .btn-ghost:hover { background: #fff; border-color: #fff; color: var(--navy); }
+.hero--foto .btn-ghost { background: var(--gronn); border-color: var(--gronn); color: #fff; }
+.hero--foto .btn-ghost:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); color: #fff; }
+/* lesbarhet på foto: myk, lav tekstskygge — ingen bokser, ingen tyngre slør */
+.hero--foto .kicker, .hero--foto h1, .hero--foto .lead, .hero--foto .hero-badges li {
+  text-shadow: 0 1px 2px rgba(2, 10, 18, 0.55), 0 10px 28px rgba(2, 10, 18, 0.35);
+}
 /* splæsjen er minimalistisk: kun tekstkolonnen — «neste kurs»-kortet
    står som opptakt til kurskalenderen lenger ned */
 .hero-grid { display: grid; grid-template-columns: 1fr; }
@@ -522,6 +526,8 @@ p { margin: 0; text-wrap: pretty; }
   font-family: var(--font-mono); font-size: var(--t--1); font-weight: 500;
   text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3);
 }
+.partner-rad a { transition: color 0.14s; }
+.partner-rad a:hover { color: var(--navy); }
 
 /* ── kontakt — grønn flate ──────────────────────────────────────── */
 
@@ -1041,6 +1047,7 @@ body.modal-open { overflow: hidden; }
     background: var(--papir-2); border-color: var(--papir-2); color: var(--navy-dyp);
   }
   #kalender .cal .btn-ghost:active { background: var(--gronn-dyp); border-color: var(--gronn-dyp); }
+  .hero--foto .btn-ghost:active { background: var(--gronn-natt); border-color: var(--gronn-natt); }
   .chip:active { border-color: var(--navy); color: var(--navy); }
   .fagstripe button { min-height: 44px; display: inline-flex; align-items: center; }
   .some a { width: 44px; height: 44px; }
@@ -1110,4 +1117,13 @@ body.modal-open { overflow: hidden; }
   .kursrad-innhold { grid-template-columns: 1fr; }
   .kursrad-foto img { aspect-ratio: 16 / 9; }
   .kursrad-tekst .btn { width: 100%; min-height: 48px; }
+}
+
+/* topp-tilstanden av nav over fotoet: myk skygge på hvit tekst */
+@media (min-width: 761px) {
+  .nav:not(.scrolled) .brand,
+  .nav:not(.scrolled) .nav-links a,
+  .nav:not(.scrolled) .nav-cta .btn-ghost {
+    text-shadow: 0 1px 2px rgba(2, 10, 18, 0.45);
+  }
 }
