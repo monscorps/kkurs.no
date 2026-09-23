@@ -521,13 +521,16 @@ p { margin: 0; text-wrap: pretty; }
 
 .partners { padding: var(--rom-m) 0; border-top: 1px solid var(--linje-svak); }
 .partners .kicker { margin-bottom: 1.4rem; }
-.partner-rad {
-  display: flex; flex-wrap: wrap; gap: 0.8rem 2.6rem; align-items: baseline;
-  font-family: var(--font-mono); font-size: var(--t--1); font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3);
+.partner-rad { display: flex; flex-wrap: wrap; gap: 1.4rem 3rem; align-items: center; }
+/* alle logoene i samme farge: flat blekk-silhuett med lik opasitet —
+   height-attributtet per logo balanserer ulike formater (kun height,
+   ALDRI width+height: img[width][height]-resetten ville nullet den) */
+.partner-rad img {
+  width: auto; display: block;
+  filter: brightness(0); opacity: 0.45;
+  transition: opacity 0.16s;
 }
-.partner-rad a { transition: color 0.14s; }
-.partner-rad a:hover { color: var(--navy); }
+.partner-rad a:hover img { opacity: 0.85; }
 
 /* ── kontakt — grønn flate ──────────────────────────────────────── */
 
