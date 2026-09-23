@@ -51,8 +51,9 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 
 - [ ] Org.nr. i bunntekst (`000 000 000`), telefon (`+47 55 00 00 00`), adresse
       (`Kanalveien 1`), SoMe-lenker (`href="#"`).
-- [x] Partnerne i «Noen av dem vi jobber med» har logo + lenke (hentet fra partnernes egne nettsider 23.09, vist i én farge; be gjerne partnerne om offisielle logopakker for høyeste kvalitet)
-      med skriftlig ok, ellers fjern raden.
+- [x] Partnerne i «Noen av dem vi jobber med» har logo + lenke (hentet fra partnernes egne
+      nettsider 23.09, vist i én farge). Be gjerne partnerne om offisielle logopakker og en
+      skriftlig ok for bruken.
 - [ ] Kursvilkår-siden (lenkes fra påmelding og bunntekst).
 - [ ] Foto: Midjourney-plassholderne kan stå, men ekte bilder fra kurssenteret løfter
       troverdigheten — samme utsnitt/format ligger klart i `assets/img/`.
