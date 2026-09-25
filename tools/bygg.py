@@ -14,17 +14,22 @@ Meny, bunn og påmeldings-/kontaktvinduene kopieres fra index.html, så
 kurssidene alltid ser ut som forsiden uten dobbelt vedlikehold.
 NETTSTED_URL (miljøvariabel) styrer absolutte lenker for søkemotorer og
 lenkeforhåndsvisning; standard er https://kkurs.no.
+KURS_API_URL (miljøvariabel, f.eks. https://kkurs-api.<konto>.workers.dev) henter kursene
+fra FrontCore via kkurs-api i stedet for assets/kurs.json. Svarer ikke API-et, stopper
+bygget — da blir forrige publiserte versjon stående i stedet for at demodata publiseres.
 """
 import html
 import json
 import os
 import re
 import shutil
+import urllib.request
 from datetime import date
 from pathlib import Path
 
 ROT = Path(__file__).resolve().parent.parent
 NETTSTED = os.environ.get("NETTSTED_URL", "https://kkurs.no").rstrip("/")
+KURS_API = os.environ.get("KURS_API_URL", "").rstrip("/")
 NBSP = " "
 IDAG = date.today().isoformat()
 RESERVEBILDE = "hero-alt-kurs.jpg"  # nøytralt kursbilde når et kurs mangler eget
@@ -139,9 +144,20 @@ def json_ld(data):
             .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"))
 
 
+def last_kursdata():
+    if not KURS_API:
+        return json.loads((ROT / "assets" / "kurs.json").read_text(encoding="utf-8")), "assets/kurs.json"
+    try:
+        foresporsel = urllib.request.Request(f"{KURS_API}/kurs", headers={"Accept": "application/json"})
+        with urllib.request.urlopen(foresporsel, timeout=30) as svar:
+            return json.loads(svar.read().decode("utf-8")), f"{KURS_API}/kurs"
+    except Exception as feil:  # noqa: BLE001 — alt som hindrer fersk data skal stoppe bygget
+        raise SystemExit(f"Fikk ikke hentet kursene fra {KURS_API}/kurs ({feil}). Ingenting er publisert.")
+
+
 def main():
     index = (ROT / "index.html").read_text(encoding="utf-8")
-    data = json.loads((ROT / "assets" / "kurs.json").read_text(encoding="utf-8"))
+    data, kilde = last_kursdata()
     valider(data)
     kategorier = data["kategorier"]
     kurs = [k for k in data["kurs"] if k.get("synlig", True) is not False]
@@ -212,7 +228,7 @@ def main():
     for k in kurs:
         kat = kategorier.get(k["kat"], "")
         datoer = kommende(k)
-        steder = sorted({dt["sted"] for dt in datoer}) or ["Bergen"]
+        steder = sorted({dt["sted"] for dt in datoer if dt.get("sted")}) or ["Bergen"]
         fakta = []
         if k.get("varighet"):
             fakta.append(f'<div><dt>Varighet</dt><dd>{e(k["varighet"])}</dd></div>')
@@ -383,7 +399,7 @@ def main():
     (ROT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {NETTSTED}/sitemap.xml\n", encoding="utf-8")
 
     skjult = [k["id"] for k in data["kurs"] if k.get("synlig", True) is False]
-    print(f"Bygget {len(kurs)} kurssider + oversikt + sitemap ({NETTSTED})."
+    print(f"Bygget {len(kurs)} kurssider + oversikt + sitemap fra {kilde} ({NETTSTED})."
           + (f" Skjult (synlig: false): {', '.join(skjult)}." if skjult else ""))
 
 

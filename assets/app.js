@@ -10,8 +10,12 @@
    FrontCore via API.
    ============================================================ */
 
-const APP_V = "29";
+const APP_V = "30";
 const VARSEL_EPOST = "bestilling@kkurs.no";
+/* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = demomodus:
+   kursene leses fra assets/kurs.json og påmelding simuleres i nettleseren. */
+const API_URL = "";
+const LIVE = Boolean(API_URL);
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
    peking kan dimme alt utenom det aktive feltet. g-fast = skive, ring
@@ -44,8 +48,11 @@ const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
 const medKoder = (c) => (c.koder ? `${c.navn} (${c.koder})` : c.navn);
 const kursSide = (c) => `kurs/${c.id}/`;
 
+const esc = (t) => String(t ?? "").replace(/[&"<>]/g, (c) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" }[c]));
+
 /* Status utledes av antall ledige plasser */
 function statusFor(dt) {
+  if (!Number.isFinite(dt.ledige)) return { cls: "status-ledig", label: "Ledige plasser" };
   if (dt.ledige <= 0) return { cls: "status-vente", label: "Venteliste" };
   if (dt.ledige <= 3) return { cls: "status-faa", label: `${dt.ledige} ${dt.ledige === 1 ? "plass" : "plasser"} igjen` };
   return { cls: "status-ledig", label: `${dt.ledige} ledige plasser` };
@@ -206,6 +213,35 @@ function fyllDatoSelect(courseId, valgtIdx = 0) {
   $("#m-dato").innerHTML = opts.join("");
 }
 
+/* Én rad per deltaker (FrontCore krever navn per deltaker); verdiene bevares
+   når antallet endres. Skjules ved forespørsel uten dato. */
+function renderDeltakere() {
+  const holder = $("#m-deltakere");
+  if (!holder) return;
+  const antall = Math.min(20, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
+  const gamle = $$(".deltaker-rad", holder).map((r) => ({
+    fornavn: $(".d-fornavn", r).value, etternavn: $(".d-etternavn", r).value, epost: $(".d-epost", r).value,
+  }));
+  holder.innerHTML = Array.from({ length: antall }, (_, i) => {
+    const v = gamle[i] || {};
+    return `
+      <div class="deltaker-rad">
+        <span class="deltaker-nr" aria-hidden="true">${i + 1}.</span>
+        <input class="d-fornavn" type="text" autocomplete="off" autocapitalize="words" placeholder="Fornavn" aria-label="Deltaker ${i + 1}: fornavn" required value="${esc(v.fornavn)}">
+        <input class="d-etternavn" type="text" autocomplete="off" autocapitalize="words" placeholder="Etternavn" aria-label="Deltaker ${i + 1}: etternavn" required value="${esc(v.etternavn)}">
+        <input class="d-epost" type="email" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="E-post (valgfritt)" aria-label="Deltaker ${i + 1}: e-post (valgfritt)" value="${esc(v.epost)}">
+      </div>`;
+  }).join("");
+}
+
+function hentDeltakere() {
+  return $$("#m-deltakere .deltaker-rad").map((r) => ({
+    fornavn: $(".d-fornavn", r).value.trim(),
+    etternavn: $(".d-etternavn", r).value.trim(),
+    epost: $(".d-epost", r).value.trim(),
+  }));
+}
+
 function valgtDato() {
   const c = COURSES.find((x) => x.id === $("#m-kurs").value);
   const v = $("#m-dato").value;
@@ -215,6 +251,8 @@ function valgtDato() {
 function oppdaterSum() {
   const { c, dt } = valgtDato();
   const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
+  const felt = $("fieldset.deltakere");
+  if (felt) felt.hidden = !dt;
   if (!dt) {
     $("#modal-sum").innerHTML = c.pris
       ? `<span>Annen dato / bedriftsinternt</span><strong>fra ${fmtPris(c.pris)} per deltaker</strong>`
@@ -237,6 +275,7 @@ function openModal(courseId, dateIdx = 0) {
   lastFocus = document.activeElement;
   fyllKursSelect(courseId);
   fyllDatoSelect(courseId, dateIdx);
+  renderDeltakere();
   oppdaterSum();
   modalForm.hidden = false;
   modalSuccess.hidden = true;
@@ -289,8 +328,9 @@ function lukkKontakt() {
 /* ---------- validering ---------- */
 function valider(form) {
   let ok = true;
-  $$("[required]", form).forEach((el) => {
-    const tom = el.type === "checkbox" ? !el.checked : !el.value.trim();
+  $$("[required], input[type=email]", form).forEach((el) => {
+    if (el.disabled || el.closest("[hidden]")) { el.classList.remove("err"); return; }
+    const tom = el.required && (el.type === "checkbox" ? !el.checked : !el.value.trim());
     const ugyldig = el.type === "email" && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value.trim());
     el.classList.toggle("err", tom || ugyldig);
     if ((tom || ugyldig) && ok) { el.focus(); ok = false; }
@@ -377,10 +417,60 @@ $("#kalender-filter")?.addEventListener("click", (ev) => {
 
 $("#m-kurs").addEventListener("change", () => { fyllDatoSelect($("#m-kurs").value); oppdaterSum(); });
 $("#m-dato").addEventListener("change", oppdaterSum);
-$("#m-antall").addEventListener("input", oppdaterSum);
+$("#m-antall").addEventListener("input", () => { renderDeltakere(); oppdaterSum(); });
 
 /* ---------- bestillingsflyt (simulert) ---------- */
-modalForm.addEventListener("submit", (ev) => {
+function visKvittering(tittel, detalj, flyt) {
+  $("#modal-success h2").textContent = tittel;
+  $("#success-detail").textContent = detalj;
+  $("#success-flow").innerHTML = flyt.map((f) => `<li>${esc(f)}</li>`).join("");
+  modalForm.hidden = true;
+  modalSuccess.hidden = false;
+}
+
+async function sendPamelding(c, dt, antall) {
+  const knapp = $('#modal-form button[type="submit"]');
+  const tekst = knapp.textContent;
+  knapp.disabled = true; knapp.setAttribute("aria-busy", "true"); knapp.textContent = "Sender …";
+  const epost = $("#m-epost").value.trim();
+  const bedrift = $("#m-bedrift").value.trim();
+  try {
+    const res = await fetch(`${API_URL}/pamelding`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        coursedate_id: dt.fc_id,
+        kontakt: { navn: $("#m-navn").value.trim(), epost, telefon: $("#m-tlf").value.trim() },
+        bedrift,
+        orgnr: $("#m-orgnr").value.replace(/\s/g, ""),
+        deltakere: hentDeltakere(),
+        nettside: $("#m-nettside").value,
+      }),
+    });
+    const svar = await res.json().catch(() => ({}));
+    if (!res.ok || !svar.ok) {
+      toast(svar.feil || "Påmeldingen kunne ikke sendes. Prøv igjen, eller kontakt oss.");
+      return;
+    }
+    const flyt = [];
+    if (svar.ordre_id) flyt.push(`Ordrenummer ${svar.ordre_id}`);
+    flyt.push(svar.venteliste
+      ? "Dere står på ventelisten — vi gir beskjed så snart det blir ledig plass"
+      : svar.total_inkl_mva ? `Faktura på ${fmtPris(svar.total_inkl_mva)} inkl. mva sendes til ${bedrift || "deg"}` : "Faktura sendes etter kurset");
+    flyt.push(`Bekreftelse sendes til ${epost}`);
+    visKvittering(
+      svar.venteliste ? "Du står på ventelisten." : "Takk! Påmeldingen er registrert.",
+      `${medKoder(c)} · ${fmtDato(dt.d)} · ${dt.sted} · ${antall} deltaker${antall > 1 ? "e" : ""}`,
+      flyt);
+    hentKursdata().then(renderAlt).catch(() => {});
+  } catch {
+    toast("Fikk ikke kontakt med påmeldingen. Sjekk nettet og prøv igjen.");
+  } finally {
+    knapp.disabled = false; knapp.removeAttribute("aria-busy"); knapp.textContent = tekst;
+  }
+}
+
+modalForm.addEventListener("submit", async (ev) => {
   ev.preventDefault();
   if (!valider(modalForm)) return;
 
@@ -398,7 +488,19 @@ modalForm.addEventListener("submit", (ev) => {
     return;
   }
 
-  /* trekk ned ledige plasser og oppdater kalender/kort */
+  if (LIVE && dt) { await sendPamelding(c, dt, antall); return; }
+  if (LIVE && !dt) {
+    /* interesse uten dato: videre til kontaktskjemaet, forhåndsutfylt */
+    const [navn, epostK, tlf] = ["#m-navn", "#m-epost", "#m-tlf"].map((id) => $(id).value.trim());
+    closeModal();
+    apneKontakt();
+    const sett = (id, v) => { const el = $(id); if (el) el.value = v; };
+    sett("#f-navn", navn); sett("#f-epost", epostK); sett("#f-tlf", tlf);
+    sett("#f-melding", `Interesse for ${medKoder(c)} — ${antall} deltaker${antall > 1 ? "e" : ""}. Ønsker dato / bedriftsinternt kurs.`);
+    return;
+  }
+
+  /* demomodus: trekk ned ledige plasser og oppdater kalender/kort */
   if (dt && !venteliste) {
     dt.ledige = Math.max(0, dt.ledige - antall);
     renderAlt();
@@ -434,6 +536,7 @@ modalForm.addEventListener("submit", (ev) => {
 $("#ny-pamelding").addEventListener("click", () => {
   modalForm.reset();
   fyllDatoSelect($("#m-kurs").value);
+  renderDeltakere();
   oppdaterSum();
   modalSuccess.hidden = true;
   modalForm.hidden = false;
@@ -588,20 +691,30 @@ if (document.visibilityState === "hidden") {
   }, { once: true });
 }
 
+async function hentKursdata() {
+  const res = await fetch(LIVE ? `${API_URL}/kurs` : "assets/kurs.json", { cache: "no-cache" });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  KATEGORIER = data.kategorier;
+  const idag = new Date().toLocaleDateString("sv-SE"); /* ÅÅÅÅ-MM-DD, lokal tid */
+  COURSES = data.kurs.filter((c) => c.synlig !== false);
+  COURSES.forEach((c) => {
+    c.datoer = (c.datoer || []).filter((dt) => dt.d >= idag).sort((a, b) => a.d.localeCompare(b.d));
+  });
+  /* CAL peker på dato-objektene (ikke kopier), så plasstelling oppdateres overalt */
+  CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ course: c, dt, idx })))
+    .sort((a, b) => a.dt.d.localeCompare(b.dt.d));
+}
+
 async function init() {
+  if (LIVE) {
+    $("#m-vipps-valg")?.remove(); /* FrontCore-API-et tar faktura (og kort), ikke Vipps */
+    const note = $("#m-note"), kv = $("#m-kvittering-note");
+    if (note) note.textContent = "Påmeldingen registreres i kurssystemet vårt — du får bekreftelse på e-post.";
+    if (kv) kv.textContent = "Spørsmål om påmeldingen? Svar på bekreftelsen, eller kontakt oss.";
+  }
   try {
-    const res = await fetch("assets/kurs.json", { cache: "no-cache" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    KATEGORIER = data.kategorier;
-    const idag = new Date().toLocaleDateString("sv-SE"); /* ÅÅÅÅ-MM-DD, lokal tid */
-    COURSES = data.kurs.filter((c) => c.synlig !== false);
-    COURSES.forEach((c) => {
-      c.datoer = c.datoer.filter((dt) => dt.d >= idag).sort((a, b) => a.d.localeCompare(b.d));
-    });
-    /* CAL peker på dato-objektene (ikke kopier), så plasstelling oppdateres overalt */
-    CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ course: c, dt, idx })))
-      .sort((a, b) => a.dt.d.localeCompare(b.dt.d));
+    await hentKursdata();
     if ($("#kurs-filter")) renderKursFilter();
     if ($("#kalender-filter")) renderKalenderFilter();
     renderAlt();

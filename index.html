@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=29">
+  <link rel="stylesheet" href="assets/styles.css?v=30">
 </head>
 <body>
 
@@ -358,6 +358,11 @@
           <input id="m-tlf" name="telefon" type="tel" autocomplete="tel">
         </div>
       </div>
+      <fieldset class="deltakere">
+        <legend>Deltakere</legend>
+        <div id="m-deltakere" class="deltaker-liste"><!-- fylles av app.js etter antall --></div>
+        <p class="deltaker-hjelp mono">E-post er valgfritt — uten egen e-post går kvitteringen til kontaktpersonen.</p>
+      </fieldset>
       <div class="form-row">
         <div class="field">
           <label for="m-navn">Kontaktperson <span class="req" aria-hidden="true">*</span></label>
@@ -385,12 +390,16 @@
             <input type="radio" name="betaling" value="faktura" checked>
             <span><strong>Faktura</strong><small>Sendes til bedriften</small></span>
           </label>
-          <label class="pay-opt">
+          <label class="pay-opt" id="m-vipps-valg">
             <input type="radio" name="betaling" value="vipps">
             <span><strong>Vipps</strong><small>Betal med en gang</small></span>
           </label>
         </div>
       </fieldset>
+      <div class="honning" aria-hidden="true">
+        <label for="m-nettside">Nettside</label>
+        <input id="m-nettside" name="nettside" type="text" tabindex="-1" autocomplete="off">
+      </div>
       <label class="check">
         <input type="checkbox" id="m-vilkar" required>
         <span>Jeg godtar <a href="#" data-demo-link>kursvilkårene</a> og at Kompetanse Kurs kontakter meg om påmeldingen.</span>
@@ -399,7 +408,7 @@
       <div class="modal-foot">
         <div class="modal-sum mono" id="modal-sum" aria-live="polite"></div>
         <button class="btn btn-signal btn-lg btn-block" type="submit">Send påmelding</button>
-        <p class="form-note mono">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
+        <p class="form-note mono" id="m-note">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
       </div>
     </form>
 
@@ -410,7 +419,7 @@
       <h2>Takk! Påmeldingen er registrert.</h2>
       <p id="success-detail"></p>
       <ul class="success-flow mono" id="success-flow" aria-label="Dette skjer nå"></ul>
-      <p class="form-note mono">Forhåndsvisning: alt over er simulert, ingen data er sendt.
+      <p class="form-note mono" id="m-kvittering-note">Forhåndsvisning: alt over er simulert, ingen data er sendt.
         Ved lansering håndterer FrontCore betaling, e-poster og plasstelling automatisk.</p>
       <div class="modal-actions">
         <button class="btn btn-ghost" type="button" data-close>Lukk</button>
@@ -469,6 +478,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=29"></script>
+<script src="assets/app.js?v=30"></script>
 </body>
 </html>

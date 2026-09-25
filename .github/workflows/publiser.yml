@@ -8,6 +8,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # kursene bor i FrontCore: bygg kurssidene på nytt hver time, så nye kurs får egen side
+  schedule:
+    - cron: "17 * * * *"
 
 permissions:
   contents: read
@@ -27,6 +30,8 @@ jobs:
         run: python3 tools/bygg.py
         env:
           NETTSTED_URL: https://monscorps.github.io/kkurs.no
+          # settes under Settings → Secrets and variables → Actions → Variables når kkurs-api er publisert
+          KURS_API_URL: ${{ vars.KURS_API_URL }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
