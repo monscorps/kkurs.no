@@ -10,11 +10,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kkurs.no/">
   <meta property="og:locale" content="nb_NO">
-  <link rel="icon" type="image/svg+xml" href="assets/img/mark.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=27">
+  <link rel="stylesheet" href="assets/styles.css?v=29">
 </head>
 <body>
 
@@ -30,7 +30,6 @@
     <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
       <a href="#kurs">Kurs</a>
       <a href="#kalender">Kurskalender</a>
-      <a href="#tjenester">Tjenester</a>
       <a href="#om">Om oss</a>
       <a href="#nyheter">Nyheter</a>
       <a href="#kontakt">Kontakt</a>
@@ -133,58 +132,15 @@
       <header class="section-head reveal">
         <p class="kicker">Kurskatalog</p>
         <div class="section-head-row">
-          <h2>Sertifiserte og dokumenterte kurs</h2>
-          <p class="section-lead">Fra truck og kran til HMS og ledelse. Alle kurs følger gjeldende
-            forskrifter, og kompetansebevis registreres i Sentralregisteret.</p>
+          <h2>Våre kurs</h2>
+          <p class="section-lead">Fra truck og kran til HMS og varme arbeider. Trykk på et kurs for
+            datoer og påmelding — eller «Les mer» for hele kursbeskrivelsen.</p>
         </div>
       </header>
       <div class="chips reveal" id="kurs-filter" role="group" aria-label="Filtrer kurs etter kategori"></div>
       <div class="kurs-liste" id="course-grid"><!-- fylles av app.js --></div>
       <p class="section-note mono reveal">Fant du ikke kurset dere trenger? Vi setter opp
         bedriftsinterne kurs på forespørsel — <a href="#kontakt">be om tilbud</a>.</p>
-    </div>
-  </section>
-
-  <!-- ============ TJENESTER ============ -->
-  <section class="section" id="tjenester">
-    <div class="container">
-      <header class="section-head reveal">
-        <p class="kicker">Tjenester</p>
-        <div class="section-head-row">
-          <h2>Mer enn kurs</h2>
-          <p class="section-lead">Vi hjelper bedrifter i Bergen og omland med å bygge kompetanse
-            og trygge arbeidsplasser — som en løpende tjeneste, ikke et engangsløft.</p>
-        </div>
-      </header>
-      <ol class="service-list">
-        <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-radgivning.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
-          <div class="service-body">
-            <h3>HMS-rådgivning</h3>
-            <p>Risikovurderinger, internkontroll og HMS-system som faktisk brukes. Vi går gjennom
-              rutinene, rydder i avvikene og gjør bedriften revisjonsklar.</p>
-          </div>
-          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
-        </li>
-        <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-bedriftsintern.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
-          <div class="service-body">
-            <h3>Bedriftsintern opplæring</h3>
-            <p>Vi kommer til dere — med instruktør, utstyr og dokumentasjon. Kurs tilpasset
-              skiftplan og produksjon, på anlegget, i hallen eller på kaikanten.</p>
-          </div>
-          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
-        </li>
-        <li class="service reveal">
-          <figure class="service-img"><img src="assets/img/tjeneste-utstyr.jpg" alt="" loading="lazy" decoding="async" width="900" height="600"></figure>
-          <div class="service-body">
-            <h3>Dokumentert opplæring på deres utstyr</h3>
-            <p>Sikker bruk av maskiner og verktøy som ikke krever sertifikat, dokumentert etter
-              forskriften — gjennomført på utstyret dere faktisk bruker, der dere bruker det.</p>
-          </div>
-          <a class="service-link mono" href="#kontakt">Be om tilbud <span aria-hidden="true">→</span></a>
-        </li>
-      </ol>
     </div>
   </section>
 
@@ -324,7 +280,7 @@
           <div><dt>Daglig leder</dt><dd>Stian Holgersen</dd></div>
           <div><dt>Telefon</dt><dd><a href="tel:+4755000000">+47 55 00 00 00</a></dd></div>
           <div><dt>E-post</dt><dd><a href="mailto:post@kkurs.no">post@kkurs.no</a></dd></div>
-          <div><dt>Kurssenter</dt><dd>Kanalveien 1, 5068 Bergen</dd></div>
+          <div><dt>Adresse</dt><dd>Ulsmågvegen 24, 5224 Nesttun</dd></div>
         </dl>
         <div class="kontakt-handling reveal d1">
           <button class="btn btn-signal btn-lg" type="button" data-tilbud>Be om tilbud</button>
@@ -339,21 +295,20 @@
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="brand on-dark" href="#topp">
-        <img class="brand-logo" src="assets/img/mark.svg" alt="" width="44" height="44">
+        <img class="brand-logo" src="assets/img/logo.svg" alt="" width="44" height="44">
         <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
       </a>
       <p>Sertifisert sikkerhetsopplæring og HMS-kompetanse i Bergen.</p>
       <div class="some" aria-label="Følg oss">
-        <a href="#" aria-label="LinkedIn (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.49 2.49 0 1 1 0 3.5a2.49 2.49 0 0 1 4.98 0zM.4 8.6h4.6V24H.4zM8.6 8.6h4.4v2.1h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.5 3.1 5.5 7V24h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24H8.6z"/></svg></a>
-        <a href="#" aria-label="Facebook (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
-        <a href="#" aria-label="Instagram (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.4.1.8.3 1.9.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9a2 2 0 0 0-.7-1.1 2 2 0 0 0-1.1-.7c-.4-.1-.8-.3-1.9-.3-1.3-.1-1.7-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></a>
+        <a href="#" data-demo-link aria-label="LinkedIn (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.49 2.49 0 1 1 0 3.5a2.49 2.49 0 0 1 4.98 0zM.4 8.6h4.6V24H.4zM8.6 8.6h4.4v2.1h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.5 3.1 5.5 7V24h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24H8.6z"/></svg></a>
+        <a href="#" data-demo-link aria-label="Facebook (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="#" data-demo-link aria-label="Instagram (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.4.1.8.3 1.9.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9a2 2 0 0 0-.7-1.1 2 2 0 0 0-1.1-.7c-.4-.1-.8-.3-1.9-.3-1.3-.1-1.7-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></a>
       </div>
     </div>
     <nav class="footer-col" aria-label="Snarveier">
       <p class="footer-head mono">Snarveier</p>
-      <a href="#kurs">Kurskatalog</a>
+      <a href="kurs/">Våre kurs</a>
       <a href="#kalender">Kurskalender</a>
-      <a href="#tjenester">Tjenester</a>
       <a href="#om">Om oss</a>
       <a href="#nyheter">Nyheter</a>
     </nav>
@@ -366,12 +321,12 @@
       <a href="https://sentralregisteret.no" rel="noopener" target="_blank">Sjekk kompetansebevis ↗</a>
     </div>
     <div class="footer-col">
-      <p class="footer-head mono">Kurssenter</p>
-      <p class="footer-adr">Kanalveien 1, 5068 Bergen<br>Bedriftsinternt i Bergen og omland</p>
+      <p class="footer-head mono">Adresse</p>
+      <p class="footer-adr">Ulsmågvegen 24<br>5224 Nesttun, Bergen<br>Bedriftsinternt i Bergen og omland</p>
     </div>
   </div>
   <div class="container footer-bottom mono">
-    <p>© 2026 Kompetanse Kurs AS · Org.nr. 000 000 000 (plassholder)</p>
+    <p>© 2026 Kompetanse Kurs · Org.nr. 936 507 840</p>
   </div>
 </footer>
 
@@ -514,6 +469,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=27"></script>
+<script src="assets/app.js?v=29"></script>
 </body>
 </html>

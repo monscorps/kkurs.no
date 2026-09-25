@@ -49,8 +49,10 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 
 ## 5. Innhold som må byttes fra plassholder
 
-- [ ] Org.nr. i bunntekst (`000 000 000`), telefon (`+47 55 00 00 00`), adresse
-      (`Kanalveien 1`), SoMe-lenker (`href="#"`).
+- [x] Org.nr. 936 507 840 og adresse Ulsmågvegen 24, 5224 Nesttun (fra Stian 25.09).
+      NB: i Brønnøysund står org.nr.-et på **RMS Betongentreprenør AS** — bekreft juridisk navn
+      til bunnteksten (f.eks. «Kompetanse Kurs er en del av RMS Betongentreprenør AS»).
+- [ ] Telefon (`+47 55 00 00 00`) og SoMe-lenker (`href="#"`) er fortsatt plassholdere.
 - [x] Partnerne i «Noen av dem vi jobber med» har logo + lenke (hentet fra partnernes egne
       nettsider 23.09, vist i én farge). Be gjerne partnerne om offisielle logopakker og en
       skriftlig ok for bruken.
@@ -71,3 +73,21 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 - Nyhetskortene i `index.html` redigeres direkte (tre `<article class="news-card">`).
 - Deploy: `git push` → GitHub Pages bygger automatisk (~1 min). Husk å bumpe
   `?v=N` på `styles.css`/`app.js` i `index.html` ved endringer der.
+
+## 8. Cloudflare — kunden eier driften
+
+Mål: minst mulig drift hos oss; Kompetanse Kurs eier kontoen, vi er invitert som administrator.
+
+- [ ] **Stian (eller Tomas på hans vegne):** opprett Cloudflare-konto for Kompetanse Kurs
+      (gratisplan). Inviter Tomas som *Administrator* under Manage Account → Members.
+- [ ] **Tomas:** Workers & Pages → Create → Pages → Connect to Git → gi Cloudflare tilgang
+      **kun** til repoet `kkurs.no`. Byggkommando `python3 tools/bygg.py`, utdatamappe `/`,
+      miljøvariabel `NETTSTED_URL=https://kkurs.no`.
+- [ ] **FrontCore-proxy:** Pages Functions i samme prosjekt (`functions/api/…`) — API-nøkkelen
+      legges inn som *secret* (`FRONTCORE_API_KEY`) av Tomas, aldri i koden.
+- [ ] **Domene:** kkurs.no registreres hos norsk registrar (Cloudflare selger ikke .no), og
+      navnetjenerne pekes til Cloudflare. Koble kkurs.no til Pages-prosjektet.
+- [ ] **E-post:** `bestilling@`/`post@kkurs.no` via Cloudflare Email Routing (gratis
+      videresending til Stians innboks) eller Domeneshop-/Google-e-post.
+- [ ] Når alt kjører på Cloudflare: slå av GitHub Pages.
+

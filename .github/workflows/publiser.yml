@@ -1,0 +1,43 @@
+# Bygger kurssidene fra assets/kurs.json og publiserer hele nettstedet
+# til GitHub Pages ved hver push til main (også når kurs.json redigeres
+# direkte på GitHub). Ved flytting til Cloudflare gjør Cloudflare samme
+# jobb med byggkommandoen «python3 tools/bygg.py».
+name: Bygg og publiser
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bygg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Bygg kurssidene
+        run: python3 tools/bygg.py
+        env:
+          NETTSTED_URL: https://monscorps.github.io/kkurs.no
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: .
+
+  publiser:
+    needs: bygg
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publisering.outputs.page_url }}
+    steps:
+      - id: publisering
+        uses: actions/deploy-pages@v5

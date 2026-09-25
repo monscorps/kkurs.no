@@ -1,0 +1,5 @@
+# Generert av tools/bygg.py ved hver publisering — ikke commit
+/kurs/
+/sitemap.xml
+/robots.txt
+.DS_Store

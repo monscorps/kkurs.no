@@ -2,13 +2,15 @@
    kkurs.no — prototype for Kompetanse Kurs
 
    Alt kursinnhold hentes fra assets/kurs.json (én kilde —
-   katalog, kalender, «neste kurs»-kort og påmelding oppdateres
-   derfra automatisk). Påmelding, betaling (faktura/Vipps),
-   e-poster og plasstelling er SIMULERT i denne forhåndsvisningen;
-   ved lansering leveres alt av FrontCore (embed/API).
+   kursliste, kalender, kurssidene og påmelding oppdateres derfra
+   automatisk). Samme skript kjører på forsiden og på kurssidene
+   (kurs/<id>/, generert av tools/bygg.py); hver del starter bare
+   hvis elementene finnes. Påmelding, betaling, e-poster og
+   plasstelling er SIMULERT; ved lansering leveres alt av
+   FrontCore via API.
    ============================================================ */
 
-const APP_V = "27";
+const APP_V = "29";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 
 /* Emblemets elementer (indeks i logo.svg) gruppert per fagfelt, slik at
@@ -36,6 +38,11 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const fmtDato = (iso) => { const [y, m, d] = iso.split("-"); return `${d}.${m}.${y}`; };
 const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m}`; };
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
+const prisTekst = (c) => (c.pris ? `fra ${fmtPris(c.pris)}` : "Pris på forespørsel");
+const kursBilde = (c) => `assets/img/${c.bilde || `kurs-${c.id}.jpg`}`;
+const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
+const medKoder = (c) => (c.koder ? `${c.navn} (${c.koder})` : c.navn);
+const kursSide = (c) => `kurs/${c.id}/`;
 
 /* Status utledes av antall ledige plasser */
 function statusFor(dt) {
@@ -68,7 +75,7 @@ function foldeliste(nokkel) {
 function renderKursFilter() {
   const counts = { alle: COURSES.length };
   COURSES.forEach((c) => { counts[c.kat] = (counts[c.kat] || 0) + 1; });
-  const chips = [["alle", "Alle kurs"], ...Object.entries(KATEGORIER)];
+  const chips = [["alle", "Alle kurs"], ...Object.entries(KATEGORIER).filter(([k]) => counts[k])];
   $("#kurs-filter").innerHTML = chips.map(([key, label]) => `
     <button class="chip" data-cat="${key}" aria-pressed="${key === aktivKat}">
       ${label}<span class="count">${counts[key] || 0}</span>
@@ -90,18 +97,23 @@ function renderCourses() {
     return `
     <article class="kursrad">
       <button class="kursrad-topp" type="button" aria-expanded="false" aria-controls="kursrad-${c.id}">
-        <span class="kursrad-navn">${c.navn} <span class="cc-codes">${c.koder}</span></span>
-        <span class="kursrad-tall mono kr-var">${c.varighet}</span>
-        <span class="kursrad-tall mono">fra ${fmtPris(c.pris)}</span>
+        <span class="kursrad-navn">${c.navn} <span class="cc-codes">${c.koder || ""}</span></span>
+        <span class="kursrad-tall mono kr-var">${c.varighet || ""}</span>
+        <span class="kursrad-tall mono">${prisTekst(c)}</span>
         <span class="kursrad-pil" aria-hidden="true">\u2193</span>
       </button>
       <div class="kursrad-innhold" id="kursrad-${c.id}" hidden>
-        <figure class="kursrad-foto"><img src="assets/img/kurs-${c.id}.jpg" alt="" loading="lazy" decoding="async"></figure>
+        <figure class="kursrad-foto"><img src="${kursBilde(c)}" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${RESERVEBILDE}'"></figure>
         <div class="kursrad-tekst">
           <p>${c.desc}</p>
-          <p class="kursrad-fakta mono">${c.varighet} \u00b7 fra ${fmtPris(c.pris)}</p>
-          <ul class="kursrad-datoer">${datoer}</ul>
-          <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="0">Meld deg p\u00e5</button>
+          <p class="kursrad-fakta mono">${[c.varighet, prisTekst(c)].filter(Boolean).join(" \u00b7 ")}</p>
+          ${datoer
+            ? `<ul class="kursrad-datoer">${datoer}</ul>`
+            : `<p class="kursrad-ingen mono">Ingen faste datoer ennå — meld interesse, så tar vi kontakt.</p>`}
+          <div class="kursrad-knapper">
+            <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="${datoer ? 0 : "foresp\u00f8rsel"}">${datoer ? "Meld deg p\u00e5" : "Meld interesse"}</button>
+            <a class="btn btn-ghost btn-sm" href="${kursSide(c)}">Les mer<span class="sr-only"> om ${c.navn}</span> <span aria-hidden="true">\u2192</span></a>
+          </div>
         </div>
       </div>
     </article>`;
@@ -127,10 +139,10 @@ function renderCal() {
     return `
     <tr>
       <td class="cal-date">${fmtDato(e.dt.d)}</td>
-      <td class="cal-course">${e.course.navn}${e.dt.merk ? ` (${e.dt.merk})` : ""}
-        <span class="cal-codes">${e.course.koder}</span></td>
+      <td class="cal-course"><a href="${kursSide(e.course)}">${e.course.navn}</a>${e.dt.merk ? ` (${e.dt.merk})` : ""}
+        <span class="cal-codes">${e.course.koder || ""}</span></td>
       <td class="cal-sted">${e.dt.sted}</td>
-      <td class="cal-dur">${e.course.varighet}</td>
+      <td class="cal-dur">${e.course.varighet || ""}</td>
       <td class="cal-status"><span class="status ${st.cls}">${st.label}</span></td>
       <td class="cal-act"><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
     </tr>`;
@@ -138,7 +150,39 @@ function renderCal() {
   foldeliste("kalender");
 }
 
-function renderAlt() { renderCourses(); renderCal(); }
+/* ---------- kursside (kurs/<id>/): datoene rendres ferskt fra kurs.json ---------- */
+function renderKurssideDatoer() {
+  const liste = $("#kursside-datoer");
+  if (!liste) return;
+  const c = COURSES.find((x) => x.id === document.body.dataset.kurs);
+  if (!c) return;
+  liste.innerHTML = c.datoer.length
+    ? c.datoer.map((dt, idx) => {
+      const st = statusFor(dt);
+      return `
+      <li class="dato-rad">
+        <span class="dato-dag mono">${fmtDato(dt.d)}</span>
+        <span class="dato-sted">${dt.sted}${dt.merk ? ` \u00b7 ${dt.merk}` : ""}</span>
+        <span class="status ${st.cls}">${st.label}</span>
+        <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="${idx}">${dt.ledige <= 0 ? "Venteliste" : "Meld deg p\u00e5"}</button>
+      </li>`;
+    }).join("")
+    : `<li class="dato-rad dato-rad--tom"><span>Ingen faste datoer ennå. Meld interesse, så gir vi beskjed når neste kurs settes opp — eller be om kurset bedriftsinternt.</span>
+        <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="foresp\u00f8rsel">Meld interesse</button></li>`;
+  const hoved = $("#kursside-hovedknapp");
+  if (hoved) {
+    const i = c.datoer.findIndex((dt) => dt.ledige > 0);
+    const idx = i >= 0 ? i : (c.datoer.length ? 0 : "foresp\u00f8rsel");
+    hoved.dataset.date = idx;
+    hoved.textContent = idx === "foresp\u00f8rsel" ? "Meld interesse" : (c.datoer[idx].ledige > 0 ? "Meld deg p\u00e5" : "Venteliste");
+  }
+}
+
+function renderAlt() {
+  if ($("#course-grid")) renderCourses();
+  if ($("#cal-body")) renderCal();
+  renderKurssideDatoer();
+}
 
 /* ---------- påmeldingsmodal (FrontCore-attrapp) ---------- */
 const modal = $("#modal");
@@ -149,7 +193,7 @@ let scrollLaas = 0;
 
 function fyllKursSelect(valgtId) {
   $("#m-kurs").innerHTML = COURSES.map((c) =>
-    `<option value="${c.id}" ${c.id === valgtId ? "selected" : ""}>${c.navn} (${c.koder})</option>`).join("");
+    `<option value="${c.id}" ${c.id === valgtId ? "selected" : ""}>${medKoder(c)}</option>`).join("");
 }
 
 function fyllDatoSelect(courseId, valgtIdx = 0) {
@@ -158,7 +202,7 @@ function fyllDatoSelect(courseId, valgtIdx = 0) {
     const st = statusFor(dt);
     return `<option value="${i}" ${i === Number(valgtIdx) ? "selected" : ""}>${fmtDato(dt.d)} — ${dt.sted}${dt.merk ? ` (${dt.merk})` : ""} · ${st.label}</option>`;
   });
-  opts.push(`<option value="forespørsel">Annen dato / bedriftsinternt kurs (forespørsel)</option>`);
+  opts.push(`<option value="forespørsel" ${valgtIdx === "forespørsel" ? "selected" : ""}>Annen dato / bedriftsinternt kurs (forespørsel)</option>`);
   $("#m-dato").innerHTML = opts.join("");
 }
 
@@ -172,11 +216,17 @@ function oppdaterSum() {
   const { c, dt } = valgtDato();
   const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
   if (!dt) {
-    $("#modal-sum").innerHTML = `<span>Bedriftsinternt / annen dato</span><strong>Pris etter avtale</strong>`;
+    $("#modal-sum").innerHTML = c.pris
+      ? `<span>Annen dato / bedriftsinternt</span><strong>fra ${fmtPris(c.pris)} per deltaker</strong>`
+      : `<span>Annen dato / bedriftsinternt</span><strong>Pris etter avtale</strong>`;
     return;
   }
   if (dt.ledige <= 0) {
     $("#modal-sum").innerHTML = `<span>Kurset er fullt — du settes på venteliste</span><strong>Ingen betaling nå</strong>`;
+    return;
+  }
+  if (!c.pris) {
+    $("#modal-sum").innerHTML = `<span>${antall} deltaker${antall > 1 ? "e" : ""}</span><strong>Pris på forespørsel</strong>`;
     return;
   }
   $("#modal-sum").innerHTML =
@@ -193,6 +243,14 @@ function openModal(courseId, dateIdx = 0) {
   modal.hidden = false;
   laasScroll();
   $("#modal .modal-close").focus();
+}
+
+/* Kurssidene har påmeldingsknappene i statisk HTML: vent på kursdataene, og
+   finnes ikke kurset (lastefeil, skjult kurs) går vi til kontaktskjemaet. */
+async function apnePamelding(courseId, dateIdx) {
+  await dataKlar;
+  if (COURSES.some((c) => c.id === courseId)) openModal(courseId, dateIdx);
+  else apneKontakt();
 }
 
 function closeModal() {
@@ -253,12 +311,29 @@ function toast(msg) {
 /* ---------- hendelser ---------- */
 document.addEventListener("click", (ev) => {
   const book = ev.target.closest("[data-book]");
-  if (book) { openModal(book.dataset.book, book.dataset.date || 0); return; }
+  if (book) { apnePamelding(book.dataset.book, book.dataset.date || 0); return; }
   const lukk = ev.target.closest("[data-close]");
   if (lukk) { (lukk.closest("#kontakt-modal") ? lukkKontakt : closeModal)(); return; }
   if (ev.target.closest("[data-tilbud]")) { apneKontakt(); return; }
   const tilbud = ev.target.closest('a.btn[href="#kontakt"]');
   if (tilbud) { ev.preventDefault(); apneKontakt(); return; }
+  /* kurssidene har <base href="../../">: «#x» ville ellers navigert til
+     forsiden selv når målet finnes på denne siden */
+  const anker = ev.target.closest('a[href^="#"]');
+  if (anker && anker.getAttribute("href").length > 1 && document.querySelector("base")
+      && !(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button)) {
+    const mal = document.getElementById(anker.getAttribute("href").slice(1));
+    if (mal) { ev.preventDefault(); mal.scrollIntoView(); if (anker.classList.contains("skip-link")) mal.focus(); return; }
+  }
+  const kopier = ev.target.closest("[data-kopier-lenke]");
+  if (kopier) {
+    const url = location.origin + location.pathname;
+    if (!navigator.clipboard) { toast(url); return; }
+    navigator.clipboard.writeText(url).then(
+      () => toast("Lenken er kopiert — lim den inn i e-posten."),
+      () => toast(url));
+    return;
+  }
   const demo = ev.target.closest("[data-demo-link]");
   if (demo) { ev.preventDefault(); toast("Plassholder-lenke — innholdet kommer ved lansering."); }
 });
@@ -269,7 +344,7 @@ document.addEventListener("keydown", (ev) => {
   else if (kontaktModal && !kontaktModal.hidden) lukkKontakt();
 });
 
-$("#course-grid").addEventListener("click", (ev) => {
+$("#course-grid")?.addEventListener("click", (ev) => {
   const topp = ev.target.closest(".kursrad-topp");
   if (!topp) return;
   const apen = topp.getAttribute("aria-expanded") === "true";
@@ -284,7 +359,7 @@ $$(".vis-alle").forEach((knapp) => knapp.addEventListener("click", () => {
   if (!utvidet[nokkel]) knapp.scrollIntoView({ block: "center" });
 }));
 
-$("#kurs-filter").addEventListener("click", (ev) => {
+$("#kurs-filter")?.addEventListener("click", (ev) => {
   const chip = ev.target.closest(".chip");
   if (!chip) return;
   aktivKat = chip.dataset.cat;
@@ -292,7 +367,7 @@ $("#kurs-filter").addEventListener("click", (ev) => {
   renderCourses();
 });
 
-$("#kalender-filter").addEventListener("click", (ev) => {
+$("#kalender-filter")?.addEventListener("click", (ev) => {
   const chip = ev.target.closest(".chip");
   if (!chip) return;
   aktivSted = chip.dataset.sted;
@@ -331,13 +406,15 @@ modalForm.addEventListener("submit", (ev) => {
 
   const datoTekst = dt ? `${fmtDato(dt.d)} · ${dt.sted}` : "annen dato / bedriftsinternt";
   $("#success-detail").textContent =
-    `${c.navn} (${c.koder}) · ${datoTekst} · ${antall} deltaker${antall > 1 ? "e" : ""}`;
+    `${medKoder(c)} · ${datoTekst} · ${antall} deltaker${antall > 1 ? "e" : ""}`;
 
   const flyt = [];
   if (venteliste) {
     flyt.push(`Du er satt på venteliste — vi kontakter deg på ${epost} ved ledig plass`);
   } else {
-    flyt.push(betaling === "vipps"
+    if (!dt) flyt.push("Vi kontakter deg med forslag til dato og pris");
+    else if (!c.pris) flyt.push("Vi sender pristilbud til bedriften");
+    else flyt.push(betaling === "vipps"
       ? `Vipps-betaling på ${fmtPris(c.pris * antall)} gjennomføres`
       : `Faktura på ${fmtPris(c.pris * antall)} sendes til bedriften`);
     if (dt) flyt.push(`Ledige plasser i kalenderen er nedjustert (${statusFor(dt).label.toLowerCase()})`);
@@ -348,7 +425,7 @@ modalForm.addEventListener("submit", (ev) => {
 
   $("#modal-success h2").textContent = venteliste
     ? "Du står på ventelisten."
-    : "Takk! Påmeldingen er registrert.";
+    : dt ? "Takk! Påmeldingen er registrert." : "Takk! Vi har mottatt interessen din.";
 
   modalForm.hidden = true;
   modalSuccess.hidden = false;
@@ -387,6 +464,7 @@ function visFag(navn) {
 
 function velgFag(kat, mal) {
   if (mal) { const t = $(mal); if (t) t.scrollIntoView({ behavior: glatt }); return; }
+  if (!$("#course-grid")) return;
   aktivKat = kat || "alle";
   renderKursFilter();
   renderCourses();
@@ -475,8 +553,9 @@ const nav = $(".nav");
 const burger = $(".nav-burger");
 const menu = $("#hovedmeny");
 const lesebar = $("#lesebar");
+const fastNav = document.body.dataset.nav === "fast";
 addEventListener("scroll", () => {
-  nav.classList.toggle("scrolled", scrollY > 10);
+  nav.classList.toggle("scrolled", fastNav || scrollY > 10);
   if (lesebar) {
     const m = document.documentElement.scrollHeight - innerHeight;
     lesebar.style.width = (m > 0 ? (scrollY / m) * 100 : 0) + "%";
@@ -511,28 +590,33 @@ if (document.visibilityState === "hidden") {
 
 async function init() {
   try {
-    const res = await fetch(`assets/kurs.json?v=${APP_V}`);
+    const res = await fetch("assets/kurs.json", { cache: "no-cache" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     KATEGORIER = data.kategorier;
-    COURSES = data.kurs;
+    const idag = new Date().toLocaleDateString("sv-SE"); /* ÅÅÅÅ-MM-DD, lokal tid */
+    COURSES = data.kurs.filter((c) => c.synlig !== false);
+    COURSES.forEach((c) => {
+      c.datoer = c.datoer.filter((dt) => dt.d >= idag).sort((a, b) => a.d.localeCompare(b.d));
+    });
     /* CAL peker på dato-objektene (ikke kopier), så plasstelling oppdateres overalt */
     CAL = COURSES.flatMap((c) => c.datoer.map((dt, idx) => ({ course: c, dt, idx })))
       .sort((a, b) => a.dt.d.localeCompare(b.dt.d));
-    renderKursFilter();
-    renderKalenderFilter();
+    if ($("#kurs-filter")) renderKursFilter();
+    if ($("#kalender-filter")) renderKalenderFilter();
     renderAlt();
     lastEmblem();
   } catch (err) {
-    $("#course-grid").innerHTML = `<p class="section-note mono">Kunne ikke laste kursdata (${err.message}). Prøv å laste siden på nytt.</p>`;
-    $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Kunne ikke laste kurskalenderen.</td></tr>`;
+    const grid = $("#course-grid"), cal = $("#cal-body");
+    if (grid) grid.innerHTML = `<p class="section-note mono">Kunne ikke laste kursdata (${err.message}). Prøv å laste siden på nytt.</p>`;
+    if (cal) cal.innerHTML = `<tr><td colspan="6" class="cal-empty">Kunne ikke laste kurskalenderen.</td></tr>`;
   }
   /* hero-innholdet er alltid i første skjermbilde — vent aldri på
      IntersectionObserver der (den kan svikte i bakgrunnsfaner) */
   $$(".hero--foto .reveal").forEach((el) => el.classList.add("in"));
   foldeliste("nyheter");
   $$(".reveal").forEach((el) => io.observe(el));
-  nav.classList.toggle("scrolled", scrollY > 10);
+  nav.classList.toggle("scrolled", fastNav || scrollY > 10);
 
   const statsEl = $(".stats");
   if (statsEl && glatt === "smooth") {
@@ -541,4 +625,4 @@ async function init() {
     }, { threshold: 0.4 }).observe(statsEl);
   }
 }
-init();
+const dataKlar = init();

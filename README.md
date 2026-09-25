@@ -4,25 +4,30 @@
 
 Landingsside for **Kompetanse Kurs** (Bergen) — sertifisert og dokumentert sikkerhetsopplæring
 og HMS-kompetanse. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender og
-påmelding er attrapper som speiler **FrontCore**-widgeten til vi har konto/API på plass.
+påmelding er attrapper til FrontCore-API-et kobles på (via proxy, se `docs/PRODUKSJONSPLAN.md`).
 
 > **Status:** forhåndsvisning med eksempeldata. Ingen skjemaer sender data.
 
 ## Kjøre lokalt
 
 ```bash
+python3 tools/bygg.py
 python3 -m http.server 4173 --directory .
 ```
 
-Åpne <http://localhost:4173>. Ingen byggesteg, ingen avhengigheter.
+Åpne <http://localhost:4173>. Ingen avhengigheter — `tools/bygg.py` (ren Python) lager kurssidene
+under `kurs/`, `sitemap.xml` og `robots.txt`. Disse er generert og ligger ikke i git; ved hver push
+bygger GitHub Actions dem på nytt og publiserer (`.github/workflows/publiser.yml`).
 
 ## Struktur
 
 | Fil | Innhold |
 | --- | --- |
-| `index.html` | Hele siden (hero, kurs, kalender, tjenester, om, nyheter, partnere, kontakt) + påmeldingsmodal |
+| `index.html` | Forsiden (hero, fagområder, våre kurs, kalender, om, nyheter, partnere, kontakt) + påmeldings- og kontaktvindu |
 | `assets/styles.css` | Designsystemet («Nordsjø» — se `docs/DESIGN.md`) |
-| `assets/app.js` | **Kursdata (eksempel)** øverst i filen + rendering, filtre, modal og skjema-demo |
+| `assets/kurs.json` | **Alt kursinnhold** — én kilde for kursliste, kalender, kurssider og påmelding |
+| `assets/app.js` | Rendering, filtre, påmelding og skjema-demo — deles av forsiden og kurssidene |
+| `tools/bygg.py` | Lager én side per kurs (`kurs/<id>/`), «Våre kurs» (`kurs/`) og sitemap |
 | `docs/DESIGN.md` | Designnotat, research-funn og anbefalt teknisk retning |
 
 ## Endre innhold (slik driftes kursene i dag)
@@ -33,7 +38,20 @@ Kurskatalogen, kurskalenderen og påmeldingsskjemaet genereres derfra:
 **endre ett sted, oppdateres overalt** — ingen dobbeltarbeid.
 
 Enkleste arbeidsflyt for drifter: åpne filen på GitHub → blyantikonet (rediger) → endre/legg
-til kurs → «Commit changes». Siden bygges og publiseres automatisk på under ett minutt.
+til kurs → «Commit changes». Siden bygges og publiseres automatisk på et par minutter.
+
+**Klargjøre et kurs uten å vise det:** legg det inn med `"synlig": false` (slik Arbeidsvarsling
+1-2-3 ligger nå). Kurset vises da ingen steder og får ingen kursside. Når det skal publiseres:
+endre til `"synlig": true` (eller fjern linjen) og lagre.
+
+## Kurssider — lenke til et kurs i e-post
+
+Hvert synlige kurs får en egen side med fast adresse, `kkurs.no/kurs/<id>/` — f.eks.
+`kkurs.no/kurs/truck/` (i dag `monscorps.github.io/kkurs.no/kurs/truck/`). Adressen kan limes rett
+inn i e-post; siden har kursbeskrivelse, fakta, kommende datoer med påmelding og «Be om tilbud».
+Knappen «Kopier lenke til kurset» øverst på siden kopierer adressen. «Våre kurs» (`kurs/`) samler
+alle kursene på én side. **Ikke endre `id` på et kurs etter at lenken er sendt ut** — da slutter
+den gamle lenken å virke.
 
 Ved lansering byttes filen ut med FrontCore som kilde, og da administreres kursene i
 FrontCore-adminen i stedet (samme prinsipp: legg inn kurset ett sted, alt oppdateres).
@@ -68,5 +86,6 @@ plasstelling).
 
 ## Hosting
 
-Ren statisk side — GitHub Pages, Netlify eller Cloudflare Pages fungerer rett ut av boksen
-bak domenet kkurs.no.
+Statisk side med ett lite byggesteg. I dag: GitHub Pages via Actions (`publiser.yml`).
+Mål: Cloudflare Pages i Kompetanse Kurs' egen konto — byggkommando `python3 tools/bygg.py`,
+utdatamappe `/`, miljøvariabel `NETTSTED_URL=https://kkurs.no`. Se `docs/PRODUKSJONSPLAN.md` §8.
