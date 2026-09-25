@@ -58,7 +58,14 @@ def fmt_dato(iso):
     return f"{d}.{m}.{y}"
 
 
+def er_full(dt):
+    """ledige = None betyr ukjent kapasitet i FrontCore — behandles som åpent (samme regel som app.js)."""
+    return isinstance(dt.get("ledige"), (int, float)) and dt["ledige"] <= 0
+
+
 def status(dt):
+    if not isinstance(dt.get("ledige"), (int, float)):
+        return "status-ledig", "Ledige plasser"
     if dt["ledige"] <= 0:
         return "status-vente", "Venteliste"
     if dt["ledige"] <= 3:
@@ -82,7 +89,7 @@ def kommende(k):
 def hoveddato(datoer):
     """Første dato med ledig plass; ellers første (venteliste); ellers forespørsel."""
     for i, dt in enumerate(datoer):
-        if dt["ledige"] > 0:
+        if not er_full(dt):
             return str(i)
     return "0" if datoer else "forespørsel"
 
@@ -116,7 +123,7 @@ def dato_rader(k):
     for idx, dt in enumerate(datoer):
         cls, etikett = status(dt)
         merk = f" · {e(dt['merk'])}" if dt.get("merk") else ""
-        knapp = "Venteliste" if dt["ledige"] <= 0 else "Meld deg på"
+        knapp = "Venteliste" if er_full(dt) else "Meld deg på"
         rader.append(
             f'<li class="dato-rad">\n'
             f'        <span class="dato-dag mono">{fmt_dato(dt["d"])}</span>\n'
@@ -236,7 +243,7 @@ def main():
         fakta.append(f"<div><dt>Sted</dt><dd>{e(', '.join(steder))} · eller bedriftsinternt</dd></div>")
         forste = hoveddato(datoer)
         hovedknapp = "Meld interesse" if forste == "forespørsel" else (
-            "Meld deg på" if datoer[int(forste)]["ledige"] > 0 else "Venteliste")
+            "Venteliste" if er_full(datoer[int(forste)]) else "Meld deg på")
 
         andre = [x for x in kurs if x["kat"] == k["kat"] and x["id"] != k["id"]]
         andre += [x for x in kurs if x["kat"] != k["kat"]][: max(0, 4 - len(andre))]

@@ -10,7 +10,7 @@
    FrontCore via API.
    ============================================================ */
 
-const APP_V = "30";
+const APP_V = "31";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = demomodus:
    kursene leses fra assets/kurs.json og påmelding simuleres i nettleseren. */
@@ -43,12 +43,17 @@ const fmtDato = (iso) => { const [y, m, d] = iso.split("-"); return `${d}.${m}.$
 const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m}`; };
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
 const prisTekst = (c) => (c.pris ? `fra ${fmtPris(c.pris)}` : "Pris på forespørsel");
-const kursBilde = (c) => `assets/img/${c.bilde || `kurs-${c.id}.jpg`}`;
+const kursBilde = (c) => esc(`assets/img/${c.bilde || `kurs-${c.id}.jpg`}`);
 const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
 const medKoder = (c) => (c.koder ? `${c.navn} (${c.koder})` : c.navn);
-const kursSide = (c) => `kurs/${c.id}/`;
+const stedTekst = (dt, skille = " \u00b7 ") => esc(dt.sted) + (dt.merk ? `${skille}${esc(dt.merk)}` : "");
+const kursSide = (c) => esc(`kurs/${c.id}/`);
 
 const esc = (t) => String(t ?? "").replace(/[&"<>]/g, (c) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" }[c]));
+
+/* «ledige: null» = ukjent kapasitet i FrontCore (lokalet mangler kapasitet) — behandles som
+   åpent. Bare 0 betyr fullt. */
+const erFull = (dt) => Number.isFinite(dt.ledige) && dt.ledige <= 0;
 
 /* Status utledes av antall ledige plasser */
 function statusFor(dt) {
@@ -85,7 +90,7 @@ function renderKursFilter() {
   const chips = [["alle", "Alle kurs"], ...Object.entries(KATEGORIER).filter(([k]) => counts[k])];
   $("#kurs-filter").innerHTML = chips.map(([key, label]) => `
     <button class="chip" data-cat="${key}" aria-pressed="${key === aktivKat}">
-      ${label}<span class="count">${counts[key] || 0}</span>
+      ${esc(label)}<span class="count">${counts[key] || 0}</span>
     </button>`).join("");
 }
 
@@ -97,29 +102,29 @@ function renderCourses() {
       return `
         <li><button type="button" data-book="${c.id}" data-date="${idx}">
           <span class="kd-dato">${fmtDatoKort(dt.d)}</span>
-          <span class="kd-sted">${dt.sted}${dt.merk ? ` \u00b7 ${dt.merk}` : ""}</span>
+          <span class="kd-sted">${stedTekst(dt)}</span>
           <span class="status ${st.cls}">${st.label}</span>
         </button></li>`;
     }).join("");
     return `
     <article class="kursrad">
       <button class="kursrad-topp" type="button" aria-expanded="false" aria-controls="kursrad-${c.id}">
-        <span class="kursrad-navn">${c.navn} <span class="cc-codes">${c.koder || ""}</span></span>
-        <span class="kursrad-tall mono kr-var">${c.varighet || ""}</span>
+        <span class="kursrad-navn">${esc(c.navn)} <span class="cc-codes">${esc(c.koder)}</span></span>
+        <span class="kursrad-tall mono kr-var">${esc(c.varighet)}</span>
         <span class="kursrad-tall mono">${prisTekst(c)}</span>
         <span class="kursrad-pil" aria-hidden="true">\u2193</span>
       </button>
       <div class="kursrad-innhold" id="kursrad-${c.id}" hidden>
         <figure class="kursrad-foto"><img src="${kursBilde(c)}" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${RESERVEBILDE}'"></figure>
         <div class="kursrad-tekst">
-          <p>${c.desc}</p>
-          <p class="kursrad-fakta mono">${[c.varighet, prisTekst(c)].filter(Boolean).join(" \u00b7 ")}</p>
+          <p>${esc(c.desc)}</p>
+          <p class="kursrad-fakta mono">${esc([c.varighet, prisTekst(c)].filter(Boolean).join(" \u00b7 "))}</p>
           ${datoer
             ? `<ul class="kursrad-datoer">${datoer}</ul>`
             : `<p class="kursrad-ingen mono">Ingen faste datoer ennå — meld interesse, så tar vi kontakt.</p>`}
           <div class="kursrad-knapper">
             <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="${datoer ? 0 : "foresp\u00f8rsel"}">${datoer ? "Meld deg p\u00e5" : "Meld interesse"}</button>
-            <a class="btn btn-ghost btn-sm" href="${kursSide(c)}">Les mer<span class="sr-only"> om ${c.navn}</span> <span aria-hidden="true">\u2192</span></a>
+            <a class="btn btn-ghost btn-sm" href="${kursSide(c)}">Les mer<span class="sr-only"> om ${esc(c.navn)}</span> <span aria-hidden="true">\u2192</span></a>
           </div>
         </div>
       </div>
@@ -131,7 +136,7 @@ function renderCourses() {
 function renderKalenderFilter() {
   const steder = ["Alle steder", ...new Set(CAL.map((e) => e.dt.sted))];
   $("#kalender-filter").innerHTML = steder.map((s) => `
-    <button class="chip" data-sted="${s}" aria-pressed="${s === aktivSted}">${s}</button>`).join("");
+    <button class="chip" data-sted="${esc(s)}" aria-pressed="${s === aktivSted}">${esc(s)}</button>`).join("");
 }
 
 function renderCal() {
@@ -146,12 +151,12 @@ function renderCal() {
     return `
     <tr>
       <td class="cal-date">${fmtDato(e.dt.d)}</td>
-      <td class="cal-course"><a href="${kursSide(e.course)}">${e.course.navn}</a>${e.dt.merk ? ` (${e.dt.merk})` : ""}
-        <span class="cal-codes">${e.course.koder || ""}</span></td>
-      <td class="cal-sted">${e.dt.sted}</td>
-      <td class="cal-dur">${e.course.varighet || ""}</td>
+      <td class="cal-course"><a href="${kursSide(e.course)}">${esc(e.course.navn)}</a>${e.dt.merk ? ` (${esc(e.dt.merk)})` : ""}
+        <span class="cal-codes">${esc(e.course.koder)}</span></td>
+      <td class="cal-sted">${esc(e.dt.sted)}</td>
+      <td class="cal-dur">${esc(e.course.varighet)}</td>
       <td class="cal-status"><span class="status ${st.cls}">${st.label}</span></td>
-      <td class="cal-act"><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${e.dt.ledige <= 0 ? "Venteliste" : "Meld deg på"}</button></td>
+      <td class="cal-act"><button class="btn btn-ghost btn-sm" data-book="${e.course.id}" data-date="${e.idx}">${erFull(e.dt) ? "Venteliste" : "Meld deg på"}</button></td>
     </tr>`;
   }).join("");
   foldeliste("kalender");
@@ -169,19 +174,19 @@ function renderKurssideDatoer() {
       return `
       <li class="dato-rad">
         <span class="dato-dag mono">${fmtDato(dt.d)}</span>
-        <span class="dato-sted">${dt.sted}${dt.merk ? ` \u00b7 ${dt.merk}` : ""}</span>
+        <span class="dato-sted">${stedTekst(dt)}</span>
         <span class="status ${st.cls}">${st.label}</span>
-        <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="${idx}">${dt.ledige <= 0 ? "Venteliste" : "Meld deg p\u00e5"}</button>
+        <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="${idx}">${erFull(dt) ? "Venteliste" : "Meld deg p\u00e5"}</button>
       </li>`;
     }).join("")
     : `<li class="dato-rad dato-rad--tom"><span>Ingen faste datoer ennå. Meld interesse, så gir vi beskjed når neste kurs settes opp — eller be om kurset bedriftsinternt.</span>
         <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="foresp\u00f8rsel">Meld interesse</button></li>`;
   const hoved = $("#kursside-hovedknapp");
   if (hoved) {
-    const i = c.datoer.findIndex((dt) => dt.ledige > 0);
+    const i = c.datoer.findIndex((dt) => !erFull(dt));
     const idx = i >= 0 ? i : (c.datoer.length ? 0 : "foresp\u00f8rsel");
     hoved.dataset.date = idx;
-    hoved.textContent = idx === "foresp\u00f8rsel" ? "Meld interesse" : (c.datoer[idx].ledige > 0 ? "Meld deg p\u00e5" : "Venteliste");
+    hoved.textContent = idx === "foresp\u00f8rsel" ? "Meld interesse" : (erFull(c.datoer[idx]) ? "Venteliste" : "Meld deg p\u00e5");
   }
 }
 
@@ -200,14 +205,14 @@ let scrollLaas = 0;
 
 function fyllKursSelect(valgtId) {
   $("#m-kurs").innerHTML = COURSES.map((c) =>
-    `<option value="${c.id}" ${c.id === valgtId ? "selected" : ""}>${medKoder(c)}</option>`).join("");
+    `<option value="${c.id}" ${c.id === valgtId ? "selected" : ""}>${esc(medKoder(c))}</option>`).join("");
 }
 
 function fyllDatoSelect(courseId, valgtIdx = 0) {
   const c = COURSES.find((x) => x.id === courseId);
   const opts = c.datoer.map((dt, i) => {
     const st = statusFor(dt);
-    return `<option value="${i}" ${i === Number(valgtIdx) ? "selected" : ""}>${fmtDato(dt.d)} — ${dt.sted}${dt.merk ? ` (${dt.merk})` : ""} · ${st.label}</option>`;
+    return `<option value="${i}" ${i === Number(valgtIdx) ? "selected" : ""}>${fmtDato(dt.d)} — ${stedTekst(dt, " — ")} · ${st.label}</option>`;
   });
   opts.push(`<option value="forespørsel" ${valgtIdx === "forespørsel" ? "selected" : ""}>Annen dato / bedriftsinternt kurs (forespørsel)</option>`);
   $("#m-dato").innerHTML = opts.join("");
@@ -259,7 +264,7 @@ function oppdaterSum() {
       : `<span>Annen dato / bedriftsinternt</span><strong>Pris etter avtale</strong>`;
     return;
   }
-  if (dt.ledige <= 0) {
+  if (erFull(dt)) {
     $("#modal-sum").innerHTML = `<span>Kurset er fullt — du settes på venteliste</span><strong>Ingen betaling nå</strong>`;
     return;
   }
@@ -478,10 +483,10 @@ modalForm.addEventListener("submit", async (ev) => {
   const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
   const epost = $("#m-epost").value.trim();
   const betaling = (modalForm.querySelector('[name="betaling"]:checked') || {}).value || "faktura";
-  const venteliste = dt && dt.ledige <= 0;
+  const venteliste = Boolean(dt) && erFull(dt);
 
   /* kapasitetssjekk */
-  if (dt && !venteliste && antall > dt.ledige) {
+  if (dt && !venteliste && Number.isFinite(dt.ledige) && antall > dt.ledige) {
     const felt = $("#m-antall");
     felt.classList.add("err"); felt.focus();
     toast(`Bare ${dt.ledige} ${dt.ledige === 1 ? "plass" : "plasser"} igjen på denne datoen — velg færre deltakere eller en annen dato.`);
@@ -501,7 +506,7 @@ modalForm.addEventListener("submit", async (ev) => {
   }
 
   /* demomodus: trekk ned ledige plasser og oppdater kalender/kort */
-  if (dt && !venteliste) {
+  if (dt && !venteliste && Number.isFinite(dt.ledige)) {
     dt.ledige = Math.max(0, dt.ledige - antall);
     renderAlt();
   }

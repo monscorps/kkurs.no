@@ -44,8 +44,13 @@ Samme form som `assets/kurs.json`, pluss FrontCore-id-er:
 ```
 
 - Bare kommende datoer som ikke er avlyst (status 3) og er synlige.
-- `ledige` = `seats.free.num`; `seats_status: "fully_booked"` ⇒ `ledige: 0`.
+- `ledige` = `seats.free.num`; `seats_status: "fully_booked"` ⇒ `ledige: 0` (fullt ⇒ venteliste).
+- `ledige: null` = **ukjent kapasitet** (lokalet mangler kapasitet i FrontCore). Nettsiden viser
+  «Ledige plasser» og tar imot påmelding som vanlig. Sett derfor alltid kapasitet på lokalet.
 - `plasser` = ledige + bekreftede + ubekreftede deltakere (kan være `null`).
+- `merk` kan være f.eks. «utsatt» eller «påmeldingsfrist ute».
+- Mellomlagres ~2 min. Er FrontCore nede, svarer Worker med siste gyldige data (≤ 24 t) og
+  headeren `X-Kkurs-Foreldet: 1` i stedet for feil.
 
 ## Kontrakt: `POST /pamelding`
 
@@ -64,6 +69,12 @@ Svar `200 { "ok": true, "ordre_id": "221530", "total_inkl_mva": 8625, "ventelist
 eller `4xx { "ok": false, "feil": "Lesbar melding på norsk" }`.
 
 Regler i Worker:
+- Må komme fra en tillatt `Origin` (nettsiden); maks 5 påmeldinger per minutt per IP
+  (Cloudflare Rate Limiting) ⇒ ellers 403/429. **Før produksjon:** legg til Cloudflare
+  Turnstile mot roboter — hver påmelding lager en ekte ordre og sender e-post.
+- Er utfallet hos FrontCore usikkert (tidsavbrudd, 5xx), bes brukeren sjekke e-posten før nytt
+  forsøk — aldri «prøv igjen», så vi ikke lager doble ordre.
+- Påmelding etter påmeldingsfristen avvises.
 - Plassene sjekkes ferskt hos FrontCore. Fullt kurs ⇒ deltakerne settes på venteliste
   (`status_id: 3`). Delvis ledig men for få plasser ⇒ feil «Bare N plasser igjen».
 - Betaling: `invoice` (faktura). FrontCore-API-et støtter bare `invoice` og `card_swedbank` —
@@ -88,9 +99,23 @@ cd worker
 npx wrangler dev                                  # lokalt, leser .dev.vars
 npx wrangler secret put FRONTCORE_API_KEY         # én gang per Cloudflare-konto
 npx wrangler deploy                               # publiser kkurs-api
-python3 ../tools/frontcore_seed.py --dry-run      # vis hva som ville blitt opprettet
-python3 ../tools/frontcore_seed.py                # fyll FrontCore med kursene fra kurs.json
+node test/kjor.mjs                                # Worker-testene (ingen nettverk)
+
+cd ..
+python3 tools/frontcore_seed.py --dry-run                          # vis hva som ville blitt opprettet
+python3 tools/frontcore_seed.py --location-id <lokale-id> --ja     # fyll FrontCore fra kurs.json
 ```
 
 Flytting til kundens Cloudflare-konto: `wrangler login` mot den kontoen, `secret put`, `deploy`,
 og oppdater `API_URL` i `assets/app.js` + `KURS_API_URL` i GitHub-variablene.
+
+## Må testes mot ekte konto før lansering
+
+- Venteliste (`status_id: 3`) med faktura: lager FrontCore faktura/kvittering med beløp? Juster
+  i så fall Worker (f.eks. ingen kvittering ved venteliste).
+- Feilkoden FrontCore gir når `seats_availability_check` slår til (Worker gjenkjenner den i dag
+  på tekst).
+- Om `custom_properties` på kurs (kategori, koder, bilde, varighet) lagres via API — seedskriptet
+  melder «lagret / ikke lagret». Hvis ikke: kategorier må styres på annen måte (f.eks. tags).
+- Om inaktive kurs kommer med i `GET /v2/courses`.
+
