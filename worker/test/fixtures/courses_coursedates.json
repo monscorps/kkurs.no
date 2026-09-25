@@ -1,0 +1,175 @@
+[
+  {
+    "coursedate_id": 12947063,
+    "title": "A test course",
+    "start_at": "2025-11-21",
+    "start_time_at": "08:00:00",
+    "end_at": "2025-11-21",
+    "end_time_at": "16:00:00",
+    "timezone": "Europe/Oslo",
+    "deadline_at": "2025-11-21",
+    "place": {
+      "title_additional_info": null
+    },
+    "event_url": "",
+    "location": null,
+    "is_virtual": false,
+    "is_visible": true,
+    "teaching_language": {
+      "id": "no",
+      "title": "Norwegian"
+    },
+    "kursguiden_url": "https://www.kursguiden.no/kurs/A-test-course/",
+    "visible_when_passed_deadline": false,
+    "reference": null,
+    "parent_id": null,
+    "trigger_value": null,
+    "seats_status": "fully_booked",
+    "seats": {
+      "allocated_capacity": {
+        "num": 0,
+        "num_overbooked": "0",
+        "num_waiting": "0"
+      },
+      "free": {
+        "num": 0,
+        "num_waiting": 0
+      },
+      "booking_status": {
+        "num": 0,
+        "num_confirmed": 0,
+        "num_unconfirmed": 0,
+        "num_waiting": 0
+      }
+    },
+    "gatherings": [
+      {
+        "id": 428829,
+        "idInstance": 12947063,
+        "gathering_at": "2025-11-21 08:00",
+        "gathering_end_at": "2025-11-21 16:00",
+        "idLocation": 10,
+        "description": null,
+        "theme": null,
+        "event_url": null,
+        "created_at": "2025-11-04T12:58:01+01:00",
+        "is_future": true,
+        "updated_at": "2025-11-04T12:58:01+01:00",
+        "instructors": [
+          {
+            "id": 2293,
+            "title": "Knut Instructor",
+            "name": "Knut Instructor",
+            "fullname": "Knut Instructor",
+            "phone": "",
+            "company": "SPINNER LABS AS",
+            "position": "",
+            "email": "example@example.com",
+            "is_archived": false
+          },
+          {
+            "id": 2722,
+            "title": "Anders Instructor",
+            "name": "Anders Instructor",
+            "fullname": "Anders Instructor",
+            "phone": "",
+            "company": "",
+            "position": "",
+            "email": "example@example.com",
+            "is_archived": false
+          }
+        ],
+        "location": {
+          "id": 123,
+          "title": "Test venue",
+          "custom_title": null,
+          "address": null,
+          "address2": null,
+          "address3": null,
+          "zipcode": null,
+          "city": null,
+          "state": null,
+          "county": null,
+          "idCountry": null,
+          "country": null,
+          "country_code": "",
+          "idPlace": 0,
+          "lat": 0,
+          "lng": 0,
+          "timezone": null,
+          "long_text": null,
+          "short_text": null,
+          "short_text_2": null,
+          "capacity_min": null,
+          "capacity_max": null,
+          "capacity_overbook": null,
+          "capacity_budget": null,
+          "capacity_wait": null,
+          "idInstructor": null,
+          "email_booking": null,
+          "email_moreinfo": null,
+          "is_default": false,
+          "is_archived": null,
+          "is_virtual": null,
+          "cancellation_days": null,
+          "notification_days": null,
+          "notification_role": null,
+          "is_notification_enabled": false,
+          "full_address": null,
+          "filtered_places": []
+        }
+      }
+    ],
+    "course": {
+      "id": 86273,
+      "title": "A test course",
+      "reference": "123",
+      "is_active": true,
+      "type": "public",
+      "kursguiden_url": "https://www.kursguiden.no/kurs/A-test-course/",
+      "is_full_time": false,
+      "is_part_time": true,
+      "lessons_hours": null,
+      "level": {
+        "id": 6,
+        "title": "Courses"
+      },
+      "form_of_teaching": {
+        "id": 1,
+        "title": "Classroom"
+      },
+      "teaching_language": {
+        "id": "no",
+        "title": "Norwegian"
+      },
+      "time_of_day": null,
+      "duration": null,
+      "price": {
+        "value": 0,
+        "currency": "NOK",
+        "comment": null
+      },
+      "categories": null,
+      "tags": [],
+      "visit_address": "",
+      "visit_address2": "",
+      "visit_zipcode": "",
+      "visit_city": "",
+      "custom_properties": {
+        "special_note": ""
+      }
+    },
+    "custom_properties": {
+      "partner": null
+    },
+    "status": {
+      "id": 2,
+      "idType": 2,
+      "title": "Will run"
+    },
+    "created_at": "2025-11-04T12:58:01+01:00",
+    "updated_at": "2025-11-05T10:02:20+01:00",
+    "deleted_at": null,
+    "contacts": []
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "kkurs-api",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker mellom kkurs.no og FrontCore (se docs/FRONTCORE.md)",
+  "scripts": {
+    "test": "node test/kjor.mjs"
+  }
+}

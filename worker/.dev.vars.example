@@ -1,0 +1,3 @@
+# Kopier til .dev.vars (ligger i .gitignore) og lim inn nøkkelen fra FrontCore → Settings → API.
+# I produksjon: npx wrangler secret put FRONTCORE_API_KEY
+FRONTCORE_API_KEY=lim-inn-her

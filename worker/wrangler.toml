@@ -1,0 +1,20 @@
+# kkurs-api — proxy mellom kkurs.no og FrontCore REST API v2 (se docs/FRONTCORE.md).
+# API-nøkkelen settes som secret, aldri her:  npx wrangler secret put FRONTCORE_API_KEY
+# Lokalt leses den fra .dev.vars (se .dev.vars.example).
+name = "kkurs-api"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[vars]
+TILLATTE_OPPRINNELSER = "https://monscorps.github.io,https://kkurs.no,https://www.kkurs.no,http://localhost:4173"
+
+# Vern mot misbruk av POST /pamelding: maks 5 forespørsler per 60 s per klient-IP (cf-connecting-ip).
+# Grensen telles per Cloudflare-lokasjon. namespace_id er et fritt valgt heltall (som tekst), unikt i kontoen.
+[[ratelimits]]
+name = "PAMELDING_GRENSE"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+[observability]
+enabled = true
