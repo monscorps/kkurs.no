@@ -28,7 +28,7 @@ const MELLOMLAGER_SEK = 120;
 const RESERVE_SEK = 24 * 60 * 60;
 const NETTLESER_SEK = 60;
 const MAKS_BYTE = 20 * 1024;
-const MAKS_DELTAKERE = 20;
+const MAKS_DELTAKERE = 25;
 const STATUS_AVLYST = 3;
 const STATUS_UTSATT = 4;
 const DELTAKER_BEKREFTET = 1;
@@ -43,7 +43,8 @@ const TID_HEADER = "X-Kkurs-Tid";
 export const KATEGORIER = {
   truck: "Truck og maskin",
   kran: "Kran og løft",
-  hms: "HMS og ledelse",
+  bygg: "Bygg og anlegg",
+  hms: "HMS og sikkerhet",
   annet: "Andre kurs",
 };
 

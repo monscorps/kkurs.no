@@ -8,6 +8,9 @@ Kjøres automatisk ved hver push (GitHub Actions nå, Cloudflare ved lansering):
 Lager (alt er generert — ikke rediger filene for hånd):
   kurs/<id>/index.html   én side per synlig kurs: adressen som lenkes til i e-post
   kurs/index.html        «Våre kurs»: alle kursene samlet på én side
+  <sti>/index.html       innholdssider fra sider/*.html (HMS, Oppkjøring, Bevis …) — første
+                         linje i hver fil er en kommentar med JSON-meta: sti, tittel,
+                         beskrivelse, bilde
   sitemap.xml, robots.txt
 
 Meny, bunn og påmeldings-/kontaktvinduene kopieres fra index.html, så
@@ -73,12 +76,16 @@ def status(dt):
     return "status-ledig", f"{dt['ledige']} ledige plasser"
 
 
-def bilde(k):
-    navn = k.get("bilde") or f"kurs-{k['id']}.jpg"
+def bildefil(navn, hva):
     if not (ROT / "assets" / "img" / navn).exists():
-        print(f"ADVARSEL: bildet {navn} for «{k['navn']}» finnes ikke — bruker {RESERVEBILDE}.")
-        navn = RESERVEBILDE
-    return f"assets/img/{navn}"
+        print(f"ADVARSEL: bildet {navn} for «{hva}» finnes ikke — bruker {RESERVEBILDE}.")
+        return RESERVEBILDE
+    return navn
+
+
+def bilde(k):
+    navn = k.get("bilde") or "kurs-" + k["id"] + ".jpg"
+    return "assets/img/" + bildefil(navn, k["navn"])
 
 
 def kommende(k):
@@ -135,14 +142,61 @@ def dato_rader(k):
     return "\n      ".join(rader)
 
 
+def koder(k):
+    """Koden vises bare når navnet ikke allerede har den («Anhukerkurs G11» + «G11»)."""
+    kode = k.get("koder") or ""
+    return "" if kode and kode in k["navn"] else kode
+
+
 def kursrad_lenke(k):
     return (
         f'<li><a href="kurs/{e(k["id"])}/">'
-        f'<span class="rel-navn">{e(k["navn"])} <span class="cc-codes">{e(k.get("koder", ""))}</span></span>'
-        f'<span class="rel-tall rel-var mono">{e(k.get("varighet", ""))}</span>'
+        f'<span class="rel-navn">{e(k["navn"])} <span class="cc-codes">{e(koder(k))}</span></span>'
+        f'<span class="rel-tall rel-var mono">{e(k.get("varighet") or "")}</span>'
         f'<span class="rel-tall mono">{pris_tekst(k)}</span>'
         f'<span class="rel-pil" aria-hidden="true">→</span></a></li>'
     )
+
+
+LENKE = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
+TRYGG_HREF = re.compile(r"^(https?://|mailto:|tel:|#|[a-z0-9-]+(/[a-z0-9-]+)*/?(#[a-z0-9-]+)?$)")
+
+
+def rik_tekst(tekst):
+    """Escapet tekst der [tekst](sti) blir lenke; eksterne lenker åpnes i ny fane."""
+    ut, pos = [], 0
+    for m in LENKE.finditer(tekst):
+        href = m.group(2)
+        if not TRYGG_HREF.match(href):
+            raise SystemExit(f"Ugyldig lenke i kurs.json: «{href}»")
+        ekstern = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
+        ut.append(e(tekst[pos:m.start()]) + f'<a href="{e(href)}"{ekstern}>{e(m.group(1))}</a>')
+        pos = m.end()
+    return "".join(ut) + e(tekst[pos:])
+
+
+def innhold_html(blokker):
+    deler = []
+    for b in blokker or []:
+        if "p" in b:
+            deler.append(f"<p>{rik_tekst(b['p'])}</p>")
+        elif "h" in b:
+            deler.append(f"<h3>{rik_tekst(b['h'])}</h3>")
+        elif "ul" in b:
+            deler.append("<ul>" + "".join(f"<li>{rik_tekst(x)}</li>" for x in b["ul"]) + "</ul>")
+        else:
+            raise SystemExit(f"Ukjent innholdsblokk i kurs.json: {b}")
+    return "\n        ".join(deler)
+
+
+def pris_rader(k):
+    linjer = k.get("priser") or ([{"tekst": "Kurs", "pris": k["pris"]}] if k.get("pris") else [])
+    rader = []
+    for l in linjer:
+        belop = fmt_pris(int(l["pris"])) if isinstance(l.get("pris"), (int, float)) else ""
+        merk = f" <span>{e(l['merknad'])}</span>" if l.get("merknad") else ""
+        rader.append(f"<div><dt>{rik_tekst(l['tekst'])}</dt><dd>{belop}{merk}</dd></div>")
+    return "\n            ".join(rader)
 
 
 def json_ld(data):
@@ -151,15 +205,79 @@ def json_ld(data):
             .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"))
 
 
+SIDE_META = re.compile(r"^\s*<!--\s*(\{.*?\})\s*-->", re.S)
+GYLDIG_STI = re.compile(r"^[a-z0-9-]+(/[a-z0-9-]+)*/$")
+RESERVERTE = {"assets", "tools", "docs", "worker", "sider"}
+BILDE_SRC = re.compile(r'src="assets/img/([^"]+)"')
+
+
+def bygg_sider(side, kurs):
+    """Pakker hvert fragment i sider/ inn i nettstedets meny/bunn og skriver <sti>/index.html."""
+    mappe = ROT / "sider"
+    kursstier = {"kurs/"} | {f"kurs/{k['id']}/" for k in kurs}
+    fragmenter = []
+    for fil in sorted(mappe.glob("*.html")) if mappe.exists() else []:
+        kilde = fil.read_text(encoding="utf-8")
+        treff = SIDE_META.match(kilde)
+        if not treff:
+            raise SystemExit(f"sider/{fil.name}: første linje må være <!-- {{JSON-meta}} -->")
+        fragmenter.append((fil, kilde, treff, json.loads(treff.group(1))))
+    # foreldre skrives før barn, så en slettet foreldremappe ikke tar med seg en nettopp bygd underside
+    fragmenter.sort(key=lambda f: (f[3].get("sti", "").count("/"), f[3].get("sti", "")))
+    stier = []
+    for fil, kilde, treff, meta in fragmenter:
+        sti = meta.get("sti", "")
+        if not GYLDIG_STI.match(sti) or sti.split("/")[0] in RESERVERTE or sti in stier or sti in kursstier:
+            raise SystemExit(f"sider/{fil.name}: ugyldig, dobbel eller opptatt sti «{sti}»")
+        if sti.startswith("kurs/") and sti.split("/")[1] not in {k["id"] for k in kurs}:
+            print(f"ADVARSEL: sider/{fil.name} ligger under kurs/{sti.split('/')[1]}/, men kurset er ikke synlig.")
+        innhold = BILDE_SRC.sub(lambda m: f'src="assets/img/{bildefil(m.group(1), fil.name)}"', kilde[treff.end():].strip())
+        ut = ROT / sti
+        if not sti.startswith("kurs/") and ut.exists():
+            shutil.rmtree(ut)
+        ut.mkdir(parents=True, exist_ok=True)
+        (ut / "index.html").write_text(
+            side(
+                sti.count("/"),
+                tittel=meta["tittel"],
+                beskrivelse=meta["beskrivelse"],
+                sti=sti,
+                bilde_url=f"assets/img/{bildefil(meta.get('bilde') or RESERVEBILDE, fil.name)}",
+                body_attr='data-side="innhold"',
+                main=innhold,
+                aktiv=sti,
+                ld={"@context": "https://schema.org", "@type": "WebPage", "name": meta["tittel"],
+                    "description": meta["beskrivelse"], "url": f"{NETTSTED}/{sti}"},
+            ),
+            encoding="utf-8",
+        )
+        stier.append(sti)
+    return stier
+
+
 def last_kursdata():
     if not KURS_API:
         return json.loads((ROT / "assets" / "kurs.json").read_text(encoding="utf-8")), "assets/kurs.json"
     try:
         foresporsel = urllib.request.Request(f"{KURS_API}/kurs", headers={"Accept": "application/json"})
         with urllib.request.urlopen(foresporsel, timeout=30) as svar:
-            return json.loads(svar.read().decode("utf-8")), f"{KURS_API}/kurs"
+            data = json.loads(svar.read().decode("utf-8"))
     except Exception as feil:  # noqa: BLE001 — alt som hindrer fersk data skal stoppe bygget
         raise SystemExit(f"Fikk ikke hentet kursene fra {KURS_API}/kurs ({feil}). Ingenting er publisert.")
+    # FrontCore eier kurs, datoer, plasser og pris; tekstene på kurssidene (innhold, prislister,
+    # lenker, bilder) vedlikeholdes i kurs.json og flettes inn på kurs-id.
+    lokalt = json.loads((ROT / "assets" / "kurs.json").read_text(encoding="utf-8"))
+    lokale = {k["id"]: k for k in lokalt["kurs"]}
+    for k in data["kurs"]:
+        for felt in [f for f, v in k.items() if v is None]:
+            del k[felt]
+        l = lokale.get(k["id"], {})
+        for felt in ("sidetittel", "innhold", "priser", "prismerknad", "lenker", "bilde", "desc", "koder", "varighet"):
+            if not k.get(felt) and l.get(felt):
+                k[felt] = l[felt]
+    for nokkel, navn in lokalt["kategorier"].items():
+        data["kategorier"].setdefault(nokkel, navn)
+    return data, f"{KURS_API}/kurs + tekster fra assets/kurs.json"
 
 
 def main():
@@ -177,13 +295,15 @@ def main():
     bunn = utdrag(index, r'<footer class="footer">.*?</footer>', "bunnen")
     vinduer = utdrag(index, r"<!-- ============ PÅMELDINGSMODAL.*?(?=<script src=)", "påmeldingsvinduene").rstrip()
 
-    def side(dybde, *, tittel, beskrivelse, sti, bilde_url, body_attr, main, ld):
+    def side(dybde, *, tittel, beskrivelse, sti, bilde_url, body_attr, main, ld, aktiv=None):
         base = "../" * dybde
         url = f"{NETTSTED}/{sti}"
         # med <base> peker «#x» til forsiden: logoen skal dit, hopp-lenken skal bli på siden
         lokal_meny = meny.replace('class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen"',
                                   'class="brand" href="./" aria-label="Kompetanse Kurs – til forsiden"', 1)
         lokal_hopp = hopp.replace('href="#innhold"', f'href="{sti}#innhold"', 1)
+        if aktiv:
+            lokal_meny = lokal_meny.replace(f'<a href="{aktiv}">', f'<a href="{aktiv}" aria-current="page">', 1)
         return f"""<!doctype html>
 <html lang="nb">
 <head>
@@ -239,7 +359,10 @@ def main():
         fakta = []
         if k.get("varighet"):
             fakta.append(f'<div><dt>Varighet</dt><dd>{e(k["varighet"])}</dd></div>')
-        fakta.append(f"<div><dt>Pris</dt><dd>{pris_tekst(k)}</dd></div>")
+        pris = f"{pris_tekst(k)} eks. mva." if k.get("pris") else pris_tekst(k)
+        if k.get("prismerknad"):
+            pris += f" · {e(k['prismerknad'])}"
+        fakta.append(f"<div><dt>Pris</dt><dd>{pris}</dd></div>")
         fakta.append(f"<div><dt>Sted</dt><dd>{e(', '.join(steder))} · eller bedriftsinternt</dd></div>")
         forste = hoveddato(datoer)
         hovedknapp = "Meld interesse" if forste == "forespørsel" else (
@@ -269,6 +392,34 @@ def main():
             **({"hasCourseInstance": instanser} if instanser else {}),
         }
 
+        lenker = "".join(
+            f'<li><a href="{e(l["href"])}">{e(l["tekst"])} <span aria-hidden="true">→</span></a></li>'
+            for l in k.get("lenker") or [] if TRYGG_HREF.match(l.get("href", "")))
+        priskort = ""
+        if k.get("pris") or k.get("priser"):
+            priskort = f"""
+        <aside class="pris-kort" aria-labelledby="priser-tittel">
+          <h2 id="priser-tittel">Priser</h2>
+          <dl class="pris-liste">
+            {pris_rader(k)}
+          </dl>
+          <p class="pris-merk mono">Alle priser er eks. mva.{" " + e(k["prismerknad"][0].upper() + k["prismerknad"][1:]) + "." if k.get("prismerknad") and not k.get("priser") else ""}</p>
+          <button class="btn btn-signal btn-block" type="button" data-hovedknapp data-book="{e(k["id"])}" data-date="{forste}">{hovedknapp}</button>
+        </aside>"""
+        om_kurset = ""
+        if k.get("innhold") or priskort:
+            om_kurset = f"""
+  <section class="section" id="om-kurset" aria-labelledby="om-kurset-tittel">
+    <div class="container kursside-innhold">
+      <div class="prosa">
+        <h2 id="om-kurset-tittel">Om kurset</h2>
+        {innhold_html(k.get("innhold"))}
+        {f'<ul class="kursside-lenker">{lenker}</ul>' if lenker else ""}
+      </div>{priskort}
+    </div>
+  </section>
+"""
+
         main = f"""  <div class="container kursside-topp">
     <nav class="brodsmuler mono" aria-label="Brødsmuler">
       <a href="kurs/">Våre kurs</a><span aria-hidden="true">/</span><span aria-current="page">{e(k["navn"])}</span>
@@ -280,21 +431,21 @@ def main():
     <div class="container kursside-grid">
       <div class="kursside-tekst">
         <p class="kicker">{e(kat)}</p>
-        <h1 id="kurs-tittel">{e(k["navn"])}</h1>
-        <p class="kursside-koder mono">{e(k.get("koder", ""))}</p>
+        <h1 id="kurs-tittel"{' class="lang-tittel"' if len(k.get("sidetittel") or k["navn"]) > 60 else ""}>{e(k.get("sidetittel") or k["navn"])}</h1>
+        <p class="kursside-koder mono">{e(koder(dict(k, navn=k.get("sidetittel") or k["navn"])))}</p>
         <p class="kursside-lead">{e(k["desc"])}</p>
         <dl class="kursside-fakta mono">
           {"".join(fakta)}
         </dl>
         <div class="kursside-handling">
-          <button class="btn btn-signal btn-lg" type="button" id="kursside-hovedknapp" data-book="{e(k["id"])}" data-date="{forste}">{hovedknapp}</button>
-          <button class="btn btn-tilbud btn-lg" type="button" data-tilbud>Be om tilbud for bedrift</button>
+          <button class="btn btn-signal btn-lg" type="button" id="kursside-hovedknapp" data-hovedknapp data-book="{e(k["id"])}" data-date="{forste}">{hovedknapp}</button>
+          <button class="btn btn-tilbud btn-lg" type="button" data-tilbud data-tema="Kurs for bedrift">Be om tilbud for bedrift</button>
         </div>
       </div>
       <figure class="kursside-foto"><img src="{bilde(k)}" alt="" width="900" height="600" fetchpriority="high"></figure>
     </div>
   </section>
-
+{om_kurset}
   <section class="section section-mist" id="datoer" aria-labelledby="datoer-tittel">
     <div class="container">
       <header class="section-head">
@@ -306,6 +457,19 @@ def main():
       </ul>
       <p class="section-note mono">Passer ingen av datoene? Vi holder kurset også bedriftsinternt, hos dere —
         <button class="lenkeknapp" type="button" data-tilbud>be om tilbud</button>.</p>
+    </div>
+  </section>
+
+  <section class="section kursside-cta" aria-labelledby="cta-tittel">
+    <div class="container kursside-cta-rad">
+      <div>
+        <h2 id="cta-tittel">Klar for {e(k["navn"])}?</h2>
+        <p>Meld deg på en kommende dato — eller be om kurset bedriftsinternt hos dere.</p>
+      </div>
+      <div class="kursside-handling">
+        <button class="btn btn-signal btn-lg" type="button" data-hovedknapp data-book="{e(k["id"])}" data-date="{forste}">{hovedknapp}</button>
+        <button class="btn btn-tilbud btn-lg" type="button" data-tilbud data-tema="Kurs for bedrift">Be om tilbud</button>
+      </div>
     </div>
   </section>
 
@@ -395,7 +559,9 @@ def main():
         encoding="utf-8",
     )
 
-    adresser = [f"{NETTSTED}/", f"{NETTSTED}/kurs/"] + [f"{NETTSTED}/kurs/{k['id']}/" for k in kurs]
+    ekstra = bygg_sider(side, kurs)
+    adresser = ([f"{NETTSTED}/", f"{NETTSTED}/kurs/"] + [f"{NETTSTED}/kurs/{k['id']}/" for k in kurs]
+                + [f"{NETTSTED}/{sti}" for sti in ekstra])
     (ROT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -403,10 +569,10 @@ def main():
         + "</urlset>\n",
         encoding="utf-8",
     )
-    (ROT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {NETTSTED}/sitemap.xml\n", encoding="utf-8")
+    (ROT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /sider/\n\nSitemap: {NETTSTED}/sitemap.xml\n", encoding="utf-8")
 
     skjult = [k["id"] for k in data["kurs"] if k.get("synlig", True) is False]
-    print(f"Bygget {len(kurs)} kurssider + oversikt + sitemap fra {kilde} ({NETTSTED})."
+    print(f"Bygget {len(kurs)} kurssider + oversikt + {len(ekstra)} innholdssider + sitemap fra {kilde} ({NETTSTED})."
           + (f" Skjult (synlig: false): {', '.join(skjult)}." if skjult else ""))
 
 

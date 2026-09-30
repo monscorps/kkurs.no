@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=31">
+  <link rel="stylesheet" href="assets/styles.css?v=36">
 </head>
 <body>
 
@@ -25,10 +25,13 @@
   <div class="container nav-inner">
     <a class="brand" href="#topp" aria-label="Kompetanse Kurs – til toppen">
       <img class="brand-logo" src="assets/img/logo.svg" alt="" width="44" height="44">
-      <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
+      <span>Kompetanse Kurs</span>
     </a>
     <nav class="nav-links" id="hovedmeny" aria-label="Hovedmeny">
       <a href="#kurs">Kurs</a>
+      <a href="hms/">HMS</a>
+      <a href="oppkjoring/">Oppkjøring</a>
+      <a href="bevis/">Bevis</a>
       <a href="#kalender">Kurskalender</a>
       <a href="#om">Om oss</a>
       <a href="#nyheter">Nyheter</a>
@@ -55,10 +58,10 @@
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="kicker reveal">Sertifisert sikkerhetsopplæring i Bergen</p>
-        <h1 class="reveal d1">Kompetanse som holder industrien i&nbsp;drift.</h1>
-        <p class="lead reveal d2">Kompetanse Kurs leverer sertifisert og dokumentert
-          sikkerhetsopplæring til bygg, anlegg, industri og maritim næring — fra kurssenteret
-          vårt i Bergen, eller bedriftsinternt hos dere.</p>
+        <h1 class="reveal d1">Kompetanse som holder industrien i&nbsp;drift!</h1>
+        <p class="lead reveal d2">Sertifisert og dokumentert sikkerhetsopplæring til bygg, anlegg,
+          industri, offshore og maritim næring — fra kurssenteret vårt i Bergen, eller
+          bedriftsinternt hos dere.</p>
         <div class="hero-actions reveal d3">
           <a class="btn btn-signal btn-lg" href="#kalender">Se kurs og datoer</a>
           <a class="btn btn-ghost btn-lg" href="#kontakt">Be om tilbud</a>
@@ -77,7 +80,7 @@
     <div class="container">
       <dl class="stats mono" aria-label="Nøkkeltall">
         <div><dt>Kurstyper i katalogen</dt><dd>10+</dd></div>
-        <div><dt>Maks deltakere per kurs</dt><dd>12</dd></div>
+        <div><dt>Maks deltakere per kurs</dt><dd>25</dd></div>
         <div><dt>Svar på forespørsler innen</dt><dd>1 dag</dd></div>
       </dl>
     </div>
@@ -101,7 +104,7 @@
           <button class="emblem-spot" style="--x:73%;--y:27%" data-sektor="lift" data-kat="truck" data-navn="Personløfter og lift" aria-label="Personløfter og lift – se kurs"></button>
           <button class="emblem-spot" style="--x:79%;--y:58%" data-sektor="brann" data-kat="hms" data-navn="Varme arbeider" aria-label="Varme arbeider – se kurs"></button>
           <button class="emblem-spot" style="--x:50%;--y:84%" data-sektor="sertifikat" data-mal="#kalender" data-navn="Kompetansebevis og kurskalender" aria-label="Kompetansebevis – se kurskalenderen"></button>
-          <button class="emblem-spot" style="--x:21%;--y:58%" data-sektor="fallsikring" data-kat="hms" data-navn="Fallsikring" aria-label="Fallsikring – se kurs"></button>
+          <button class="emblem-spot" style="--x:21%;--y:58%" data-sektor="fallsikring" data-kat="bygg" data-navn="Fallsikring" aria-label="Fallsikring – se kurs"></button>
           <button class="emblem-spot emblem-spot--senter" style="--x:50%;--y:52%" data-sektor="senter" data-kat="hms" data-navn="HMS og ledelse" aria-label="HMS og ledelse – se kurs"></button>
           <p class="emblem-caption mono" id="emblem-caption" aria-live="polite">Velg et fagområde i emblemet</p>
         </div>
@@ -113,7 +116,7 @@
             <li><button class="mono" data-kat="truck">Maskinfører</button></li>
             <li><button class="mono" data-kat="hms">HMS</button></li>
             <li><button class="mono" data-kat="hms">Varme arbeider</button></li>
-            <li><button class="mono" data-kat="hms">Fallsikring</button></li>
+            <li><button class="mono" data-kat="bygg">Fallsikring</button></li>
             <li><button class="mono" data-kat="hms">Førstehjelp</button></li>
             <li><button class="mono" data-kat="alle">Og mer</button></li>
           </ul>
@@ -139,7 +142,7 @@
       </header>
       <div class="chips reveal" id="kurs-filter" role="group" aria-label="Filtrer kurs etter kategori"></div>
       <div class="kurs-liste" id="course-grid"><!-- fylles av app.js --></div>
-      <p class="section-note mono reveal">Fant du ikke kurset dere trenger? Vi setter opp
+      <p class="section-note mono reveal">Alle priser er eks. mva. Fant du ikke kurset dere trenger? Vi setter opp
         bedriftsinterne kurs på forespørsel — <a href="#kontakt">be om tilbud</a>.</p>
     </div>
   </section>
@@ -254,16 +257,21 @@
   </section>
 
   <!-- ============ PARTNERE ============ -->
-  <section class="partners" aria-label="Samarbeidspartnere">
-    <div class="container">
-      <p class="kicker reveal">Noen av dem vi jobber med</p>
-    </div>
-    <div class="container">
+  <section class="partners" aria-label="Kunder og samarbeidspartnere">
+    <div class="container partner-gruppe">
+      <h2 class="kicker reveal">Noen av dem vi jobber med</h2>
       <p class="partner-rad reveal">
         <a href="https://smartutleie.no/" target="_blank" rel="noopener"><img src="assets/img/partner-smartutleie.svg" alt="Smart Utleie AS" loading="lazy" decoding="async" height="34"></a>
         <a href="https://stropp.no/" target="_blank" rel="noopener"><img src="assets/img/partner-stropp.png" alt="Stropp AS" loading="lazy" decoding="async" height="42"></a>
         <a href="https://www.wilsongruppen.no/" target="_blank" rel="noopener"><img src="assets/img/partner-wilsongruppen.png" alt="Wilson Gruppen AS" loading="lazy" decoding="async" height="34"></a>
         <a href="https://drageideas.no/" target="_blank" rel="noopener"><img src="assets/img/partner-drageide.png" alt="Drageide Eiendomstjenester AS" loading="lazy" decoding="async" height="30"></a>
+      </p>
+    </div>
+    <div class="container partner-gruppe">
+      <h2 class="kicker reveal">Samarbeidspartnere</h2>
+      <p class="partner-rad reveal">
+        <a href="https://betongsm.no/" target="_blank" rel="noopener"><img src="assets/img/partner-sundt-morstol.png" alt="Betongentreprenøren Sundt &amp; Morstøl AS" loading="lazy" decoding="async" height="42"></a>
+        <a href="https://www.morstol.no/" target="_blank" rel="noopener"><img src="assets/img/partner-birger-morstol.png" alt="Bygg og Snekkermester Birger Morstøl AS" loading="lazy" decoding="async" height="40"></a>
       </p>
     </div>
   </section>
@@ -278,13 +286,23 @@
           forslag og pris — som regel innen én arbeidsdag.</p>
         <dl class="kontakt-info mono">
           <div><dt>Daglig leder</dt><dd>Stian Holgersen</dd></div>
-          <div><dt>Telefon</dt><dd><a href="tel:+4755000000">+47 55 00 00 00</a></dd></div>
+          <div><dt>Telefon</dt><dd><a href="tel:+4793070071">+47 930 70 071</a></dd></div>
           <div><dt>E-post</dt><dd><a href="mailto:post@kkurs.no">post@kkurs.no</a></dd></div>
-          <div><dt>Adresse</dt><dd>Ulsmågvegen 24, 5224 Nesttun</dd></div>
+          <div><dt>Adresse</dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ulsm%C3%A5gvegen%2024%2C%205224%20Nesttun" target="_blank" rel="noopener">Ulsmågvegen 24, 5224 Nesttun ↗</a></dd></div>
+          <div><dt>Facebook</dt><dd><a href="https://www.facebook.com/profile.php?id=61594315895753" target="_blank" rel="noopener">Kompetanse Kurs på Facebook ↗</a></dd></div>
         </dl>
         <div class="kontakt-handling reveal d1">
           <button class="btn btn-signal btn-lg" type="button" data-tilbud>Be om tilbud</button>
         </div>
+      </div>
+      <div class="kart reveal d1">
+        <button class="kart-last" type="button" aria-describedby="kart-merk" data-kart="https://maps.google.com/maps?q=Ulsm%C3%A5gvegen%2024%2C%205224%20Nesttun&amp;z=15&amp;output=embed">
+          <svg class="kart-nal" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          <span class="kart-adresse">Ulsmågvegen 24<br>5224 Nesttun, Bergen</span>
+          <span class="kart-knapp mono">Vis kart<span class="sr-only"> over Ulsmågvegen 24, 5224 Nesttun</span></span>
+          <span class="kart-merk mono" id="kart-merk">Kartet lastes fra Google Maps når du trykker</span>
+        </button>
+        <a class="kart-vei mono" href="https://www.google.com/maps/dir/?api=1&amp;destination=Ulsm%C3%A5gvegen%2024%2C%205224%20Nesttun" target="_blank" rel="noopener">Veibeskrivelse i Google Maps ↗</a>
       </div>
     </div>
   </section>
@@ -296,18 +314,19 @@
     <div class="footer-brand">
       <a class="brand on-dark" href="#topp">
         <img class="brand-logo" src="assets/img/logo.svg" alt="" width="44" height="44">
-        <span>Kompetanse Kurs<span class="brand-dot">.</span></span>
+        <span>Kompetanse Kurs</span>
       </a>
       <p>Sertifisert sikkerhetsopplæring og HMS-kompetanse i Bergen.</p>
       <div class="some" aria-label="Følg oss">
-        <a href="#" data-demo-link aria-label="LinkedIn (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.49 2.49 0 1 1 0 3.5a2.49 2.49 0 0 1 4.98 0zM.4 8.6h4.6V24H.4zM8.6 8.6h4.4v2.1h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.5 3.1 5.5 7V24h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24H8.6z"/></svg></a>
-        <a href="#" data-demo-link aria-label="Facebook (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
-        <a href="#" data-demo-link aria-label="Instagram (kommer)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.8 3.8 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.6.5 1.1.7.4.1.8.3 1.9.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9a2 2 0 0 0-.7-1.1 2 2 0 0 0-1.1-.7c-.4-.1-.8-.3-1.9-.3-1.3-.1-1.7-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></a>
+        <a href="https://www.facebook.com/profile.php?id=61594315895753" target="_blank" rel="noopener" aria-label="Kompetanse Kurs på Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
       </div>
     </div>
     <nav class="footer-col" aria-label="Snarveier">
       <p class="footer-head mono">Snarveier</p>
       <a href="kurs/">Våre kurs</a>
+      <a href="hms/">HMS-tjenester</a>
+      <a href="oppkjoring/">Oppkjøring</a>
+      <a href="bevis/">Kursbevis</a>
       <a href="#kalender">Kurskalender</a>
       <a href="#om">Om oss</a>
       <a href="#nyheter">Nyheter</a>
@@ -322,7 +341,7 @@
     </div>
     <div class="footer-col">
       <p class="footer-head mono">Adresse</p>
-      <p class="footer-adr">Ulsmågvegen 24<br>5224 Nesttun, Bergen<br>Bedriftsinternt i Bergen og omland</p>
+      <p class="footer-adr"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Ulsm%C3%A5gvegen%2024%2C%205224%20Nesttun" target="_blank" rel="noopener">Ulsmågvegen 24<br>5224 Nesttun, Bergen</a><br>Bedriftsinternt i Bergen og omland<br><a href="tel:+4793070071">+47 930 70 071</a></p>
     </div>
   </div>
   <div class="container footer-bottom mono">
@@ -351,7 +370,7 @@
       <div class="form-row">
         <div class="field">
           <label for="m-antall">Antall deltakere</label>
-          <input id="m-antall" name="antall" type="number" min="1" max="20" value="1" inputmode="numeric">
+          <input id="m-antall" name="antall" type="number" min="1" max="25" value="1" inputmode="numeric">
         </div>
         <div class="field">
           <label for="m-tlf">Telefon</label>
@@ -461,8 +480,9 @@
         <select id="f-tema" name="tema">
         <option>Kurs for bedrift</option>
         <option>Åpne kurs og påmelding</option>
-        <option>HMS-rådgivning</option>
-        <option>Digital HMS og KI</option>
+        <option>Oppkjøring</option>
+        <option>Nytt kompetansebevis</option>
+        <option>HMS-tjenester</option>
         <option>Annet</option>
         </select>
       </div>
@@ -478,6 +498,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=31"></script>
+<script src="assets/app.js?v=36"></script>
 </body>
 </html>

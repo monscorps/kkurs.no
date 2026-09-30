@@ -188,7 +188,6 @@ p { margin: 0; text-wrap: pretty; }
 }
 .nav.scrolled .brand, .nav.scrolled .nav-links a { color: var(--blekk); }
 .nav.scrolled .nav-links a:hover { color: var(--navy); }
-.nav.scrolled .brand-dot { color: var(--gronn); }
 .nav.scrolled .lesebar { background: var(--gronn); }
 .nav.scrolled .nav-cta .btn-ghost { background: var(--gronn); border-color: var(--gronn); color: #fff; }
 .nav.scrolled .nav-cta .btn-ghost:hover { background: var(--gronn-dyp); border-color: var(--gronn-dyp); color: #fff; }
@@ -211,7 +210,6 @@ p { margin: 0; text-wrap: pretty; }
 }
 .brand-logo { width: 44px; height: 44px; flex: none; border-radius: 50%; }
 .footer .brand-logo { width: 48px; height: 48px; }
-.brand-dot { color: var(--frisk); }
 .nav-links { display: flex; gap: 1.5rem; margin-inline: auto; }
 .nav-links a {
   font-weight: 600; font-size: var(--t--1); letter-spacing: 0.02em;
@@ -517,7 +515,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ── kontakt — grønn flate ──────────────────────────────────────── */
 
-.kontakt-grid { display: grid; grid-template-columns: 1fr; max-width: 42rem; }
+.kontakt-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 .kontakt-handling { margin-top: 2.2rem; }
 .kontakt-copy h2 { margin-bottom: 1rem; }
 .kontakt-info { margin: 2.2rem 0 0; display: grid; gap: 0; border-top: 1px solid var(--linje-gronn); }
@@ -730,7 +728,6 @@ body.modal-open { overflow: hidden; }
     box-shadow: 0 1px 0 var(--linje);
   }
   .nav .brand, .nav .nav-links a { color: var(--blekk); }
-  .nav .brand-dot { color: var(--gronn); }
   .nav .lesebar { background: var(--gronn); }
   .nav .nav-cta .btn-signal { background: var(--navy); border-color: var(--navy); color: #fff; }
   .nav .nav-burger { border-color: var(--linje); }
@@ -1225,4 +1222,145 @@ body.modal-open { overflow: hidden; }
   .deltaker-rad { grid-template-columns: 1.4rem 1fr 1fr; }
   .deltaker-rad .d-epost { grid-column: 2 / -1; }
   .deltaker-rad input { font-size: 1rem; }
+}
+
+/* ── kontakt: kart som lastes ved klikk ──────────────────────────── */
+.kontakt-info a[target] { white-space: normal; }
+.kart { display: grid; gap: 0.8rem; min-width: 0; }
+.kart-last, .kart-ramme {
+  width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius);
+  border: 1px solid var(--linje-gronn);
+}
+.kart-last {
+  display: grid; place-content: center; justify-items: center; gap: 0.7rem; text-align: center;
+  background: rgba(255, 255, 255, 0.04); color: var(--pa-gronn); cursor: pointer; font: inherit;
+  transition: background 0.16s, border-color 0.16s;
+}
+.kart-last:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--pa-gronn-dus); }
+.kart-nal { width: 34px; height: 34px; fill: var(--frisk); }
+.kart-adresse { font-weight: 600; line-height: 1.4; }
+.kart-knapp {
+  font-size: var(--t--2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+  border: 1px solid var(--pa-gronn-dus); border-radius: var(--radius-knapp); padding: 0.55em 1em;
+}
+.kart-merk { font-size: 0.68rem; color: var(--pa-gronn-dus); }
+.kart-ramme { display: block; border: 0; background: var(--papir); }
+.kart-vei { font-size: var(--t--2); color: var(--pa-gronn-dus); justify-self: start; border-bottom: 1px solid var(--linje-gronn); }
+.kart-vei:hover { color: var(--pa-gronn); }
+.footer-adr a { color: inherit; }
+.footer-adr a:hover { color: var(--pa-gronn); }
+
+/* ── brødtekst på kurs- og innholdssidene ───────────────────────── */
+.prosa { max-width: 44rem; }
+.prosa h2 { font-size: var(--t-3); margin: 0 0 1.2rem; }
+.prosa h2:not(:first-child) { margin-top: 2.6rem; }
+.prosa h3 { font-size: var(--t-1); margin: 2rem 0 0.7rem; }
+.prosa p { color: var(--blekk-2); line-height: 1.7; margin: 0 0 1rem; }
+.prosa ul, .prosa ol { margin: 0 0 1.2rem; padding-left: 1.2rem; color: var(--blekk-2); line-height: 1.6; }
+.prosa li { margin: 0.35rem 0; padding-left: 0.2rem; }
+.prosa li::marker { color: var(--gronn); }
+.prosa a { color: var(--navy); border-bottom: 1.5px solid currentColor; }
+.prosa a:hover { color: var(--navy-dyp); }
+.prosa > :last-child { margin-bottom: 0; }
+.kursside-lenker { list-style: none; padding: 0 !important; margin-top: 1.6rem !important; }
+.kursside-lenker a { font-weight: 600; border-bottom-width: 1.5px; }
+
+/* kurssiden: «Om kurset» med priskort ved siden av */
+.kursside-innhold {
+  display: grid; grid-template-columns: minmax(0, 1fr) 21rem;
+  gap: clamp(2rem, 5vw, 4.5rem); align-items: start;
+}
+.pris-kort {
+  position: sticky; top: calc(var(--nav-h) + 1.5rem);
+  background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 1.6rem;
+}
+.pris-kort h2 { font-size: var(--t-1); margin-bottom: 0.9rem; }
+.pris-liste { margin: 0; display: grid; }
+.pris-liste > div {
+  display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; align-items: baseline;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--linje-svak); font-size: var(--t--1);
+}
+.pris-liste > div:first-child { border-top: 1px solid var(--linje-svak); }
+.pris-liste dt { color: var(--blekk-2); }
+.pris-liste dd { margin: 0; font-family: var(--font-mono); color: var(--blekk); text-align: right; white-space: nowrap; }
+.pris-liste dd span { display: block; font-size: 0.7rem; color: var(--blekk-3); white-space: normal; }
+.pris-merk { font-size: 0.7rem; color: var(--blekk-3); margin: 0.9rem 0 1.1rem; }
+.prosa .pris-liste { max-width: 34rem; margin: 0.4rem 0 1.4rem; }
+
+/* påmelding også nederst på kurssiden */
+.kursside-cta { background: var(--navy); color: var(--pa-gronn); padding: var(--rom-m) 0; }
+.kursside-cta h2 { color: var(--hvit); font-size: var(--t-2); }
+.kursside-cta p { color: var(--pa-gronn-dus); margin-top: 0.4rem; }
+.kursside-cta-rad { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem 3rem; flex-wrap: wrap; }
+.kursside-cta .kursside-handling { margin-top: 0; }
+.kursside-cta .btn-signal { background: var(--hvit); border-color: var(--hvit); color: var(--navy); }
+.kursside-cta .btn-signal:hover { background: var(--papir-2); border-color: var(--papir-2); }
+
+/* innholdssider: kort side om side og nummererte steg */
+.kort-rad { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1.2rem; max-width: none; }
+.info-kort {
+  background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
+  padding: 1.6rem 1.6rem 1.7rem;
+}
+.info-kort h2 { font-size: var(--t-2); margin: 0 0 0.9rem !important; }
+.prosa .kort-rad { margin: 0 0 1.5rem; }
+.steg { list-style: none; counter-reset: steg; padding-left: 0 !important; }
+.steg > li { counter-increment: steg; position: relative; padding-left: 2.4rem; margin: 0.7rem 0; }
+.steg > li::before {
+  content: counter(steg); position: absolute; left: 0; top: 0.05rem;
+  width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; background: var(--navy); color: #fff;
+}
+
+/* samarbeidspartnere: egen rad under kundene */
+.partner-gruppe + .partner-gruppe { margin-top: 2.2rem; }
+
+@media (max-width: 900px) {
+  .kontakt-grid { grid-template-columns: minmax(0, 1fr); }
+  .kursside-innhold { grid-template-columns: 1fr; }
+  .pris-kort { position: static; }
+}
+@media (max-width: 640px) {
+  .kursside-cta-rad .kursside-handling { width: 100%; }
+  .pris-kort { padding: 1.2rem 1.1rem 1.3rem; }
+}
+
+/* mellombredder: toppmenyen får ikke plass til alle fanene — «Om oss» og «Nyheter»
+   ligger fortsatt i bunnen og i mobilmenyen */
+@media (min-width: 761px) and (max-width: 1240px) {
+  .nav-links a[href="#om"], .nav-links a[href="#nyheter"] { display: none; }
+}
+@media (min-width: 761px) and (max-width: 880px) {
+  .nav-links a[href="#kalender"] { display: none; } /* «Se kurskalender»-knappen dekker den */
+}
+
+/* ── etter sluttkontrollen ─────────────────────────────────────── */
+/* fokusring synlig på den mørke knapperaden nederst på kurssidene */
+.kursside-cta :focus-visible { outline-color: var(--sjo); }
+/* mobilmenyen i liggende format: start øverst så første fane ikke havner under toppfeltet */
+@media (max-width: 760px) {
+  .nav-links { justify-content: safe center; }
+}
+@media (max-width: 760px) and (max-height: 520px) {
+  .nav-links { justify-content: flex-start; }
+}
+/* lange kursnavn brytes i stedet for å gi sidescroll på smale skjermer */
+.kursrad-topp { grid-template-columns: minmax(0, 1fr) auto auto 1.2rem; }
+.rel-liste a { grid-template-columns: minmax(0, 1fr) auto auto 1.2rem; }
+.kursrad-navn, .rel-navn { overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .kursrad-topp { grid-template-columns: minmax(0, 1fr) auto 1rem; }
+  .rel-liste a { grid-template-columns: minmax(0, 1fr) auto 1rem; }
+}
+/* innholdssidene: teksten flukter med menyen og heroen, lesebredden begrenses per element */
+.container.prosa { max-width: none; }
+.container.prosa > :not(.kort-rad):not(.steg-rad) { max-width: 44rem; }
+/* lange sidetitler */
+.kursside-tekst h1.lang-tittel { font-size: var(--t-3); max-width: 22em; }
+/* aktiv side i menyen */
+.nav-links a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.45em; text-decoration-thickness: 2px; }
+/* trykkflater på mobil for de nye lenkene */
+@media (pointer: coarse) {
+  .kontakt-info a, .kart-vei, .kursside-lenker a { display: inline-flex; align-items: center; min-height: 44px; }
 }

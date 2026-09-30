@@ -56,6 +56,20 @@ den gamle lenken å virke.
 Ved lansering byttes filen ut med FrontCore som kilde, og da administreres kursene i
 FrontCore-adminen i stedet (samme prinsipp: legg inn kurset ett sted, alt oppdateres).
 
+## Innholdssider (HMS, Oppkjøring, Bevis …)
+
+Sider som ikke er kurs ligger som HTML-fragmenter i `sider/`. Første linje er en kommentar med
+JSON-meta (`sti`, `tittel`, `beskrivelse`, `bilde`); resten er innholdet i `<main>`. `tools/bygg.py`
+pakker dem inn i samme meny, bunn og vinduer som resten av siden og skriver `<sti>/index.html`.
+Ny side på toppnivå: legg `/<sti>/` i `.gitignore` (den er generert). Knapper med `data-tilbud
+data-tema="Oppkjøring"` åpner kontaktskjemaet med temaet forhåndsvalgt.
+
+## Kursinnhold
+
+Hvert kurs i `assets/kurs.json` kan ha `innhold` (avsnitt `{"p"}`, underoverskrift `{"h"}`,
+punktliste `{"ul"}`; lenker skrives `[tekst](kurs/fallsikring/)`), `priser` (prislinjer som vises
+i priskortet), `sidetittel`, `prismerknad` og `lenker`. Alle priser er eks. mva.
+
 ## Bytte herobilde
 
 Heroen bruker `assets/img/hero.jpg` (kundens egen collage: offshore + gravemaskin med grønn

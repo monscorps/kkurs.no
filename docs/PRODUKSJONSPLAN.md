@@ -52,7 +52,8 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 - [x] Org.nr. 936 507 840 og adresse Ulsmågvegen 24, 5224 Nesttun (fra Stian 25.09).
       NB: i Brønnøysund står org.nr.-et på **RMS Betongentreprenør AS** — bekreft juridisk navn
       til bunnteksten (f.eks. «Kompetanse Kurs er en del av RMS Betongentreprenør AS»).
-- [ ] Telefon (`+47 55 00 00 00`) og SoMe-lenker (`href="#"`) er fortsatt plassholdere.
+- [x] Telefon +47 930 70 071 og Facebook-lenke (bunn og kontakt) — fra instruksen 28.09.
+- [ ] LinkedIn og Instagram legges inn når profilene finnes.
 - [x] Partnerne i «Noen av dem vi jobber med» har logo + lenke (hentet fra partnernes egne
       nettsider 23.09, vist i én farge). Be gjerne partnerne om offisielle logopakker og en
       skriftlig ok for bruken.

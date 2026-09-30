@@ -1,53 +1,247 @@
 {
-  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Felter: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'plasser' = totalt antall, 'ledige' = ledige nå. Valgfritt: 'varighet', 'pris' (uten pris vises «Pris på forespørsel»), 'bilde' (filnavn i assets/img, ellers kurs-<id>.jpg). 'synlig': false skjuler kurset overalt — sett til true for å publisere det. Ved lansering erstattes filen av FrontCore som kilde.",
+  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Alle priser er i hele kroner eks. mva. Felter per kurs: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'navn' = kort navn i lister, kalender og påmelding. 'sidetittel' (valgfri) = lengre overskrift på kurssiden; uten den brukes 'navn'. 'koder' (valgfri) = klasser/koder, f.eks. «T1–T5». 'kat' = en av nøklene i 'kategorier'. 'varighet' (valgfri) vises som tekst, f.eks. «½ dag» — utelat feltet når varighet ikke skal vises. 'pris' = hovedprisen som bookes (uten pris vises «Pris på forespørsel»). 'prismerknad' (valgfri) = tillegg til hovedprisen, f.eks. «inkl. slukkeøvelse og digitalt bevis». 'priser' (valgfri) = alle prislinjene på kurssiden, i rekkefølge: {'tekst', 'pris', 'merknad'} — 'merknad' er valgfri (f.eks. «per klasse» eller «+ mva.»), og en linje uten beløp har bare 'tekst'. 'bilde' = filnavn i assets/img (uten feltet brukes kurs-<id>.jpg; finnes ikke filen, vises et reservebilde). 'desc' = kort ingress i ren tekst — vises i kurslisten, øverst på kurssiden og i søkemotorer. 'innhold' (valgfri) = resten av kursteksten som blokker i rekkefølge: {'p': 'avsnitt'}, {'h': 'underoverskrift'} eller {'ul': ['punkt', 'punkt']}; lenker i teksten skrives [tekst](sti), f.eks. [fallsikringskurs](kurs/fallsikring/). 'lenker' (valgfri) = ekstra lenker under kursteksten: {'tekst', 'href'}. 'synlig': false skjuler kurset overalt — sett til true (eller fjern linjen) for å publisere det. 'datoer' = kursdatoer: 'd' (ÅÅÅÅ-MM-DD), 'sted', 'plasser' = totalt antall, 'ledige' = ledige nå, 'merk' (valgfri) = merknad, f.eks. «på engelsk». Ved lansering erstattes filen av FrontCore som kilde.",
   "kategorier": {
     "truck": "Truck og maskin",
     "kran": "Kran og løft",
-    "hms": "HMS og ledelse"
+    "bygg": "Bygg og anlegg",
+    "hms": "HMS og sikkerhet"
   },
   "kurs": [
     {
       "id": "truck",
       "navn": "Truckførerkurs",
-      "koder": "T1–T4",
+      "sidetittel": "Truckførerkurs T1–T5",
+      "koder": "T1–T5",
       "kat": "truck",
       "varighet": "3 dager",
-      "pris": 6900,
-      "desc": "Sertifisert sikkerhetsopplæring for gaffeltruck inntil 10 tonn. Teori og praksiskjøring med erfarne instruktører.",
+      "pris": 11000,
+      "priser": [
+        {
+          "tekst": "Teori",
+          "pris": 6150
+        },
+        {
+          "tekst": "Praksis (modul 4.2)",
+          "pris": 6250
+        },
+        {
+          "tekst": "Pakkepris (1 klasse)",
+          "pris": 11000
+        },
+        {
+          "tekst": "Tilleggsklasse",
+          "pris": 5000
+        },
+        {
+          "tekst": "Ekstra praksistimer med fadder",
+          "pris": 2099,
+          "merknad": "per klasse"
+        },
+        {
+          "tekst": "Fadderavtale",
+          "pris": 625
+        },
+        {
+          "tekst": "Kompetansebevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "prismerknad": "pakkepris (1 klasse)",
+      "bilde": "kurs-truck.jpg",
+      "desc": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype.",
+      "innhold": [
+        {
+          "p": "I opplæringen vår legger vi vekt på sikkerhet, ansvarsbevissthet og gode ferdigheter."
+        },
+        {
+          "p": "Kurset går over 3 dager, med en teoridel i klasserom og en praksisdel med oppkjøring til slutt. Når kurset er fullført og bestått, får deltakeren truckførerbevis."
+        },
+        {
+          "h": "Klasser"
+        },
+        {
+          "ul": [
+            "T1: trekk-, plukk-, plattform- og palletruck",
+            "T2: skyvemast- og støttebeinstruck",
+            "T3: svinggaffel- og førerløftende truck",
+            "T4: motvektstruck",
+            "T5: sidelaster"
+          ]
+        },
+        {
+          "p": "For [T6–T8 (T8.1, T8.2, T8.4)](kurs/stortruck/) og [teleskoptruck C1–C2](kurs/teleskop/) har vi egne kurs."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Grunnleggende HMS (modul 1.1)",
+            "Årsaker til ulykker",
+            "Lover og forskrifter",
+            "Arbeidsutstyr",
+            "Sikkerhetsskilting og signalgiving",
+            "Ytre miljø",
+            "Forskrifter og ansvar",
+            "Farlig gods",
+            "Modul 3.2 og praksis (modul 4.2)"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-09-29",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 8
         },
         {
           "d": "2026-10-27",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 10
         }
       ]
     },
     {
+      "id": "stortruck",
+      "navn": "Stortruckførerkurs",
+      "sidetittel": "Stortruckførerkurs T6–T8",
+      "koder": "T6–T8 (T8.1, T8.2, T8.4)",
+      "kat": "truck",
+      "pris": 3649,
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 3649
+        },
+        {
+          "tekst": "Oppkjøring",
+          "pris": 2099
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "bilde": "kurs-stortruck.jpg",
+      "desc": "Stortrucker er trucker med løftekapasitet over 10 tonn. Kurset bygger videre på ordinært truckførerkurs for trucker under 10 tonn, og gir deg kompetansen du trenger for å kjøre stortruck trygt og sikkert.",
+      "innhold": [
+        {
+          "p": "Du får teoretisk opplæring i sikker bruk av stortruck, og lærer om truckens konstruksjon, virkemåte og vedlikehold. Målet er å unngå uhell og ulykker ved truckkjøring. Kurset avsluttes med en teoretisk prøve."
+        },
+        {
+          "h": "Klasser"
+        },
+        {
+          "p": "T6–T8 (T8.1, T8.2, T8.4)"
+        },
+        {
+          "h": "Dette må du ha før kurset"
+        },
+        {
+          "p": "Truckførerbevis T4 (motvektstruck) før du kan ta T8. Send med dokumentasjon på T4-beviset når du melder deg på."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Krav til truckfører",
+            "Ulykker med stortruck",
+            "Truckens virkemåte og konstruksjon",
+            "Stabilitet",
+            "Godshåndtering",
+            "Kontroll og vedlikehold",
+            "Bruks- og sikkerhetsbestemmelser",
+            "Sertifisering og dokumentasjon"
+          ]
+        }
+      ],
+      "datoer": []
+    },
+    {
       "id": "teleskop",
       "navn": "Teleskoptruckkurs",
+      "sidetittel": "Teleskoptruckkurs C1–C2",
       "koder": "C1–C2",
       "kat": "truck",
-      "varighet": "2 dager",
-      "pris": 8500,
-      "desc": "For deg som skal kjøre teleskoptruck med fast eller rundtsvingende bom — sertifisert opplæring i klasse C1 og C2.",
+      "pris": 3590,
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 3590
+        },
+        {
+          "tekst": "Oppkjøring",
+          "pris": 2250
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "bilde": "kurs-teleskop-ny.jpg",
+      "desc": "En teleskoptruck har teleskopbom med rekkevidde på mer enn 2 meter, og kan løfte opptil 10 tonn. Kurset gir førere en teoretisk grunnopplæring i bruk av teleskoptruck, slik at ulykker unngås.",
+      "innhold": [
+        {
+          "p": "Du lærer om oppbygging, faremomenter og riktig bruk."
+        },
+        {
+          "h": "Klasser"
+        },
+        {
+          "ul": [
+            "C1: truck der overdelen står fast på rammen",
+            "C2: truck montert på svingkrans"
+          ]
+        },
+        {
+          "h": "Dette må du ha før kurset"
+        },
+        {
+          "p": "Kurset er en tilleggsopplæring. Du må ha dokumentert opplæring i minst én av disse:"
+        },
+        {
+          "ul": [
+            "Truckførerbevis inkl. T4 (motvektstruck og terrengående truck)",
+            "Førerbevis for masseforflytningsmaskin",
+            "G8 lastebilkran (krever ekstra praksis)"
+          ]
+        },
+        {
+          "p": "Send med dokumentasjon på forhåndsopplæringen når du melder deg på."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Teleskoptruckens konstruksjon og virkemåte",
+            "Støtteben og stabilitet",
+            "Bomkonstruksjon",
+            "Overlastsystem",
+            "Lastdiagram",
+            "Oppstilling",
+            "Tilleggsutstyr og vinsj",
+            "Avsluttende prøve"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-09-22",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 2
         },
         {
           "d": "2026-11-17",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 12
         }
       ]
@@ -55,11 +249,77 @@
     {
       "id": "maskin",
       "navn": "Maskinførerkurs",
+      "sidetittel": "Maskinførerkurs M1–M6",
       "koder": "M1–M6",
       "kat": "truck",
-      "varighet": "4 dager",
-      "pris": 9500,
-      "desc": "Masseforflytningsmaskiner: gravemaskin, hjullaster, dumper og flere. Modulbasert — ta klassene dere trenger.",
+      "pris": 7299,
+      "priser": [
+        {
+          "tekst": "Grunnkurs",
+          "pris": 7299
+        },
+        {
+          "tekst": "Modul 3.1",
+          "pris": 2099,
+          "merknad": "per maskinklasse"
+        },
+        {
+          "tekst": "Modul 4",
+          "pris": 13000,
+          "merknad": "per klasse + maskinleie"
+        },
+        {
+          "tekst": "Oppkjøring",
+          "pris": 2350,
+          "merknad": "per klasse"
+        },
+        {
+          "tekst": "Fadderavtale",
+          "pris": 625
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "prismerknad": "grunnkurs",
+      "bilde": "kurs-maskin.jpg",
+      "desc": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del.",
+      "innhold": [
+        {
+          "p": "Teorien er felles for alle maskintyper, mens praksisen gjennomføres på den maskintypen du skal sertifiseres for."
+        },
+        {
+          "h": "Slik er kurset bygd opp"
+        },
+        {
+          "ul": [
+            "Teori, felles for alle maskintyper (inkl. modul 1.1)",
+            "Opplæring i praktisk bruk (modul 3) på hver maskintype",
+            "32 timer praktisk opplæring (modul 4) på hver maskintype. Denne delen kan også tas i egen bedrift med fadderavtale."
+          ]
+        },
+        {
+          "h": "Klasser"
+        },
+        {
+          "p": "M1–M6"
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Grunnleggende HMS (modul 1.1)",
+            "Innledning og informasjon",
+            "Maskintyper og bruksområder",
+            "Konstruksjon og virkemåte",
+            "Sikkerhet og ulykker",
+            "Geoteknikk og stabilitet"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-11-03",
@@ -72,16 +332,68 @@
     {
       "id": "personlofter",
       "navn": "Personløfterkurs",
-      "koder": "Klasse A–B",
+      "sidetittel": "Personløfterkurs A, B og C",
+      "koder": "Klasse A–C",
       "kat": "truck",
       "varighet": "1 dag",
-      "pris": 3500,
-      "desc": "Dokumentert opplæring i sikker bruk av personløfter (lift), klasse A og B — for arbeid i høyden.",
+      "pris": 4099,
+      "priser": [
+        {
+          "tekst": "Teori",
+          "pris": 2299
+        },
+        {
+          "tekst": "Praksis",
+          "pris": 2299
+        },
+        {
+          "tekst": "Pakkepris teori + praksis",
+          "pris": 4099
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "prismerknad": "pakkepris teori + praksis",
+      "bilde": "kurs-personlofter-ny.jpg",
+      "desc": "Kurset er for alle som bruker lift eller personløfter i jobben, og gir grunnleggende teoretisk og praktisk opplæring i sikker bruk. Norske myndigheter krever at alle som bruker personløfter har dokumentert praktisk og teoretisk opplæring, og arbeidsgiver har ansvaret for at de ansatte får den.",
+      "innhold": [
+        {
+          "p": "Kurset tar for seg liftens oppbygging, betjening, bruksegenskaper og bruksområder, vedlikehold og kontroll, sikker bruk, klasseinndeling A–B–C, uhell og ulykker, og lover og forskrifter. Etter gjennomført kurs og bestått avsluttende prøve får deltakeren kompetansebevis."
+        },
+        {
+          "p": "For å ha rett til å bruke personløfter skal brukeren ha opplæring i:"
+        },
+        {
+          "ul": [
+            "Oppbygging",
+            "Betjening",
+            "Bruksegenskaper",
+            "Bruksområder",
+            "Vedlikehold og kontroll"
+          ]
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Grunnleggende HMS (modul 1.1)",
+            "Konstruksjon og virkemåte",
+            "Stabilitet og miljøet rundt personløfteren",
+            "Typer personløftere og klasseinndeling",
+            "Kontroll og rapportering",
+            "Bruks- og sikkerhetsbestemmelser"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-11-10",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 11
         }
       ]
@@ -89,11 +401,66 @@
     {
       "id": "kran-g4",
       "navn": "Kranførerkurs G4",
-      "koder": "Traverskran",
+      "sidetittel": "Kranførerkurs G4 (bro- og traverskran)",
+      "koder": "G4",
       "kat": "kran",
       "varighet": "3 dager + praksis",
-      "pris": 12900,
-      "desc": "Sertifisert opplæring for traverskran og søylesvingkran, med praksis på eget øvingsanlegg.",
+      "pris": 9899,
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 9899
+        },
+        {
+          "tekst": "Oppkjøring",
+          "pris": 2350
+        },
+        {
+          "tekst": "Fadderavtale",
+          "pris": 625
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        },
+        {
+          "tekst": "Leie av utstyr til modul 3 fordeles på antall deltakere"
+        },
+        {
+          "tekst": "Praksis hos oss (modul 4.7 / 4.8)",
+          "pris": 13500,
+          "merknad": "+ leie av utstyr"
+        }
+      ],
+      "bilde": "kurs-kran-g4.jpg",
+      "desc": "Alle som skal kjøre bro- eller traverskran i Norge, må ha gyldig kompetansebevis for krantypen. Hos oss får du et fullstendig kurs med all teori og praksis som trengs for gyldig kranførerbevis, med vekt på sikkerhet og god kvalitet.",
+      "innhold": [
+        {
+          "p": "Kurset inkluderer G11 stropp og signal."
+        },
+        {
+          "p": "Målet er å gi kranførere en teoretisk grunnopplæring i sikker bruk av kraner og løfteutstyr, slik at uhell og ulykker ved løfteoperasjoner unngås. Du lærer om konstruksjon, virkemåte, vedlikehold og bruk av utstyret."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Grunnleggende HMS (modul 1.1)",
+            "Løfteredskap (G11)",
+            "Løftetabeller",
+            "Praktisk bruk av løfteredskap",
+            "Lover og forskrifter",
+            "Bruksområder og betjening",
+            "Uhell og ulykker",
+            "Oppbygging av kranen",
+            "Elektrisk anlegg på kranen",
+            "Kontroll, vedlikehold og sikkerhetsregler",
+            "Modul 3.7 / 3.8"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-10-13",
@@ -108,9 +475,77 @@
       "navn": "Lastebilkrankurs G8",
       "koder": "G8",
       "kat": "kran",
-      "varighet": "3 dager",
-      "pris": 9900,
-      "desc": "Teori og praktisk bruk av lastebilmontert kran — inkludert lastsikring og daglig kontroll.",
+      "pris": 9899,
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 9899
+        },
+        {
+          "tekst": "Oppkjøring",
+          "pris": 2350
+        },
+        {
+          "tekst": "Fadderavtale",
+          "pris": 625
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "bilde": "kurs-kran-g8-ny.jpg",
+      "desc": "Kurset gir deg god innsikt i lastebilkranens konstruksjon, virkemåte, vedlikehold og bruk. For å unngå uhell og ulykker ved løfteoperasjoner legger vi stor vekt på grunnopplæring i sikker bruk av lastebilkran.",
+      "innhold": [
+        {
+          "p": "Med bestått kurs får du kranførerbevis for G8. Det gir bedre jobbmuligheter, tryggere arbeidsplass og trygghet for deg som bruker lastebilkran i hverdagen."
+        },
+        {
+          "h": "Hvem passer kurset for?"
+        },
+        {
+          "ul": [
+            "Brukere av lastebilkran (G8)",
+            "Personell i landbasert, offshore eller maritim virksomhet som bruker lastebilkran"
+          ]
+        },
+        {
+          "h": "Praksisdelen"
+        },
+        {
+          "p": "Praksisen gir allsidig opplæring i sikker bruk og daglig håndtering av kranen, og bygger trygghet, presisjon og selvstendighet i løfteoppdrag. Den avsluttes med en praktisk prøve."
+        },
+        {
+          "p": "Du får praktisk øvelse i:"
+        },
+        {
+          "ul": [
+            "Klargjøring og oppstilling av lastebilkran",
+            "Bruk av støtteben og løfteredskap",
+            "Riktig løfteteknikk og signalbruk",
+            "Vurdering av last og kapasitet",
+            "Nødprosedyrer og sikkerhetsfunksjoner"
+          ]
+        },
+        {
+          "p": "Etter kurset skal du kunne:"
+        },
+        {
+          "ul": [
+            "Bruke lastebilkran sikkert og effektivt i ulike arbeidssituasjoner",
+            "Følge gjeldende sikkerhetsrutiner og signalgiving",
+            "Vurdere risiko og utføre løfteoppdrag trygt og selvstendig",
+            "Kjenne kravene til vedlikehold, daglig kontroll og bruk av løfteredskap"
+          ]
+        },
+        {
+          "p": "Har du allerede 40 timer praksis i bedrift? Da kan du ta en ren praksisprøve (oppkjøring) hos oss. Ta kontakt for mer informasjon om prøven og hvilken dokumentasjon som trengs."
+        },
+        {
+          "p": "Språk: norsk eller engelsk."
+        }
+      ],
       "datoer": [
         {
           "d": "2026-11-05",
@@ -122,17 +557,47 @@
     },
     {
       "id": "stropp",
-      "navn": "Stropp- og signalkurs",
+      "navn": "Anhukerkurs G11",
+      "sidetittel": "Anhukerkurs G11 (stropp og signal)",
       "koder": "G11",
       "kat": "kran",
-      "varighet": "2 dager",
-      "pris": 5900,
-      "desc": "Anhuking, stropping og signalgiving for alle som jobber rundt løfteoperasjoner.",
+      "varighet": "2–3 dager",
+      "pris": 6199,
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 6199
+        },
+        {
+          "tekst": "Bevis",
+          "pris": 420,
+          "merknad": "+ mva."
+        }
+      ],
+      "bilde": "kurs-stropp-ny.jpg",
+      "desc": "Kurset gir sertifisert opplæring i stropping, anhuking og signalgiving, og du får G11-bevis når du har bestått. Det passer for alle som skal koble last på en kran og dirigere kranføreren.",
+      "innhold": [
+        {
+          "p": "Anhuking betyr å sikre last som skal løftes med kran eller annet løfteutstyr, slik at den ikke faller ned og skader personer eller materiell. I praksis betyr det å bruke én eller flere stropper rundt lasten. Etter forskrift om utførelse av arbeid (best.nr. 703) må alle som stropper og anhuker last på en bygge-, anleggs- eller arbeidsplass ha gjennomført sikkerhetsopplæring."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Ansvar og konsekvenser",
+            "Tabeller og løfting",
+            "Bruk av løfteredskap",
+            "Signaler og tegn",
+            "Sikkerhet og lovgivning"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-10-06",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 0
         }
       ]
@@ -141,18 +606,250 @@
       "id": "fallsikring",
       "navn": "Fallsikringskurs",
       "koder": "Dokumentert",
-      "kat": "hms",
-      "varighet": "1 dag",
+      "kat": "bygg",
+      "varighet": "½ dag",
       "pris": 2900,
-      "desc": "Riktig bruk og kontroll av fallsikringsutstyr for trygt arbeid i høyden.",
+      "prismerknad": "+ kompetansebevis 420 kr",
+      "bilde": "kurs-fallsikring.jpg",
+      "desc": "Kurset gir deltakerne kunnskapen de trenger for å jobbe trygt i høyden. Det passer for alle som utfører arbeid i høyden, og for ledere som planlegger slikt arbeid.",
+      "innhold": [
+        {
+          "p": "Alt arbeid i høyden skal utføres trygt, under gode ergonomiske forhold og fra en egnet overflate. Er ikke det mulig, skal arbeidsgiver velge det arbeidsutstyret som best sikrer den ansatte, og sørge for trygge forhold ved midlertidig arbeid i høyden. Den som planlegger og leder arbeidet, skal etter arbeidsmiljøloven ha nok kunnskap om arbeidsutstyret og sørge for at arbeidet planlegges og gjennomføres forsvarlig."
+        },
+        {
+          "p": "For å kunne bruke fallsikringsutstyr skal brukeren ha praktisk og teoretisk opplæring i:"
+        },
+        {
+          "ul": [
+            "Oppbygging",
+            "Betjening",
+            "Bruksegenskaper",
+            "Bruksområder",
+            "Vedlikehold og kontroll"
+          ]
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Fallende gjenstander",
+            "Fallenergi",
+            "Krav ved arbeid i høyden",
+            "Kollektive vernetiltak",
+            "Personlige vernetiltak",
+            "Merking av personlig verneutstyr (PVU)",
+            "Sikring av verktøy og materiell"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-10-08",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 5
         }
       ]
+    },
+    {
+      "id": "stillas-2-5m",
+      "navn": "Stillasbyggerkurs 2–5 meter",
+      "koder": "§ 17-2",
+      "kat": "bygg",
+      "varighet": "2 dager",
+      "pris": 4200,
+      "prismerknad": "teori + praksis",
+      "bilde": "kurs-stillas-2-5m.jpg",
+      "desc": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-2. Kurset er for deg som skal montere, demontere, endre eller kontrollere stillas med arbeidshøyde fra 2 til 5 meter.",
+      "innhold": [
+        {
+          "p": "Norske myndigheter krever at alle som monterer, demonterer eller bruker stillas har fått tilstrekkelig opplæring (kapittel 17 i forskrift om utførelse av arbeid). Kravet gjelder all stillasmontering, fra en liten malerjobb på et bolighus til store prosjekter i bygg og anlegg, industri, skipsbygging og offshore. Som stillasbygger lager du arbeidsplattformen andre skal jobbe på, og har et stort ansvar. Kurset lærer deg også å vurdere tilstanden til stillasmateriellet og behovet for vedlikehold."
+        },
+        {
+          "h": "Dokumentert sikkerhetsopplæring"
+        },
+        {
+          "p": "Arbeidsgiver har ansvaret for å sørge for og dokumentere nødvendig opplæring i alt arbeidsutstyr som brukes. Både arbeidsgiver og arbeidstaker skal signere på at opplæringen er gjennomført, og bare den som kan vise et signert og gyldig bevis, har lov til å bruke utstyret."
+        },
+        {
+          "ul": [
+            "Varighet: 2 dager med teori og praksis, kl. 08.00–ca. 15.00",
+            "Krav før kurset: gjennomført [fallsikringskurs](kurs/fallsikring/) (grunnkurs etter NS 9610, 7,5 timer)."
+          ]
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Opplæringskrav, lover og forskrifter",
+            "Arbeid i høyden og fallsikring",
+            "Krav til underlag og hvordan det beregnes",
+            "Forankringspunkter og veggfester, og testing av veggfester",
+            "Komponenter, laster og beregninger",
+            "Stillasets deler, oppbygging og bruk",
+            "Systemstillas",
+            "Fareidentifikasjon og risikoreduserende tiltak"
+          ]
+        },
+        {
+          "p": "I praksisdelen monterer og demonterer deltakerne stillas flere ganger, og løser oppgaver underveis, for eksempel hvilke krav som gjelder når det skal settes duk på stillaset. Kompetansebevis for stillasbygging krever dokumentert praksis. Opplæringen følger standarden til Stillasfagforeningen (SFS)."
+        },
+        {
+          "h": "Dette er inkludert"
+        },
+        {
+          "ul": [
+            "Læremateriell",
+            "Teoriundervisning",
+            "Praktisk opplæring",
+            "Kursbevis etter bestått opplæring",
+            "Kompetansebevis med bilde",
+            "Kaffe/te og varm lunsj hver dag",
+            "Tilgang til nødvendig personlig verneutstyr og utstyr til praktisk trening"
+          ]
+        },
+        {
+          "p": "Kurset holdes i våre lokaler, eller hos bedriften deres etter avtale. Trenger du stillasbyggerkurs over 9 meter? Kontakt oss for pris."
+        }
+      ],
+      "datoer": []
+    },
+    {
+      "id": "stillas-9m",
+      "navn": "Stillasbyggerkurs opp til 9 meter",
+      "koder": "§ 17-3",
+      "kat": "bygg",
+      "varighet": "4 dager",
+      "pris": 9800,
+      "prismerknad": "teori + praksis",
+      "bilde": "kurs-stillas-9m.jpg",
+      "desc": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter.",
+      "innhold": [
+        {
+          "p": "Du får både faglig forståelse og mye praktisk trening."
+        },
+        {
+          "p": "Norske myndigheter krever at alle som monterer, demonterer eller bruker stillas har fått tilstrekkelig opplæring (kapittel 17 i forskrift om utførelse av arbeid). Kravet gjelder all stillasmontering, fra en liten malerjobb på et bolighus til store prosjekter i bygg og anlegg, industri, skipsbygging og offshore. Som stillasbygger lager du arbeidsplattformen andre skal jobbe på, og har et stort ansvar. Kurset lærer deg også å vurdere tilstanden til stillasmateriellet og behovet for vedlikehold."
+        },
+        {
+          "h": "Dokumentert sikkerhetsopplæring"
+        },
+        {
+          "p": "Arbeidsgiver har ansvaret for å sørge for og dokumentere nødvendig opplæring i alt arbeidsutstyr som brukes. Både arbeidsgiver og arbeidstaker skal signere på at opplæringen er gjennomført, og bare den som kan vise et signert og gyldig bevis, har lov til å bruke utstyret."
+        },
+        {
+          "ul": [
+            "Varighet: 4 dager – 2 dager teori og 2 dager praksis, kl. 08.00–ca. 15.00",
+            "Krav før kurset: gjennomført [fallsikringskurs](kurs/fallsikring/) (grunnkurs etter NS 9610, 7,5 timer)."
+          ]
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Opplæringskrav, lover og forskrifter",
+            "Arbeid i høyden og fallsikring",
+            "Krav til underlag og hvordan det beregnes",
+            "Forankringspunkter og veggfester, og testing av veggfester",
+            "Komponenter, laster og beregninger",
+            "Stillasets deler, oppbygging og bruk",
+            "Systemstillas",
+            "Fareidentifikasjon og risikoreduserende tiltak"
+          ]
+        },
+        {
+          "p": "I praksisdelen monterer og demonterer deltakerne stillas flere ganger, og løser oppgaver underveis, for eksempel hvilke krav som gjelder når det skal settes duk på stillaset. Kompetansebevis for stillasbygging krever dokumentert praksis. Opplæringen følger standarden til Stillasfagforeningen (SFS)."
+        },
+        {
+          "h": "Dette er inkludert"
+        },
+        {
+          "ul": [
+            "Læremateriell",
+            "Teoriundervisning",
+            "Praktisk opplæring",
+            "Kursbevis etter bestått opplæring",
+            "Kompetansebevis med bilde",
+            "Kaffe/te og varm lunsj hver dag",
+            "Tilgang til nødvendig personlig verneutstyr og utstyr til praktisk trening"
+          ]
+        },
+        {
+          "p": "Kurset holdes i våre lokaler, eller hos bedriften deres etter avtale. Trenger du stillasbyggerkurs over 9 meter? Kontakt oss for pris."
+        }
+      ],
+      "datoer": []
+    },
+    {
+      "id": "handholdt-verktoy",
+      "navn": "Dokumentert opplæring i håndholdt verktøy",
+      "koder": "§ 10-2",
+      "kat": "bygg",
+      "pris": 1599,
+      "bilde": "kurs-handholdt-verktoy.jpg",
+      "desc": "Det er lovkrav at arbeidstakere har dokumentert opplæring når de bruker farlig arbeidsutstyr. Kurset gir en grunnleggende teoretisk og praktisk innføring i sikker bruk av farlig verktøy, som vinkelsliper, sirkelsag, stikksag, kjedesag, boltepistol og spikerpistol.",
+      "innhold": [
+        {
+          "p": "Vi går gjennom oppbygging, betjening, bruksegenskaper og bruksområder, og vedlikehold og kontroll av verktøyet."
+        },
+        {
+          "p": "Arbeidsgiver skal sørge for at alle ansatte har dokumentert opplæring i arbeidsutstyr som er farlig eller krever særlig forsiktighet. Viser risikovurderingen at utstyret krever særlig forsiktighet, kan bare arbeidstakere med dokumentert sikkerhetsopplæring bruke det. Kurset oppfyller kravet i § 10-2 i forskrift om utførelse av arbeid."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Verktøyets oppbygging",
+            "Verktøyets bruksegenskaper",
+            "Betjening av verktøyet",
+            "Sikker bruk og sikkerhetsregler",
+            "Verktøyets bruksområder",
+            "Brukerens holdninger og motivasjon",
+            "Nødvendig vedlikehold",
+            "De viktigste lovene og forskriftene"
+          ]
+        }
+      ],
+      "datoer": []
+    },
+    {
+      "id": "sha-koordinator",
+      "navn": "SHA-koordinator",
+      "koder": "Byggherreforskriften",
+      "kat": "bygg",
+      "varighet": "2 dager",
+      "pris": 4500,
+      "bilde": "kurs-sha-koordinator.jpg",
+      "desc": "Alle byggeprosjekter skal ha en egen SHA-koordinator. Byggherreforskriften stiller tydelige krav til byggherren og til bruken av både prosjekterende og utførende koordinator, og kurset oppfyller disse kravene.",
+      "innhold": [
+        {
+          "p": "SHA-koordinatoren representerer byggherren og sørger for at sikkerhet, helse og arbeidsmiljø blir koordinert både i prosjektering og utførelse. Koordinatoren skal kartlegge risikoen byggherren tilfører prosjektet. SHA må tilpasses hvert prosjekt, så en god koordinator må kunne identifisere risikoen i akkurat det prosjektet."
+        },
+        {
+          "p": "Kurset bygger på byggherreforskriften og koordinatorrollen slik den er beskrevet der. Vi ser også på andre lover og forskrifter som gjelder for SHA-koordinatoren."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Byggherreforskriften",
+            "Krav til koordinering",
+            "Kompetanse",
+            "Begreper",
+            "Sentrale forskrifter",
+            "Endringer i regelverket",
+            "Entreprisemodeller",
+            "SHA-koordinatorrollen",
+            "SHA-plan"
+          ]
+        }
+      ],
+      "datoer": []
     },
     {
       "id": "varme",
@@ -160,32 +857,132 @@
       "koder": "Sertifikat 5 år",
       "kat": "hms",
       "varighet": "1 dag",
-      "pris": 2400,
-      "desc": "Sertifikatkurs for alle som utfører sveising, skjæring eller andre varme arbeider. Tilbys også på engelsk.",
+      "pris": 3200,
+      "prismerknad": "inkl. slukkeøvelse og digitalt bevis",
+      "bilde": "kurs-varme.jpg",
+      "desc": "Vi holder kurs i varme arbeider i Bergen og hos din bedrift. Kurset oppfyller forsikringsbransjens krav til dokumentert opplæring for alle som utfører varme arbeider på arbeidsplassen.",
+      "innhold": [
+        {
+          "p": "Varme arbeider er alt arbeid med maskiner og utstyr som lager gnister eller varme og kan starte brann, som åpen flamme, sveising, skjæring og sliping. I Norge krever forsikringsbransjen at alle som utfører varme arbeider kan dokumentere godkjent opplæring."
+        },
+        {
+          "p": "Forsikringsnæringen har egne sikkerhetsforskrifter knyttet til forsikringsavtalene, med konkrete krav til hvordan arbeidet skal utføres. Med hjemmel i forsikringsloven § 1-2 har bransjen laget en egen forskrift for varme arbeider, og dette kurset oppfyller alle opplæringskravene i den. Kurset avsluttes med en teoretisk eksamen fra Norsk Brannvernforening. Ved bestått eksamen og gjennomført slukkeøvelse får hver deltaker sertifikat for varme arbeider."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Sertifiseringsordningen i Norden",
+            "Regelverk",
+            "Brann- og slukketeori",
+            "Varme arbeider og risiko",
+            "Slokking av brann",
+            "Risiko – kartlegging og vurdering av tiltak",
+            "Arbeidsinstruksen med utfyllende kommentarer"
+          ]
+        }
+      ],
       "datoer": [
         {
           "d": "2026-09-24",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 6,
           "merk": "på engelsk"
         },
         {
           "d": "2026-11-12",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 9
         }
       ]
     },
     {
       "id": "bes-vakt",
-      "navn": "BES Vakt – varme arbeider med slokkeøvelse",
-      "koder": "Inkl. gassmåler",
+      "navn": "BES Vakt-kurs (brannvakt)",
+      "sidetittel": "BES Vakt Kurs med digitalt varme arbeider-sertifikat og slokkeøvelse inkl. bruk av gassmåler",
       "kat": "hms",
+      "varighet": "2 dager",
       "pris": 6990,
-      "bilde": "kurs-varme.jpg",
-      "desc": "Kurs for vakt ved varme arbeider, med praktisk slokkeøvelse og opplæring i bruk av gassmåler.",
+      "bilde": "kurs-bes-vakt-ny.jpg",
+      "desc": "BES står for brann, entring og sikring. Kurset lærer deg å overvåke og sikre arbeidsplasser der det utføres varme arbeider eller arbeid i trange rom.",
+      "innhold": [
+        {
+          "h": "Hva er et BES-vaktkurs?"
+        },
+        {
+          "ul": [
+            "Brann: forebygge, overvåke og håndtere brannfare",
+            "Entring: trygg adgang til og arbeid i trange rom",
+            "Sikring: tiltak som ivaretar sikkerheten til personell og utstyr"
+          ]
+        },
+        {
+          "h": "Hvorfor ta BES-vaktkurs?"
+        },
+        {
+          "ul": [
+            "Du oppfyller kravene til beredskap ved risikofylte arbeidsoperasjoner",
+            "Du blir bedre til å forebygge og håndtere farlige situasjoner",
+            "Du bidrar til et tryggere arbeidsmiljø for deg selv og kollegene dine",
+            "Kurset er en god blanding av teori og praksis"
+          ]
+        },
+        {
+          "h": "Hvem passer kurset for?"
+        },
+        {
+          "ul": [
+            "Personell med ansvar for brannvakt ved varme arbeider",
+            "Arbeidere som skal jobbe i trange rom",
+            "Verneombud og HMS-ansvarlige",
+            "Alle som vil styrke kompetansen sin innen beredskap og sikkerhet"
+          ]
+        },
+        {
+          "h": "Kursinnhold"
+        },
+        {
+          "ul": [
+            "Gjennomgang av aktuelle lover og forskrifter",
+            "Opplæring i bruk av nødvendig sikkerhetsutstyr",
+            "Risikovurdering og forebyggende tiltak",
+            "Slokkeøvelse"
+          ]
+        },
+        {
+          "h": "Gassmåling"
+        },
+        {
+          "p": "I miljøer med eksplosive, giftige eller oksygenfattige gasser er riktig kunnskap og riktig utstyr avgjørende. Du får praktisk opplæring i gassmåling, lærer om farene i lukkede rom og hvordan verneutstyr brukes riktig. Vi legger vekt på gode holdninger og en tydelig forståelse av hvorfor gassdeteksjon er viktig."
+        },
+        {
+          "p": "Delen passer for alle som bruker gassmåler i jobben eller jobber der det kan være gasseksponering – spesielt i lukkede rom og nær eksplosive eller giftige gasser."
+        },
+        {
+          "p": "Innhold i gassmålingsdelen:"
+        },
+        {
+          "ul": [
+            "Forskrifter og retningslinjer for arbeids- og endringstillatelser i lukkede rom",
+            "Målebegreper for gassmåling",
+            "Virkemåte og begrensninger for bærbare gassmålere og detektorer",
+            "Farer ved for lite og for mye oksygen",
+            "Farer ved giftige gasser og brennbare gasser",
+            "Krav til sikker pusteluft og gassfri atmosfære",
+            "Klargjøring, betjening og vedlikehold av gassmålere",
+            "Brannteori"
+          ]
+        },
+        {
+          "p": "Våre instruktører har lang erfaring fra bransjen og sørger for trygge praktiske øvelser. Er det noe vi bør ta hensyn til for deg? Gi beskjed på forhånd, så tar vi godt vare på deg når du kommer."
+        },
+        {
+          "p": "Pakken inkluderer også kurs i varme arbeider med slukkeøvelse og opplæring i bruk av gassmåler."
+        }
+      ],
       "datoer": []
     },
     {
@@ -194,13 +991,39 @@
       "koder": "AML § 3-5",
       "kat": "hms",
       "varighet": "1 dag",
-      "pris": 3900,
-      "desc": "Lovpålagt HMS-opplæring for daglig leder og arbeidsgivere — praktisk og rett på sak.",
+      "pris": 3099,
+      "prismerknad": "+ avgift for kompetansebevis",
+      "bilde": "kurs-hms-leder.jpg",
+      "desc": "HMS-kurs for ledere er et lovpålagt kurs i helse, miljø og sikkerhet. Arbeidsmiljøloven § 3-5 krever at virksomhetens øverste leder har gjennomført opplæring i HMS-arbeid.",
+      "innhold": [
+        {
+          "p": "Plikten er personlig og kan ikke delegeres, og opplæringen må kunne dokumenteres skriftlig."
+        },
+        {
+          "p": "Kurset tar for seg lovene og reglene som ligger til grunn for et forsvarlig arbeidsmiljø. Etter gjennomført kurs får deltakeren kursbevis, som oppfyller kravet til skriftlig dokumentasjon."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Innføring i arbeidsmiljølovens innhold og oppbygging",
+            "Orientering om forskriftene til arbeidsmiljøloven",
+            "Roller i HMS-arbeidet",
+            "Krav til arbeidsmiljøet",
+            "Fysisk og psykososialt arbeidsmiljø",
+            "Hvordan bygge opp, innføre og vedlikeholde et HMS-system på arbeidsplassen"
+          ]
+        },
+        {
+          "p": "Gjennomføring: digitalt, i våre kurslokaler eller hos kunden"
+        }
+      ],
       "datoer": [
         {
           "d": "2026-10-01",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 9
         },
         {
@@ -213,28 +1036,145 @@
     },
     {
       "id": "verneombud",
-      "navn": "Verneombudskurs",
-      "koder": "Grunnopplæring",
+      "navn": "Arbeidsmiljøkurs / verneombudskurs",
+      "koder": "40 timer",
       "kat": "hms",
-      "varighet": "2 dager",
-      "pris": 5500,
-      "desc": "Grunnopplæring i arbeidsmiljø for verneombud og AMU-medlemmer, tilpasset egen bransje.",
+      "varighet": "1 uke (40 timer)",
+      "pris": 7900,
+      "prismerknad": "inkl. kursmateriell og lunsj",
+      "bilde": "kurs-verneombud.jpg",
+      "desc": "Kurset er for virksomheter og bransjer som krever 40 timers opplæring. Det gir en grundig innføring i de viktigste temaene i HMS-arbeidet og i hvilke roller de ulike aktørene har, slik at deltakerne kan bidra aktivt og godt i virksomhetens HMS-arbeid.",
+      "innhold": [
+        {
+          "p": "Et verneombud skal ivareta arbeidstakernes interesser i saker som gjelder arbeidsmiljøet, og passe på at arbeidet utføres forsvarlig og i tråd med arbeidsmiljøloven. Arbeidsgiver har plikt til å sørge for at verneombudet får den opplæringen som trengs for å utføre vervet."
+        },
+        {
+          "p": "Kurset starter med 4 dager praktisk rettet teori. Deretter avslutter deltakerne med en verneombudsoppgave i egen virksomhet. Når oppgaven er levert til kurslederen, utstedes kursbevis. Det er også mulig å delta digitalt via Teams."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Arbeidsmiljøloven (AML)",
+            "Internkontrollforskriften (HMS-forskriften)",
+            "Verneombudets oppgaver og plikter",
+            "Utførelse av arbeid og risikovurdering",
+            "Arbeidsmiljøutvalget (AMU)",
+            "Målrettet HMS-arbeid",
+            "Fysisk og kjemisk arbeidsmiljø",
+            "Psykososialt arbeidsmiljø",
+            "Vernerunder, kartlegging og oppfølging",
+            "Ulykker og ulykkesforebyggende arbeid",
+            "Internkontroll",
+            "Ansettelser og oppsigelser",
+            "Presentasjonsteknikk",
+            "Gruppeoppgaver",
+            "Caseoppgave i egen bedrift"
+          ]
+        }
+      ],
+      "lenker": [
+        {
+          "tekst": "Les om endringer i lovverket fra 2024",
+          "href": "kurs/verneombud/endringer-2024/"
+        }
+      ],
       "datoer": [
         {
           "d": "2026-10-21",
           "sted": "Bergen",
-          "plasser": 12,
+          "plasser": 25,
           "ledige": 7
         }
       ]
+    },
+    {
+      "id": "diisocyanater",
+      "navn": "Sikker bruk av diisocyanater",
+      "koder": "Nivå 1",
+      "kat": "hms",
+      "pris": 999,
+      "bilde": "kurs-diisocyanater.jpg",
+      "desc": "I august 2020 innførte EU en ny begrensning under REACH-regelverket for produkter med mer enn 0,1 % monomere diisocyanater. Den gjelder blant annet polyuretanlim, fugemasser, belegg, skum og injeksjonsmasser som brukes i industri og bygg.",
+      "innhold": [
+        {
+          "p": "Målet er å redusere helserisikoen ved at alle som håndterer stoffene, er godt informert og opplært."
+        },
+        {
+          "p": "Fra 24. august 2023 må alle profesjonelle brukere ha fullført opplæring i sikker bruk før de tar slike produkter i bruk. Private brukere (gjør-det-selv) er ikke omfattet. Kurset passer for bygg og anlegg, maler- og håndverksfag, bil- og båtpleie, møbelproduksjon og industri."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Hva er diisocyanater?",
+            "Informasjon om og merking av kjemikalier",
+            "Helsefaren ved diisocyanater",
+            "Risikobilder",
+            "Forebyggende tiltak",
+            "Nødsituasjoner og førstehjelp"
+          ]
+        },
+        {
+          "h": "Opplæringsnivåer"
+        },
+        {
+          "p": "Kravet er delt i tre nivåer etter risiko. Kurset dekker nivå 1."
+        },
+        {
+          "ul": [
+            "Nivå 1 – grunnleggende: for dem som bruker eller håndterer produkter med diisocyanater, og lederne deres. For eksempel kortvarig arbeid med lite flyktige produkter som byggskum og tyktflytende lim.",
+            "Nivå 2 – mellomnivå (utvidet kurs): for påføring ved spraying, rulling eller drypping, rengjøring og arbeid i åpne rom, for eksempel spraying i lakkboks eller bearbeiding av uherdede produkter.",
+            "Nivå 3 – videregående (utvidet kurs): for arbeid med høyere risiko, for eksempel ved temperaturer over 45 °C, støping og spraying utendørs eller utenfor lakkboks."
+          ]
+        },
+        {
+          "p": "Usikker på hvilket nivå dere trenger? Ta kontakt, så hjelper vi dere."
+        }
+      ],
+      "datoer": []
+    },
+    {
+      "id": "fse-forstehjelp",
+      "navn": "FSE-kurs med førstehjelp",
+      "kat": "hms",
+      "varighet": "4 timer",
+      "pris": 1600,
+      "bilde": "kurs-fse-forstehjelp.jpg",
+      "desc": "Kurset gir nødvendig opplæring i sikkerhet og beredskap ved arbeid på eller nær elektriske anlegg. Det oppfyller kravene i forskriften, og dekker både generell førstehjelp og spesialopplæring i håndtering av strømulykker.",
+      "innhold": [
+        {
+          "h": "Krav til opplæring"
+        },
+        {
+          "p": "FSE (forskrift om sikkerhet ved arbeid i og drift av elektriske anlegg) krever at bedrifter gir medarbeiderne nødvendig opplæring. Kravet gjelder alle som jobber med lav- og høyspenningsanlegg, som elektrikere. Opplæringen skal skje hvert år, med maks 12 måneder mellom hver gang."
+        },
+        {
+          "h": "Temaer på kurset"
+        },
+        {
+          "ul": [
+            "Sikkerhet og beredskap ved arbeid på eller nær elektriske anlegg",
+            "Generell førstehjelp",
+            "Førstehjelp ved strømulykker",
+            "Demonstrasjon og praktisk trening med hjertestarter"
+          ]
+        },
+        {
+          "p": "Bevis: alle deltakere får bevis etter gjennomført kurs."
+        }
+      ],
+      "datoer": []
     },
     {
       "id": "arbeidsvarsling",
       "navn": "Arbeidsvarsling 1-2-3",
       "koder": "Kurs 1, 2 og 3",
       "kat": "hms",
-      "synlig": false,
       "desc": "Opplæring i arbeidsvarsling for arbeid på og ved veg — kurs 1, 2 og 3.",
+      "synlig": false,
       "datoer": []
     }
   ]

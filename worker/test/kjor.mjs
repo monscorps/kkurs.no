@@ -135,7 +135,7 @@ test("mapKurs: dokumentasjonens eksempel (datoer per kurs) gir kontraktens form"
   const ut = mapKurs([], fixture, { idag: "2025-11-01", naa: new Date("2025-11-01T10:00:00.123Z") });
   assert.equal(ut.kilde, "frontcore");
   assert.equal(ut.oppdatert, "2025-11-01T10:00:00Z");
-  assert.deepEqual(ut.kategorier, { truck: "Truck og maskin", kran: "Kran og løft", hms: "HMS og ledelse", annet: "Andre kurs" });
+  assert.deepEqual(ut.kategorier, { truck: "Truck og maskin", kran: "Kran og løft", bygg: "Bygg og anlegg", hms: "HMS og sikkerhet", annet: "Andre kurs" });
   assert.equal(ut.kurs.length, 1);
   const [k] = ut.kurs;
   assert.deepEqual(Object.keys(k), ["id", "fc_id", "navn", "koder", "kat", "varighet", "pris", "bilde", "desc", "synlig", "datoer"]);
@@ -428,8 +428,8 @@ test("validerPamelding: honningfelle og feil", () => {
   for (const epost of ["kari@bedrift.no", "kari.nordmann+kurs@sub.bedrift.com", "ola@kjøkken.no"]) assert.ok(gyldigEpost(epost), epost);
   assert.equal(feil({ deltakere: [] }), "Legg til minst én deltaker.");
   assert.equal(feil({ deltakere: "Ola" }), "Legg til minst én deltaker.");
-  assert.match(feil({ deltakere: Array.from({ length: 21 }, () => ({ fornavn: "A", etternavn: "B" })) }), /^Maks 20 deltakere/);
-  assert.ok(validerPamelding(gyldigPamelding({ deltakere: Array.from({ length: 20 }, () => ({ fornavn: "A", etternavn: "B" })) })).pamelding);
+  assert.match(feil({ deltakere: Array.from({ length: 26 }, () => ({ fornavn: "A", etternavn: "B" })) }), /^Maks 25 deltakere/);
+  assert.ok(validerPamelding(gyldigPamelding({ deltakere: Array.from({ length: 25 }, () => ({ fornavn: "A", etternavn: "B" })) })).pamelding);
   assert.equal(feil({ deltakere: [{ fornavn: "Ola", etternavn: "Hansen" }, { fornavn: "Per", etternavn: " " }] }), "Fyll inn fornavn og etternavn for deltaker 2.");
   assert.equal(feil({ deltakere: [null] }), "Fyll inn fornavn og etternavn for deltaker 1.");
   assert.equal(feil({ deltakere: [{ fornavn: "Ola", etternavn: "Hansen", epost: "ola@" }] }), "E-postadressen til deltaker 1 ser ikke riktig ut.");

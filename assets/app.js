@@ -10,7 +10,7 @@
    FrontCore via API.
    ============================================================ */
 
-const APP_V = "31";
+const APP_V = "36";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = demomodus:
    kursene leses fra assets/kurs.json og påmelding simuleres i nettleseren. */
@@ -45,7 +45,9 @@ const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–
 const prisTekst = (c) => (c.pris ? `fra ${fmtPris(c.pris)}` : "Pris på forespørsel");
 const kursBilde = (c) => esc(`assets/img/${c.bilde || `kurs-${c.id}.jpg`}`);
 const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
-const medKoder = (c) => (c.koder ? `${c.navn} (${c.koder})` : c.navn);
+/* koden vises bare når navnet ikke allerede har den («Anhukerkurs G11» + «G11») */
+const koder = (c) => (c.koder && !c.navn.includes(c.koder) ? c.koder : "");
+const medKoder = (c) => (koder(c) ? `${c.navn} (${koder(c)})` : c.navn);
 const stedTekst = (dt, skille = " \u00b7 ") => esc(dt.sted) + (dt.merk ? `${skille}${esc(dt.merk)}` : "");
 const kursSide = (c) => esc(`kurs/${c.id}/`);
 
@@ -109,7 +111,7 @@ function renderCourses() {
     return `
     <article class="kursrad">
       <button class="kursrad-topp" type="button" aria-expanded="false" aria-controls="kursrad-${c.id}">
-        <span class="kursrad-navn">${esc(c.navn)} <span class="cc-codes">${esc(c.koder)}</span></span>
+        <span class="kursrad-navn">${esc(c.navn)} <span class="cc-codes">${esc(koder(c))}</span></span>
         <span class="kursrad-tall mono kr-var">${esc(c.varighet)}</span>
         <span class="kursrad-tall mono">${prisTekst(c)}</span>
         <span class="kursrad-pil" aria-hidden="true">\u2193</span>
@@ -152,7 +154,7 @@ function renderCal() {
     <tr>
       <td class="cal-date">${fmtDato(e.dt.d)}</td>
       <td class="cal-course"><a href="${kursSide(e.course)}">${esc(e.course.navn)}</a>${e.dt.merk ? ` (${esc(e.dt.merk)})` : ""}
-        <span class="cal-codes">${esc(e.course.koder)}</span></td>
+        <span class="cal-codes">${esc(koder(e.course))}</span></td>
       <td class="cal-sted">${esc(e.dt.sted)}</td>
       <td class="cal-dur">${esc(e.course.varighet)}</td>
       <td class="cal-status"><span class="status ${st.cls}">${st.label}</span></td>
@@ -181,13 +183,13 @@ function renderKurssideDatoer() {
     }).join("")
     : `<li class="dato-rad dato-rad--tom"><span>Ingen faste datoer ennå. Meld interesse, så gir vi beskjed når neste kurs settes opp — eller be om kurset bedriftsinternt.</span>
         <button class="btn btn-signal btn-sm" data-book="${c.id}" data-date="foresp\u00f8rsel">Meld interesse</button></li>`;
-  const hoved = $("#kursside-hovedknapp");
-  if (hoved) {
-    const i = c.datoer.findIndex((dt) => !erFull(dt));
-    const idx = i >= 0 ? i : (c.datoer.length ? 0 : "foresp\u00f8rsel");
-    hoved.dataset.date = idx;
-    hoved.textContent = idx === "foresp\u00f8rsel" ? "Meld interesse" : (erFull(c.datoer[idx]) ? "Venteliste" : "Meld deg p\u00e5");
-  }
+  /* påmeldingsknappene øverst, i priskortet og nederst følger første dato med ledig plass */
+  const i = c.datoer.findIndex((dt) => !erFull(dt));
+  const idx = i >= 0 ? i : (c.datoer.length ? 0 : "foresp\u00f8rsel");
+  $$("[data-hovedknapp]").forEach((knapp) => {
+    knapp.dataset.date = idx;
+    knapp.textContent = idx === "foresp\u00f8rsel" ? "Meld interesse" : (erFull(c.datoer[idx]) ? "Venteliste" : "Meld deg p\u00e5");
+  });
 }
 
 function renderAlt() {
@@ -223,7 +225,7 @@ function fyllDatoSelect(courseId, valgtIdx = 0) {
 function renderDeltakere() {
   const holder = $("#m-deltakere");
   if (!holder) return;
-  const antall = Math.min(20, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
+  const antall = Math.min(25, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
   const gamle = $$(".deltaker-rad", holder).map((r) => ({
     fornavn: $(".d-fornavn", r).value, etternavn: $(".d-etternavn", r).value, epost: $(".d-epost", r).value,
   }));
@@ -255,7 +257,7 @@ function valgtDato() {
 
 function oppdaterSum() {
   const { c, dt } = valgtDato();
-  const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
+  const antall = Math.min(25, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
   const felt = $("fieldset.deltakere");
   if (felt) felt.hidden = !dt;
   if (!dt) {
@@ -305,12 +307,17 @@ function closeModal() {
   if (lastFocus) lastFocus.focus();
 }
 
+/* alt bak et åpent vindu gjøres inert, så tastatur og skjermleser holdes i vinduet */
+const bakgrunn = () => $$("body > .skip-link, body > .nav, body > main, body > .footer");
+
 function laasScroll() {
+  bakgrunn().forEach((el) => { el.inert = true; });
   scrollLaas = scrollY;
   document.body.style.top = `-${scrollLaas}px`;
   document.body.classList.add("modal-open");
 }
 function frigjorScroll() {
+  bakgrunn().forEach((el) => { el.inert = false; });
   document.body.classList.remove("modal-open");
   document.body.style.top = "";
   scrollTo({ top: scrollLaas, behavior: "instant" });
@@ -318,8 +325,10 @@ function frigjorScroll() {
 
 /* ---------- kontakt-popup («Be om tilbud» / «ta en prat») ---------- */
 const kontaktModal = $("#kontakt-modal");
-function apneKontakt() {
+function apneKontakt(tema) {
   lastFocus = document.activeElement;
+  const velg = $("#f-tema");
+  if (velg) velg.value = tema && [...velg.options].some((o) => o.value === tema) ? tema : velg.options[0].value;
   kontaktModal.hidden = false;
   laasScroll();
   $("#kontakt-modal .modal-close").focus();
@@ -359,7 +368,21 @@ document.addEventListener("click", (ev) => {
   if (book) { apnePamelding(book.dataset.book, book.dataset.date || 0); return; }
   const lukk = ev.target.closest("[data-close]");
   if (lukk) { (lukk.closest("#kontakt-modal") ? lukkKontakt : closeModal)(); return; }
-  if (ev.target.closest("[data-tilbud]")) { apneKontakt(); return; }
+  const tilbudKnapp = ev.target.closest("[data-tilbud]");
+  if (tilbudKnapp) { apneKontakt(tilbudKnapp.dataset.tema); return; }
+  /* kartet lastes først når noen ber om det — Google Maps setter informasjonskapsler */
+  const kart = ev.target.closest("[data-kart]");
+  if (kart) {
+    const ramme = document.createElement("iframe");
+    ramme.src = kart.dataset.kart;
+    ramme.title = "Kart: Ulsmågvegen 24, 5224 Nesttun";
+    ramme.loading = "lazy";
+    ramme.referrerPolicy = "no-referrer-when-downgrade";
+    ramme.className = "kart-ramme";
+    kart.replaceWith(ramme);
+    ramme.focus();
+    return;
+  }
   const tilbud = ev.target.closest('a.btn[href="#kontakt"]');
   if (tilbud) { ev.preventDefault(); apneKontakt(); return; }
   /* kurssidene har <base href="../../">: «#x» ville ellers navigert til
@@ -480,7 +503,7 @@ modalForm.addEventListener("submit", async (ev) => {
   if (!valider(modalForm)) return;
 
   const { c, dt } = valgtDato();
-  const antall = Math.max(1, parseInt($("#m-antall").value, 10) || 1);
+  const antall = Math.min(25, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
   const epost = $("#m-epost").value.trim();
   const betaling = (modalForm.querySelector('[name="betaling"]:checked') || {}).value || "faktura";
   const venteliste = Boolean(dt) && erFull(dt);

@@ -3,3 +3,7 @@
 /sitemap.xml
 /robots.txt
 .DS_Store
+# innholdssider generert fra sider/*.html — én linje per side
+/hms/
+/oppkjoring/
+/bevis/
