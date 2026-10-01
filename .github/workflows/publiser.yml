@@ -27,17 +27,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Bygg kurssidene
-        run: python3 tools/bygg.py
+        run: python3 tools/bygg.py --ut _site
         env:
           NETTSTED_URL: https://monscorps.github.io/kkurs.no
           # settes under Settings → Secrets and variables → Actions → Variables når kkurs-api er publisert
           KURS_API_URL: ${{ vars.KURS_API_URL }}
-      - name: Ikke publiser kildefragmentene
-        run: rm -rf sider
+          # Facebook-innlegg til nyhetsseksjonen (sidenøkkel som GitHub-secret, se docs/FACEBOOK.md)
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ vars.FB_PAGE_ID }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: .
+          path: _site
 
   publiser:
     needs: bygg

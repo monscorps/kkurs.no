@@ -3,7 +3,8 @@
 
 Kjøres automatisk ved hver push (GitHub Actions nå, Cloudflare ved lansering):
 
-    python3 tools/bygg.py
+    python3 tools/bygg.py              # bygger på plass (lokal forhåndsvisning)
+    python3 tools/bygg.py --ut _site   # + kopierer bare det som skal publiseres til _site/
 
 Lager (alt er generert — ikke rediger filene for hånd):
   kurs/<id>/index.html   én side per synlig kurs: adressen som lenkes til i e-post
@@ -11,6 +12,8 @@ Lager (alt er generert — ikke rediger filene for hånd):
   <sti>/index.html       innholdssider fra sider/*.html (HMS, Oppkjøring, Bevis …) — første
                          linje i hver fil er en kommentar med JSON-meta: sti, tittel,
                          beskrivelse, bilde
+  assets/nyheter.json    siste innlegg fra Facebook-siden (+ bildene i assets/nyheter/), når
+                         FB_PAGE_TOKEN er satt — nyhetsseksjonen på forsiden viser dem
   sitemap.xml, robots.txt
 
 Meny, bunn og påmeldings-/kontaktvinduene kopieres fra index.html, så
@@ -26,6 +29,7 @@ import json
 import os
 import re
 import shutil
+import sys
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -33,6 +37,10 @@ from pathlib import Path
 ROT = Path(__file__).resolve().parent.parent
 NETTSTED = os.environ.get("NETTSTED_URL", "https://kkurs.no").rstrip("/")
 KURS_API = os.environ.get("KURS_API_URL", "").rstrip("/")
+FB_SIDE = os.environ.get("FB_PAGE_ID") or "61594315895753"
+FB_NOKKEL = os.environ.get("FB_PAGE_TOKEN", "")
+FB_GRAPH = (os.environ.get("FB_GRAPH_URL") or "https://graph.facebook.com").rstrip("/")
+FB_VERSJON = os.environ.get("FB_API_VERSION") or "v23.0"
 NBSP = " "
 IDAG = date.today().isoformat()
 RESERVEBILDE = "hero-alt-kurs.jpg"  # nøytralt kursbilde når et kurs mangler eget
@@ -253,6 +261,85 @@ def bygg_sider(side, kurs):
         )
         stier.append(sti)
     return stier
+
+
+def kort(tekst, maks):
+    tekst = " ".join(tekst.split())
+    if len(tekst) <= maks:
+        return tekst
+    kuttet = tekst[:maks].rsplit(" ", 1)[0].rstrip(",.;:–—-")
+    return kuttet + " …"
+
+
+def hent_facebook():
+    """Siste innlegg fra Facebook-siden → assets/nyheter.json (+ lokale bildekopier).
+
+    Feiler hentingen, publiseres siden likevel — nyhetsseksjonen faller da tilbake til
+    kortene i index.html. Nøkkelen sendes i en header, aldri i adressen.
+    """
+    ut_json, bildemappe = ROT / "assets" / "nyheter.json", ROT / "assets" / "nyheter"
+    if not FB_NOKKEL:
+        return "ingen FB_PAGE_TOKEN — nyhetsseksjonen viser kortene i index.html"
+    adresse = (f"{FB_GRAPH}/{FB_VERSJON}/{FB_SIDE}/posts"
+               "?fields=id,message,created_time,full_picture,permalink_url&limit=12")
+    try:
+        foresporsel = urllib.request.Request(adresse, headers={"Authorization": f"Bearer {FB_NOKKEL}"})
+        with urllib.request.urlopen(foresporsel, timeout=30) as svar:
+            innlegg = json.loads(svar.read().decode("utf-8")).get("data", [])
+    except Exception as feil:  # noqa: BLE001
+        melding = str(feil).replace(FB_NOKKEL, "***")
+        print(f"ADVARSEL: fikk ikke hentet Facebook-innlegg ({melding}) — viser kortene i index.html.")
+        return "Facebook utilgjengelig"
+    if bildemappe.exists():
+        shutil.rmtree(bildemappe)
+    bildemappe.mkdir(parents=True)
+    ut = []
+    for p in innlegg:
+        tekst = (p.get("message") or "").strip()
+        if not tekst and not p.get("full_picture"):
+            continue
+        linjer = [l.strip() for l in tekst.splitlines() if l.strip()]
+        bilde = ""
+        if p.get("full_picture"):
+            navn = re.sub(r"[^0-9_]", "", p["id"]) + ".jpg"
+            try:
+                with urllib.request.urlopen(p["full_picture"], timeout=30) as svar:
+                    (bildemappe / navn).write_bytes(svar.read())
+                bilde = f"assets/nyheter/{navn}"
+            except Exception:  # noqa: BLE001 — innlegget vises uten bilde
+                pass
+        # tittel = første linje; er den lang, deles den etter første setning
+        if linjer and len(linjer[0]) > 90:
+            setning = re.match(r"^(.{15,90}?[.!?])\s+(.+)$", linjer[0])
+            if setning:
+                linjer = [setning.group(1), setning.group(2)] + linjer[1:]
+        ut.append({
+            "dato": (p.get("created_time") or "")[:10],
+            "tittel": kort(linjer[0], 90) if linjer else "Nytt fra Kompetanse Kurs",
+            "tekst": kort(" ".join(linjer[1:]), 200),
+            "bilde": bilde,
+            "lenke": p.get("permalink_url") or f"https://www.facebook.com/profile.php?id={FB_SIDE}",
+        })
+        if len(ut) == 6:
+            break
+    ut_json.write_text(json.dumps({"kilde": "facebook", "innlegg": ut}, ensure_ascii=False, indent=1), encoding="utf-8")
+    return f"{len(ut)} Facebook-innlegg"
+
+
+def publiser(mappe, sider):
+    """Kopierer bare nettstedet (ikke docs/, tools/, worker/, sider/) til en egen utdatamappe."""
+    ut = (ROT / mappe).resolve()
+    if ut == ROT or ROT not in ut.parents:
+        raise SystemExit(f"--ut må være en undermappe av prosjektet, ikke «{mappe}».")
+    if ut.exists():
+        shutil.rmtree(ut)
+    ut.mkdir()
+    for fil in ("index.html", "sitemap.xml", "robots.txt"):
+        shutil.copy2(ROT / fil, ut / fil)
+    toppnivaa = {"assets", "kurs"} | {sti.split("/")[0] for sti in sider}
+    for navn in sorted(toppnivaa):
+        shutil.copytree(ROT / navn, ut / navn)
+    print(f"Publiseringsmappe: {mappe}/ ({', '.join(sorted(toppnivaa))} + index, sitemap, robots)")
 
 
 def last_kursdata():
@@ -560,6 +647,7 @@ def main():
     )
 
     ekstra = bygg_sider(side, kurs)
+    nyheter = hent_facebook()
     adresser = ([f"{NETTSTED}/", f"{NETTSTED}/kurs/"] + [f"{NETTSTED}/kurs/{k['id']}/" for k in kurs]
                 + [f"{NETTSTED}/{sti}" for sti in ekstra])
     (ROT / "sitemap.xml").write_text(
@@ -571,8 +659,11 @@ def main():
     )
     (ROT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /sider/\n\nSitemap: {NETTSTED}/sitemap.xml\n", encoding="utf-8")
 
+    if "--ut" in sys.argv:
+        publiser(sys.argv[sys.argv.index("--ut") + 1], ekstra)
+
     skjult = [k["id"] for k in data["kurs"] if k.get("synlig", True) is False]
-    print(f"Bygget {len(kurs)} kurssider + oversikt + {len(ekstra)} innholdssider + sitemap fra {kilde} ({NETTSTED})."
+    print(f"Bygget {len(kurs)} kurssider + oversikt + {len(ekstra)} innholdssider + sitemap fra {kilde} ({NETTSTED}); nyheter: {nyheter}."
           + (f" Skjult (synlig: false): {', '.join(skjult)}." if skjult else ""))
 
 

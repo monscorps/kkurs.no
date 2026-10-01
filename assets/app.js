@@ -10,7 +10,7 @@
    FrontCore via API.
    ============================================================ */
 
-const APP_V = "36";
+const APP_V = "37";
 const VARSEL_EPOST = "bestilling@kkurs.no";
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = demomodus:
    kursene leses fra assets/kurs.json og påmelding simuleres i nettleseren. */
@@ -83,6 +83,29 @@ function foldeliste(nokkel) {
   knapp.textContent = utvidet[nokkel]
     ? "Vis f\u00e6rre \u2191"
     : `Vis alle ${alle.length} ${FOLD_ORD[nokkel]} \u2193`;
+}
+
+/* ---------- nyheter: siste innlegg fra Facebook-siden (assets/nyheter.json, laget av
+   tools/bygg.py). Finnes ikke fila, blir kortene i index.html stående. ---------- */
+async function renderNyheter() {
+  const grid = $(".news-grid");
+  if (!grid) return;
+  try {
+    const res = await fetch("assets/nyheter.json", { cache: "no-cache" });
+    if (!res.ok) return;
+    const { innlegg = [] } = await res.json();
+    if (!innlegg.length) return;
+    grid.innerHTML = innlegg.map((n) => `
+      <article class="news-card${n.bilde ? "" : " news-card--uten-bilde"}">
+        ${n.bilde ? `<figure class="news-img"><img src="${esc(n.bilde)}" alt="" loading="lazy" decoding="async"></figure>` : ""}
+        <div class="news-body">
+          <p class="news-meta mono">${n.dato ? `<time datetime="${esc(n.dato)}">${fmtDato(n.dato)}</time> · ` : ""}Facebook</p>
+          <h3><a href="${esc(n.lenke)}" target="_blank" rel="noopener">${esc(n.tittel)}</a></h3>
+          ${n.tekst ? `<p>${esc(n.tekst)}</p>` : ""}
+          <span class="news-more mono" aria-hidden="true">Les på Facebook →</span>
+        </div>
+      </article>`).join("");
+  } catch { /* beholder kortene i index.html */ }
 }
 
 /* ---------- kurskatalog ---------- */
@@ -755,6 +778,7 @@ async function init() {
   /* hero-innholdet er alltid i første skjermbilde — vent aldri på
      IntersectionObserver der (den kan svikte i bakgrunnsfaner) */
   $$(".hero--foto .reveal").forEach((el) => el.classList.add("in"));
+  await renderNyheter();
   foldeliste("nyheter");
   $$(".reveal").forEach((el) => io.observe(el));
   nav.classList.toggle("scrolled", fastNav || scrollY > 10);

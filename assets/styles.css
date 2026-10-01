@@ -1364,3 +1364,6 @@ body.modal-open { overflow: hidden; }
 @media (pointer: coarse) {
   .kontakt-info a, .kart-vei, .kursside-lenker a { display: inline-flex; align-items: center; min-height: 44px; }
 }
+
+/* nyhetskort fra Facebook uten bilde */
+.news-card--uten-bilde .news-body { padding-top: 1.6rem; }
