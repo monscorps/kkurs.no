@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=37">
+  <link rel="stylesheet" href="assets/styles.css?v=38">
 </head>
 <body>
 
@@ -168,8 +168,16 @@
         </table>
       </div>
       <button class="vis-alle" id="vis-alle-kalender" type="button" hidden aria-expanded="false"></button>
-      <p class="section-note mono on-dark" id="cal-note">◍ Forhåndsvisning med eksempeldata.
-        Ved lansering synkroniseres kalender og påmelding direkte fra FrontCore&nbsp;TMS.</p>
+      <p class="section-note mono on-dark" id="cal-note">Passer ingen av datoene? Vi holder kursene også
+        bedriftsinternt, hos dere — <button class="lenkeknapp" type="button" data-tilbud>be om tilbud</button>.</p>
+      <div class="cal-tom reveal" id="cal-tom" hidden>
+        <p>Nye kursdatoer legges ut her fortløpende. Finn kurset du trenger og meld interesse, så gir vi beskjed
+          når neste kurs settes opp — eller be om kurset bedriftsinternt hos dere.</p>
+        <div class="cal-tom-knapper">
+          <a class="btn btn-signal" href="kurs/">Se alle kurs</a>
+          <button class="btn btn-ghost" type="button" data-tilbud data-tema="Åpne kurs og påmelding">Be om tilbud</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -405,10 +413,6 @@
             <input type="radio" name="betaling" value="faktura" checked>
             <span><strong>Faktura</strong><small>Sendes til bedriften</small></span>
           </label>
-          <label class="pay-opt" id="m-vipps-valg">
-            <input type="radio" name="betaling" value="vipps">
-            <span><strong>Vipps</strong><small>Betal med en gang</small></span>
-          </label>
         </div>
       </fieldset>
       <div class="honning" aria-hidden="true">
@@ -417,13 +421,13 @@
       </div>
       <label class="check">
         <input type="checkbox" id="m-vilkar" required>
-        <span>Jeg godtar <a href="#" data-demo-link>kursvilkårene</a> og at Kompetanse Kurs kontakter meg om påmeldingen.</span>
+        <span>Jeg godtar at Kompetanse Kurs kontakter meg om påmeldingen.</span>
       </label>
 
       <div class="modal-foot">
         <div class="modal-sum mono" id="modal-sum" aria-live="polite"></div>
         <button class="btn btn-signal btn-lg btn-block" type="submit">Send påmelding</button>
-        <p class="form-note mono" id="m-note">Forhåndsvisning — ingen data sendes. Skjemaet kobles til FrontCore ved lansering.</p>
+        <p class="form-note mono" id="m-note">Når du sender, åpnes e-postprogrammet ditt med påmeldingen ferdig utfylt til bestilling@kkurs.no.</p>
       </div>
     </form>
 
@@ -434,8 +438,7 @@
       <h2>Takk! Påmeldingen er registrert.</h2>
       <p id="success-detail"></p>
       <ul class="success-flow mono" id="success-flow" aria-label="Dette skjer nå"></ul>
-      <p class="form-note mono" id="m-kvittering-note">Forhåndsvisning: alt over er simulert, ingen data er sendt.
-        Ved lansering håndterer FrontCore betaling, e-poster og plasstelling automatisk.</p>
+      <p class="form-note mono" id="m-kvittering-note" hidden></p>
       <div class="modal-actions">
         <button class="btn btn-ghost" type="button" data-close>Lukk</button>
         <button class="btn btn-signal" type="button" id="ny-pamelding">Ny påmelding</button>
@@ -487,13 +490,21 @@
         <textarea id="f-melding" name="melding" rows="4" placeholder="F.eks. «Vi trenger truckførerkurs for 6 ansatte i oktober»"></textarea>
       </div>
       <button class="btn btn-signal btn-lg btn-block" type="submit">Send forespørsel</button>
-      <p class="form-note mono">Forhåndsvisning — skjemaet kobles til e-post/CRM ved lansering.</p>
+      <p class="form-note mono">Når du sender, åpnes e-postprogrammet ditt med meldingen ferdig utfylt til bestilling@kkurs.no.</p>
     </form>
+    <div class="modal-success kontakt-takk" id="kontakt-takk" hidden>
+      <h2>Nesten ferdig — trykk Send i e-posten</h2>
+      <p>E-postprogrammet ditt er åpnet med forespørselen ferdig utfylt. Vi svarer som regel innen én arbeidsdag.</p>
+      <p class="form-note mono" id="kontakt-takk-note"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" type="button" data-close>Lukk</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=37"></script>
+<script src="assets/app.js?v=38"></script>
 </body>
 </html>

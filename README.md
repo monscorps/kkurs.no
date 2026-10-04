@@ -6,7 +6,7 @@ Landingsside for **Kompetanse Kurs** (Bergen) — sertifisert og dokumentert sik
 og HMS-kompetanse. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender og
 påmelding er attrapper til FrontCore-API-et kobles på (via proxy, se `docs/PRODUKSJONSPLAN.md`).
 
-> **Status:** forhåndsvisning med eksempeldata. Ingen skjemaer sender data.
+> **Status:** i drift på kkurs.no. Påmelding og kontakt går som e-post til bestilling@kkurs.no til FrontCore er koblet.
 
 ## Kjøre lokalt
 
@@ -78,15 +78,14 @@ stripe). Fire alternativer ligger klare: `hero-alt-fjord.jpg` (gyllen fjord + gr
 `hero-alt-kurs.jpg` (kurssituasjon i dagslys). Bytt ved å erstatte `hero.jpg` og bumpe
 `?v=` på bildelenken i `index.html`.
 
-## Bookingflyt i forhåndsvisningen (simulert)
+## Påmelding og kontakt (til FrontCore er koblet)
 
-Påmeldingen demonstrerer hele den ønskede flyten, uten at noe faktisk sendes:
-valg av **faktura eller Vipps**, kalender som viser **antall ledige plasser**, kapasitetssjekk
-(kan ikke melde på flere enn det er plasser til), **venteliste** når et kurs er fullt, og en
-kvittering som viser hva som skjer automatisk ved lansering: bekreftelses-e-post til
-bestilleren, varsel til `bestilling@kkurs.no`, og nedtrekk av ledige plasser i kalenderen.
-I produksjon leveres alt dette av FrontCore (Vipps/kort/faktura, e-poster, venteliste,
-plasstelling).
+Så lenge `API_URL` i `assets/app.js` er tom, sendes påmelding og kontaktskjema som **e-post**:
+skjemaet åpner besøkendes e-postprogram med alt ferdig utfylt (kurs, dato, deltakere, kontaktperson,
+bedrift, org.nr.) til `bestilling@kkurs.no` (`SKJEMA_EPOST`). Kvitteringen sier at man må trykke
+Send, og viser adresse og telefon hvis e-postprogrammet ikke åpnet seg. Kurs uten datoer får
+«Meld interesse»; kalenderen på forsiden viser «Se alle kurs / Be om tilbud» når ingen datoer er satt.
+Ingen eksempeldatoer skal ligge i `kurs.json` på det ekte domenet — legg inn bare ekte datoer.
 
 ## Ved lansering (FrontCore-kobling)
 

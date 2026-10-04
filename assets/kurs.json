@@ -1,5 +1,5 @@
 {
-  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Alle priser er i hele kroner eks. mva. Felter per kurs: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'navn' = kort navn i lister, kalender og påmelding. 'sidetittel' (valgfri) = lengre overskrift på kurssiden; uten den brukes 'navn'. 'koder' (valgfri) = klasser/koder, f.eks. «T1–T5». 'kat' = en av nøklene i 'kategorier'. 'varighet' (valgfri) vises som tekst, f.eks. «½ dag» — utelat feltet når varighet ikke skal vises. 'pris' = hovedprisen som bookes (uten pris vises «Pris på forespørsel»). 'prismerknad' (valgfri) = tillegg til hovedprisen, f.eks. «inkl. slukkeøvelse og digitalt bevis». 'priser' (valgfri) = alle prislinjene på kurssiden, i rekkefølge: {'tekst', 'pris', 'merknad'} — 'merknad' er valgfri (f.eks. «per klasse» eller «+ mva.»), og en linje uten beløp har bare 'tekst'. 'bilde' = filnavn i assets/img (uten feltet brukes kurs-<id>.jpg; finnes ikke filen, vises et reservebilde). 'desc' = kort ingress i ren tekst — vises i kurslisten, øverst på kurssiden og i søkemotorer. 'innhold' (valgfri) = resten av kursteksten som blokker i rekkefølge: {'p': 'avsnitt'}, {'h': 'underoverskrift'} eller {'ul': ['punkt', 'punkt']}; lenker i teksten skrives [tekst](sti), f.eks. [fallsikringskurs](kurs/fallsikring/). 'lenker' (valgfri) = ekstra lenker under kursteksten: {'tekst', 'href'}. 'synlig': false skjuler kurset overalt — sett til true (eller fjern linjen) for å publisere det. 'datoer' = kursdatoer: 'd' (ÅÅÅÅ-MM-DD), 'sted', 'plasser' = totalt antall, 'ledige' = ledige nå, 'merk' (valgfri) = merknad, f.eks. «på engelsk». Ved lansering erstattes filen av FrontCore som kilde.",
+  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Alle priser er i hele kroner eks. mva. Felter per kurs: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'navn' = kort navn i lister, kalender og påmelding. 'sidetittel' (valgfri) = lengre overskrift på kurssiden; uten den brukes 'navn'. 'koder' (valgfri) = klasser/koder, f.eks. «T1–T5». 'kat' = en av nøklene i 'kategorier'. 'varighet' (valgfri) vises som tekst, f.eks. «½ dag» — utelat feltet når varighet ikke skal vises. 'pris' = hovedprisen som bookes (uten pris vises «Pris på forespørsel»). 'pris_fra': true (valgfri) = vis «fra» foran prisen når prisen varierer, f.eks. med antall klasser. 'prismerknad' (valgfri) = tillegg til hovedprisen, f.eks. «inkl. slukkeøvelse og digitalt bevis». 'priser' (valgfri) = alle prislinjene på kurssiden, i rekkefølge: {'tekst', 'pris', 'merknad'} — 'merknad' er valgfri (f.eks. «per klasse» eller «+ mva.»), og en linje uten beløp har bare 'tekst'. 'bilde' = filnavn i assets/img (uten feltet brukes kurs-<id>.jpg; finnes ikke filen, vises et reservebilde). 'desc' = kort ingress i ren tekst — vises i kurslisten og i søkemotorer, og øverst på kurssiden når 'ingress' mangler. 'ingress' (valgfri) = lengre innledning øverst på kurssiden (tom tekst = ingen innledning). 'innhold' (valgfri) = resten av kursteksten som blokker i rekkefølge: {'p': 'avsnitt'}, {'h': 'underoverskrift'} eller {'ul': ['punkt', 'punkt']}; lenker i teksten skrives [tekst](sti), f.eks. [fallsikringskurs](kurs/fallsikring/). 'lenker' (valgfri) = ekstra lenker under kursteksten: {'tekst', 'href'}. 'synlig': false skjuler kurset overalt — sett til true (eller fjern linjen) for å publisere det. 'gjennomforing' (valgfri) = tekst i Sted-feltet på kurssiden, f.eks. «Digitalt, i våre kurslokaler eller hos kunden» (ellers brukes stedene fra datoene). 'datoer' = kursdatoer — tom liste [] når ingen datoer er satt: 'd' (ÅÅÅÅ-MM-DD), 'sted', 'plasser' = totalt antall, 'ledige' = ledige nå, 'merk' (valgfri) = merknad, f.eks. «på engelsk». Ved lansering erstattes filen av FrontCore som kilde.",
   "kategorier": {
     "truck": "Truck og maskin",
     "kran": "Kran og løft",
@@ -52,9 +52,6 @@
       "desc": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype.",
       "innhold": [
         {
-          "p": "I opplæringen vår legger vi vekt på sikkerhet, ansvarsbevissthet og gode ferdigheter."
-        },
-        {
           "p": "Kurset går over 3 dager, med en teoridel i klasserom og en praksisdel med oppkjøring til slutt. Når kurset er fullført og bestått, får deltakeren truckførerbevis."
         },
         {
@@ -89,20 +86,9 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-09-29",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 8
-        },
-        {
-          "d": "2026-10-27",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 10
-        }
-      ]
+      "datoer": [],
+      "ingress": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype. I opplæringen vår legger vi vekt på sikkerhet, ansvarsbevissthet og gode ferdigheter.",
+      "pris_fra": true
     },
     {
       "id": "stortruck",
@@ -188,9 +174,6 @@
       "desc": "En teleskoptruck har teleskopbom med rekkevidde på mer enn 2 meter, og kan løfte opptil 10 tonn. Kurset gir førere en teoretisk grunnopplæring i bruk av teleskoptruck, slik at ulykker unngås.",
       "innhold": [
         {
-          "p": "Du lærer om oppbygging, faremomenter og riktig bruk."
-        },
-        {
           "h": "Klasser"
         },
         {
@@ -231,20 +214,8 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-09-22",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 2
-        },
-        {
-          "d": "2026-11-17",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 12
-        }
-      ]
+      "datoer": [],
+      "ingress": "En teleskoptruck har teleskopbom med rekkevidde på mer enn 2 meter, og kan løfte opptil 10 tonn. Kurset gir førere en teoretisk grunnopplæring i bruk av teleskoptruck, slik at ulykker unngås. Du lærer om oppbygging, faremomenter og riktig bruk."
     },
     {
       "id": "maskin",
@@ -288,9 +259,6 @@
       "desc": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del.",
       "innhold": [
         {
-          "p": "Teorien er felles for alle maskintyper, mens praksisen gjennomføres på den maskintypen du skal sertifiseres for."
-        },
-        {
           "h": "Slik er kurset bygd opp"
         },
         {
@@ -320,14 +288,9 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-11-03",
-          "sted": "Bergen",
-          "plasser": 8,
-          "ledige": 6
-        }
-      ]
+      "datoer": [],
+      "ingress": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del. Teorien er felles for alle maskintyper, mens praksisen gjennomføres på den maskintypen du skal sertifiseres for.",
+      "pris_fra": true
     },
     {
       "id": "personlofter",
@@ -389,14 +352,7 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-11-10",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 11
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "kran-g4",
@@ -437,9 +393,6 @@
       "desc": "Alle som skal kjøre bro- eller traverskran i Norge, må ha gyldig kompetansebevis for krantypen. Hos oss får du et fullstendig kurs med all teori og praksis som trengs for gyldig kranførerbevis, med vekt på sikkerhet og god kvalitet.",
       "innhold": [
         {
-          "p": "Kurset inkluderer G11 stropp og signal."
-        },
-        {
           "p": "Målet er å gi kranførere en teoretisk grunnopplæring i sikker bruk av kraner og løfteutstyr, slik at uhell og ulykker ved løfteoperasjoner unngås. Du lærer om konstruksjon, virkemåte, vedlikehold og bruk av utstyret."
         },
         {
@@ -461,14 +414,8 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-10-13",
-          "sted": "Bergen",
-          "plasser": 8,
-          "ledige": 1
-        }
-      ]
+      "datoer": [],
+      "ingress": "Alle som skal kjøre bro- eller traverskran i Norge, må ha gyldig kompetansebevis for krantypen. Hos oss får du et fullstendig kurs med all teori og praksis som trengs for gyldig kranførerbevis, med vekt på sikkerhet og god kvalitet. Kurset inkluderer G11 stropp og signal."
     },
     {
       "id": "kran-g8",
@@ -546,14 +493,7 @@
           "p": "Språk: norsk eller engelsk."
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-11-05",
-          "sted": "Bergen",
-          "plasser": 8,
-          "ledige": 4
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "stropp",
@@ -593,14 +533,7 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-10-06",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 0
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "fallsikring",
@@ -643,14 +576,7 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-10-08",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 5
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "stillas-2-5m",
@@ -728,9 +654,6 @@
       "desc": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter.",
       "innhold": [
         {
-          "p": "Du får både faglig forståelse og mye praktisk trening."
-        },
-        {
           "p": "Norske myndigheter krever at alle som monterer, demonterer eller bruker stillas har fått tilstrekkelig opplæring (kapittel 17 i forskrift om utførelse av arbeid). Kravet gjelder all stillasmontering, fra en liten malerjobb på et bolighus til store prosjekter i bygg og anlegg, industri, skipsbygging og offshore. Som stillasbygger lager du arbeidsplattformen andre skal jobbe på, og har et stort ansvar. Kurset lærer deg også å vurdere tilstanden til stillasmateriellet og behovet for vedlikehold."
         },
         {
@@ -781,7 +704,8 @@
           "p": "Kurset holdes i våre lokaler, eller hos bedriften deres etter avtale. Trenger du stillasbyggerkurs over 9 meter? Kontakt oss for pris."
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "ingress": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter. Du får både faglig forståelse og mye praktisk trening."
     },
     {
       "id": "handholdt-verktoy",
@@ -792,9 +716,6 @@
       "bilde": "kurs-handholdt-verktoy.jpg",
       "desc": "Det er lovkrav at arbeidstakere har dokumentert opplæring når de bruker farlig arbeidsutstyr. Kurset gir en grunnleggende teoretisk og praktisk innføring i sikker bruk av farlig verktøy, som vinkelsliper, sirkelsag, stikksag, kjedesag, boltepistol og spikerpistol.",
       "innhold": [
-        {
-          "p": "Vi går gjennom oppbygging, betjening, bruksegenskaper og bruksområder, og vedlikehold og kontroll av verktøyet."
-        },
         {
           "p": "Arbeidsgiver skal sørge for at alle ansatte har dokumentert opplæring i arbeidsutstyr som er farlig eller krever særlig forsiktighet. Viser risikovurderingen at utstyret krever særlig forsiktighet, kan bare arbeidstakere med dokumentert sikkerhetsopplæring bruke det. Kurset oppfyller kravet i § 10-2 i forskrift om utførelse av arbeid."
         },
@@ -814,7 +735,8 @@
           ]
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "ingress": "Det er lovkrav at arbeidstakere har dokumentert opplæring når de bruker farlig arbeidsutstyr. Kurset gir en grunnleggende teoretisk og praktisk innføring i sikker bruk av farlig verktøy, som vinkelsliper, sirkelsag, stikksag, kjedesag, boltepistol og spikerpistol. Vi går gjennom oppbygging, betjening, bruksegenskaper og bruksområder, og vedlikehold og kontroll av verktøyet."
     },
     {
       "id": "sha-koordinator",
@@ -883,25 +805,11 @@
           ]
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-09-24",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 6,
-          "merk": "på engelsk"
-        },
-        {
-          "d": "2026-11-12",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 9
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "bes-vakt",
-      "navn": "BES Vakt-kurs (brannvakt)",
+      "navn": "BES Vakt-kurs (brannvakt) inkl. bruk av gassmåler",
       "sidetittel": "BES Vakt Kurs med digitalt varme arbeider-sertifikat og slokkeøvelse inkl. bruk av gassmåler",
       "kat": "hms",
       "varighet": "2 dager",
@@ -911,6 +819,9 @@
       "innhold": [
         {
           "h": "Hva er et BES-vaktkurs?"
+        },
+        {
+          "p": "BES står for brann, entring og sikring. Kurset lærer deg å overvåke og sikre arbeidsplasser der det utføres varme arbeider eller arbeid i trange rom."
         },
         {
           "ul": [
@@ -983,7 +894,8 @@
           "p": "Pakken inkluderer også kurs i varme arbeider med slukkeøvelse og opplæring i bruk av gassmåler."
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "ingress": ""
     },
     {
       "id": "hms-leder",
@@ -996,9 +908,6 @@
       "bilde": "kurs-hms-leder.jpg",
       "desc": "HMS-kurs for ledere er et lovpålagt kurs i helse, miljø og sikkerhet. Arbeidsmiljøloven § 3-5 krever at virksomhetens øverste leder har gjennomført opplæring i HMS-arbeid.",
       "innhold": [
-        {
-          "p": "Plikten er personlig og kan ikke delegeres, og opplæringen må kunne dokumenteres skriftlig."
-        },
         {
           "p": "Kurset tar for seg lovene og reglene som ligger til grunn for et forsvarlig arbeidsmiljø. Etter gjennomført kurs får deltakeren kursbevis, som oppfyller kravet til skriftlig dokumentasjon."
         },
@@ -1016,23 +925,19 @@
           ]
         },
         {
-          "p": "Gjennomføring: digitalt, i våre kurslokaler eller hos kunden"
-        }
-      ],
-      "datoer": [
-        {
-          "d": "2026-10-01",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 9
+          "h": "Gjennomføring, pris og varighet"
         },
         {
-          "d": "2026-11-19",
-          "sted": "Digitalt",
-          "plasser": 30,
-          "ledige": 24
+          "ul": [
+            "Gjennomføring: digitalt, i våre kurslokaler eller hos kunden",
+            "Pris: 3 099 kr + avgift for kompetansebevis",
+            "Varighet: 1 dag"
+          ]
         }
-      ]
+      ],
+      "datoer": [],
+      "ingress": "HMS-kurs for ledere er et lovpålagt kurs i helse, miljø og sikkerhet. Arbeidsmiljøloven § 3-5 krever at virksomhetens øverste leder har gjennomført opplæring i HMS-arbeid. Plikten er personlig og kan ikke delegeres, og opplæringen må kunne dokumenteres skriftlig.",
+      "gjennomforing": "Digitalt, i våre kurslokaler eller hos kunden"
     },
     {
       "id": "verneombud",
@@ -1080,14 +985,7 @@
           "href": "kurs/verneombud/endringer-2024/"
         }
       ],
-      "datoer": [
-        {
-          "d": "2026-10-21",
-          "sted": "Bergen",
-          "plasser": 25,
-          "ledige": 7
-        }
-      ]
+      "datoer": []
     },
     {
       "id": "diisocyanater",
@@ -1098,9 +996,6 @@
       "bilde": "kurs-diisocyanater.jpg",
       "desc": "I august 2020 innførte EU en ny begrensning under REACH-regelverket for produkter med mer enn 0,1 % monomere diisocyanater. Den gjelder blant annet polyuretanlim, fugemasser, belegg, skum og injeksjonsmasser som brukes i industri og bygg.",
       "innhold": [
-        {
-          "p": "Målet er å redusere helserisikoen ved at alle som håndterer stoffene, er godt informert og opplært."
-        },
         {
           "p": "Fra 24. august 2023 må alle profesjonelle brukere ha fullført opplæring i sikker bruk før de tar slike produkter i bruk. Private brukere (gjør-det-selv) er ikke omfattet. Kurset passer for bygg og anlegg, maler- og håndverksfag, bil- og båtpleie, møbelproduksjon og industri."
         },
@@ -1134,7 +1029,8 @@
           "p": "Usikker på hvilket nivå dere trenger? Ta kontakt, så hjelper vi dere."
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "ingress": "I august 2020 innførte EU en ny begrensning under REACH-regelverket for produkter med mer enn 0,1 % monomere diisocyanater. Den gjelder blant annet polyuretanlim, fugemasser, belegg, skum og injeksjonsmasser som brukes i industri og bygg. Målet er å redusere helserisikoen ved at alle som håndterer stoffene, er godt informert og opplært."
     },
     {
       "id": "fse-forstehjelp",

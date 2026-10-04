@@ -61,7 +61,9 @@ def fmt_pris(n):
 
 
 def pris_tekst(k):
-    return f"fra {fmt_pris(k['pris'])}" if k.get("pris") else "Pris på forespørsel"
+    if not k.get("pris"):
+        return "Pris på forespørsel"
+    return f"fra {fmt_pris(k['pris'])}" if k.get("pris_fra") else fmt_pris(k["pris"])
 
 
 def fmt_dato(iso):
@@ -359,9 +361,12 @@ def last_kursdata():
         for felt in [f for f, v in k.items() if v is None]:
             del k[felt]
         l = lokale.get(k["id"], {})
-        for felt in ("sidetittel", "innhold", "priser", "prismerknad", "lenker", "bilde", "desc", "koder", "varighet"):
+        for felt in ("sidetittel", "innhold", "priser", "prismerknad", "lenker", "bilde", "desc", "koder", "varighet",
+                     "pris_fra", "gjennomforing"):
             if not k.get(felt) and l.get(felt):
                 k[felt] = l[felt]
+        if "ingress" not in k and "ingress" in l:  # tom ingress er et bevisst valg og skal også følge med
+            k["ingress"] = l["ingress"]
     for nokkel, navn in lokalt["kategorier"].items():
         data["kategorier"].setdefault(nokkel, navn)
     return data, f"{KURS_API}/kurs + tekster fra assets/kurs.json"
@@ -450,7 +455,9 @@ def main():
         if k.get("prismerknad"):
             pris += f" · {e(k['prismerknad'])}"
         fakta.append(f"<div><dt>Pris</dt><dd>{pris}</dd></div>")
-        fakta.append(f"<div><dt>Sted</dt><dd>{e(', '.join(steder))} · eller bedriftsinternt</dd></div>")
+        sted = k.get("gjennomforing") or f"{', '.join(steder)} · eller bedriftsinternt"
+        fakta.append(f"<div><dt>Sted</dt><dd>{e(sted)}</dd></div>")
+        ingress = k["desc"] if k.get("ingress") is None else k["ingress"]
         forste = hoveddato(datoer)
         hovedknapp = "Meld interesse" if forste == "forespørsel" else (
             "Venteliste" if er_full(datoer[int(forste)]) else "Meld deg på")
@@ -520,7 +527,7 @@ def main():
         <p class="kicker">{e(kat)}</p>
         <h1 id="kurs-tittel"{' class="lang-tittel"' if len(k.get("sidetittel") or k["navn"]) > 60 else ""}>{e(k.get("sidetittel") or k["navn"])}</h1>
         <p class="kursside-koder mono">{e(koder(dict(k, navn=k.get("sidetittel") or k["navn"])))}</p>
-        <p class="kursside-lead">{e(k["desc"])}</p>
+        {f'<p class="kursside-lead">{e(ingress)}</p>' if ingress else ""}
         <dl class="kursside-fakta mono">
           {"".join(fakta)}
         </dl>
@@ -542,8 +549,7 @@ def main():
       <ul class="dato-liste" id="kursside-datoer">
       {dato_rader(k)}
       </ul>
-      <p class="section-note mono">Passer ingen av datoene? Vi holder kurset også bedriftsinternt, hos dere —
-        <button class="lenkeknapp" type="button" data-tilbud>be om tilbud</button>.</p>
+      {"" if not datoer else '<p class="section-note mono">Passer ingen av datoene? Vi holder kurset også bedriftsinternt, hos dere — <button class="lenkeknapp" type="button" data-tilbud>be om tilbud</button>.</p>'}
     </div>
   </section>
 
@@ -551,7 +557,7 @@ def main():
     <div class="container kursside-cta-rad">
       <div>
         <h2 id="cta-tittel">Klar for {e(k["navn"])}?</h2>
-        <p>Meld deg på en kommende dato — eller be om kurset bedriftsinternt hos dere.</p>
+        <p>{"Meld deg på en kommende dato" if datoer else "Meld interesse, så gir vi beskjed når neste kurs settes opp"} — eller be om kurset bedriftsinternt hos dere.</p>
       </div>
       <div class="kursside-handling">
         <button class="btn btn-signal btn-lg" type="button" data-hovedknapp data-book="{e(k["id"])}" data-date="{forste}">{hovedknapp}</button>

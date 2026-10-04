@@ -5,15 +5,16 @@
    kursliste, kalender, kurssidene og påmelding oppdateres derfra
    automatisk). Samme skript kjører på forsiden og på kurssidene
    (kurs/<id>/, generert av tools/bygg.py); hver del starter bare
-   hvis elementene finnes. Påmelding, betaling, e-poster og
-   plasstelling er SIMULERT; ved lansering leveres alt av
-   FrontCore via API.
+   hvis elementene finnes. Til FrontCore er koblet (API_URL tom)
+   sendes påmelding og kontaktskjema som e-post: skjemaet åpner
+   e-postprogrammet med alt ferdig utfylt til SKJEMA_EPOST.
    ============================================================ */
 
-const APP_V = "37";
-const VARSEL_EPOST = "bestilling@kkurs.no";
-/* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = demomodus:
-   kursene leses fra assets/kurs.json og påmelding simuleres i nettleseren. */
+const APP_V = "38";
+const SKJEMA_EPOST = "bestilling@kkurs.no";
+const TELEFON = { visning: "+47 930 70 071", lenke: "tel:+4793070071" };
+/* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = kursene leses
+   fra assets/kurs.json og påmelding går som e-post (se epostLenke). */
 const API_URL = "";
 const LIVE = Boolean(API_URL);
 
@@ -42,7 +43,7 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const fmtDato = (iso) => { const [y, m, d] = iso.split("-"); return `${d}.${m}.${y}`; };
 const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m}`; };
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
-const prisTekst = (c) => (c.pris ? `fra ${fmtPris(c.pris)}` : "Pris på forespørsel");
+const prisTekst = (c) => (c.pris ? `${c.pris_fra ? "fra " : ""}${fmtPris(c.pris)}` : "Pris på forespørsel");
 const kursBilde = (c) => esc(`assets/img/${c.bilde || `kurs-${c.id}.jpg`}`);
 const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
 /* koden vises bare når navnet ikke allerede har den («Anhukerkurs G11» + «G11») */
@@ -165,6 +166,11 @@ function renderKalenderFilter() {
 }
 
 function renderCal() {
+  /* ingen datoer satt: vis veien videre (alle kurs / be om tilbud) i stedet for en tom tabell */
+  const tom = !CAL.length;
+  ["#kalender-filter", ".cal-wrap", "#cal-note"].forEach((v) => { const el = $(v); if (el) el.hidden = tom; });
+  if ($("#cal-tom")) $("#cal-tom").hidden = !tom;
+  if (tom) { foldeliste("kalender"); return; }
   const rows = CAL.filter((e) => aktivSted === "Alle steder" || e.dt.sted === aktivSted);
   if (!rows.length) {
     $("#cal-body").innerHTML = `<tr><td colspan="6" class="cal-empty">Ingen oppsatte kurs her akkurat nå — be om tilbud, så setter vi opp kurs.</td></tr>`;
@@ -285,7 +291,7 @@ function oppdaterSum() {
   if (felt) felt.hidden = !dt;
   if (!dt) {
     $("#modal-sum").innerHTML = c.pris
-      ? `<span>Annen dato / bedriftsinternt</span><strong>fra ${fmtPris(c.pris)} per deltaker</strong>`
+      ? `<span>Annen dato / bedriftsinternt</span><strong>${prisTekst(c)} per deltaker</strong>`
       : `<span>Annen dato / bedriftsinternt</span><strong>Pris etter avtale</strong>`;
     return;
   }
@@ -358,6 +364,7 @@ function apneKontakt(tema) {
 }
 function lukkKontakt() {
   kontaktModal.hidden = true;
+  if (!$("#kontakt-takk").hidden) { $("#kontakt-form").reset(); $("#kontakt-form").hidden = false; $("#kontakt-takk").hidden = true; }
   frigjorScroll();
   if (lastFocus) lastFocus.focus();
 }
@@ -470,11 +477,26 @@ $("#m-kurs").addEventListener("change", () => { fyllDatoSelect($("#m-kurs").valu
 $("#m-dato").addEventListener("change", oppdaterSum);
 $("#m-antall").addEventListener("input", () => { renderDeltakere(); oppdaterSum(); });
 
-/* ---------- bestillingsflyt (simulert) ---------- */
-function visKvittering(tittel, detalj, flyt) {
+/* ---------- e-post som innsending (til FrontCore er koblet) ----------
+   Skjemaet åpner e-postprogrammet med alt ferdig utfylt; mottakeren er
+   SKJEMA_EPOST. Kvitteringen sier ærlig at brukeren må trykke Send, og
+   gir adresse og telefon hvis e-postprogrammet ikke åpnet seg. */
+function epostLenke(emne, linjer) {
+  const tekst = linjer.filter((l) => l !== null).join("\n");
+  return `mailto:${SKJEMA_EPOST}?subject=${encodeURIComponent(emne)}&body=${encodeURIComponent(tekst)}`;
+}
+function apneEpost(href) { location.href = href; }
+const reserveTekst = (href) => `Åpnet ikke e-posten seg? <a href="${esc(href)}">Prøv igjen</a>, skriv til
+  <a href="mailto:${SKJEMA_EPOST}">${SKJEMA_EPOST}</a> eller ring <a href="${TELEFON.lenke}">${TELEFON.visning}</a>.`;
+const verdi = (id) => ($(id)?.value || "").trim();
+
+/* ---------- bestillingsflyt ---------- */
+function visKvittering(tittel, detalj, flyt, merknadHtml = "") {
   $("#modal-success h2").textContent = tittel;
   $("#success-detail").textContent = detalj;
   $("#success-flow").innerHTML = flyt.map((f) => `<li>${esc(f)}</li>`).join("");
+  const note = $("#m-kvittering-note");
+  if (note) { note.innerHTML = merknadHtml; note.hidden = !merknadHtml; }
   modalForm.hidden = true;
   modalSuccess.hidden = false;
 }
@@ -512,7 +534,8 @@ async function sendPamelding(c, dt, antall) {
     visKvittering(
       svar.venteliste ? "Du står på ventelisten." : "Takk! Påmeldingen er registrert.",
       `${medKoder(c)} · ${fmtDato(dt.d)} · ${dt.sted} · ${antall} deltaker${antall > 1 ? "e" : ""}`,
-      flyt);
+      flyt,
+      "Spørsmål om påmeldingen? Svar på bekreftelsen, eller kontakt oss.");
     hentKursdata().then(renderAlt).catch(() => {});
   } catch {
     toast("Fikk ikke kontakt med påmeldingen. Sjekk nettet og prøv igjen.");
@@ -528,7 +551,6 @@ modalForm.addEventListener("submit", async (ev) => {
   const { c, dt } = valgtDato();
   const antall = Math.min(25, Math.max(1, parseInt($("#m-antall").value, 10) || 1));
   const epost = $("#m-epost").value.trim();
-  const betaling = (modalForm.querySelector('[name="betaling"]:checked') || {}).value || "faktura";
   const venteliste = Boolean(dt) && erFull(dt);
 
   /* kapasitetssjekk */
@@ -551,37 +573,36 @@ modalForm.addEventListener("submit", async (ev) => {
     return;
   }
 
-  /* demomodus: trekk ned ledige plasser og oppdater kalender/kort */
-  if (dt && !venteliste && Number.isFinite(dt.ledige)) {
-    dt.ledige = Math.max(0, dt.ledige - antall);
-    renderAlt();
-  }
-
-  const datoTekst = dt ? `${fmtDato(dt.d)} · ${dt.sted}` : "annen dato / bedriftsinternt";
-  $("#success-detail").textContent =
-    `${medKoder(c)} · ${datoTekst} · ${antall} deltaker${antall > 1 ? "e" : ""}`;
-
-  const flyt = [];
-  if (venteliste) {
-    flyt.push(`Du er satt på venteliste — vi kontakter deg på ${epost} ved ledig plass`);
-  } else {
-    if (!dt) flyt.push("Vi kontakter deg med forslag til dato og pris");
-    else if (!c.pris) flyt.push("Vi sender pristilbud til bedriften");
-    else flyt.push(betaling === "vipps"
-      ? `Vipps-betaling på ${fmtPris(c.pris * antall)} gjennomføres`
-      : `Faktura på ${fmtPris(c.pris * antall)} sendes til bedriften`);
-    if (dt) flyt.push(`Ledige plasser i kalenderen er nedjustert (${statusFor(dt).label.toLowerCase()})`);
-  }
-  flyt.push(`Bekreftelse sendt til ${epost}`);
-  flyt.push(`Varsel sendt til ${VARSEL_EPOST}`);
-  $("#success-flow").innerHTML = flyt.map((f) => `<li>${f}</li>`).join("");
-
-  $("#modal-success h2").textContent = venteliste
-    ? "Du står på ventelisten."
-    : dt ? "Takk! Påmeldingen er registrert." : "Takk! Vi har mottatt interessen din.";
-
-  modalForm.hidden = true;
-  modalSuccess.hidden = false;
+  /* uten API: påmeldingen sendes som e-post */
+  const deltakere = dt ? hentDeltakere() : [];
+  const datoTekst = dt ? `${fmtDato(dt.d)}, ${dt.sted}${dt.merk ? ` (${dt.merk})` : ""}` : "annen dato / bedriftsinternt kurs";
+  const type = !dt ? "Interesse" : venteliste ? "Venteliste" : "Påmelding";
+  const href = epostLenke(`${type}: ${medKoder(c)} – ${dt ? fmtDato(dt.d) : "annen dato"}`, [
+    `${type} ${dt ? "til" : "for"} ${medKoder(c)}`,
+    `Dato: ${datoTekst}`,
+    `Antall deltakere: ${antall}`,
+    ...(deltakere.length
+      ? ["", "Deltakere:", ...deltakere.map((d, n) => `${n + 1}. ${d.fornavn} ${d.etternavn}${d.epost ? ` (${d.epost})` : ""}`)]
+      : []),
+    "",
+    `Kontaktperson: ${verdi("#m-navn")}`,
+    `E-post: ${epost}`,
+    verdi("#m-tlf") ? `Telefon: ${verdi("#m-tlf")}` : null,
+    verdi("#m-bedrift") ? `Bedrift: ${verdi("#m-bedrift")}` : null,
+    verdi("#m-orgnr") ? `Org.nr.: ${verdi("#m-orgnr")}` : null,
+    "Betaling: faktura",
+  ]);
+  apneEpost(href);
+  visKvittering(
+    "Nesten ferdig — trykk Send i e-posten",
+    `${medKoder(c)} · ${dt ? `${fmtDato(dt.d)} · ${dt.sted}` : "annen dato / bedriftsinternt"} · ${antall} deltaker${antall > 1 ? "e" : ""}`,
+    [
+      `E-postprogrammet ditt er åpnet med ${dt ? "påmeldingen" : "forespørselen"} ferdig utfylt til ${SKJEMA_EPOST}`,
+      !dt ? "Vi kontakter deg med forslag til dato og pris"
+        : venteliste ? "Kurset er fullt — vi gir beskjed så snart det blir ledig plass"
+          : "Vi bekrefter plassen og sender faktura til bedriften",
+    ],
+    reserveTekst(href));
 });
 
 $("#ny-pamelding").addEventListener("click", () => {
@@ -593,18 +614,25 @@ $("#ny-pamelding").addEventListener("click", () => {
   modalForm.hidden = false;
 });
 
-/* kontaktskjema — demo */
+/* kontaktskjema — sendes som e-post */
 $("#kontakt-form").addEventListener("submit", (ev) => {
   ev.preventDefault();
   const form = ev.target;
   if (!valider(form)) return;
-  form.innerHTML = `
-    <div class="modal-success" style="padding:0; text-align:left;">
-      <h3 style="font-size:1.4rem;">Takk for henvendelsen!</h3>
-      <p style="margin-top:.6rem;">Vi tar kontakt så snart som mulig — som regel innen én arbeidsdag.</p>
-      <p class="form-note mono" style="margin-top:1rem;">Forhåndsvisning: ingen data er sendt.
-      Ved lansering går forespørselen til post@kkurs.no / CRM.</p>
-    </div>`;
+  const bedrift = verdi("#f-bedrift");
+  const href = epostLenke(`${verdi("#f-tema")}${bedrift ? ` – ${bedrift}` : ""}`, [
+    verdi("#f-melding") || null,
+    verdi("#f-melding") ? "" : null,
+    `Gjelder: ${verdi("#f-tema")}`,
+    `Navn: ${verdi("#f-navn")}`,
+    bedrift ? `Bedrift: ${bedrift}` : null,
+    `E-post: ${verdi("#f-epost")}`,
+    verdi("#f-tlf") ? `Telefon: ${verdi("#f-tlf")}` : null,
+  ]);
+  apneEpost(href);
+  $("#kontakt-takk-note").innerHTML = reserveTekst(href);
+  form.hidden = true;
+  $("#kontakt-takk").hidden = false;
 });
 
 /* ---------- fagområder: interaktivt emblem + fagstripe ---------- */
@@ -759,10 +787,8 @@ async function hentKursdata() {
 
 async function init() {
   if (LIVE) {
-    $("#m-vipps-valg")?.remove(); /* FrontCore-API-et tar faktura (og kort), ikke Vipps */
-    const note = $("#m-note"), kv = $("#m-kvittering-note");
+    const note = $("#m-note");
     if (note) note.textContent = "Påmeldingen registreres i kurssystemet vårt — du får bekreftelse på e-post.";
-    if (kv) kv.textContent = "Spørsmål om påmeldingen? Svar på bekreftelsen, eller kontakt oss.";
   }
   try {
     await hentKursdata();

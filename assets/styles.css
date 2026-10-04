@@ -1119,6 +1119,22 @@ body.modal-open { overflow: hidden; }
   color: var(--navy); border-bottom: 1.5px solid currentColor;
 }
 .lenkeknapp:hover { color: var(--navy-dyp); }
+.section-dark .lenkeknapp { color: var(--sjo); }
+.section-dark .lenkeknapp:hover { color: var(--hvit); }
+
+/* kalenderen uten datoer: veien videre i stedet for en tom tabell */
+.cal-tom {
+  display: grid; gap: 1.4rem; justify-items: start; padding: 2.2rem 0;
+  border-top: 1px solid var(--linje-gronn); border-bottom: 1px solid var(--linje-gronn);
+}
+.cal-tom p { max-width: 60ch; color: var(--pa-gronn); font-size: var(--t-0); line-height: 1.6; }
+.cal-tom-knapper { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+@media (max-width: 480px) { .cal-tom-knapper { width: 100%; } .cal-tom-knapper .btn { flex: 1 1 100%; } }
+
+/* kvittering i kontaktvinduet */
+.kontakt-takk { text-align: left; padding-top: 2.2rem; }
+.kontakt-takk .modal-actions { justify-content: flex-start; }
+.form-note a { color: inherit; border-bottom: 1px solid currentColor; }
 
 /* ── kurssidene (kurs/<id>/) og «Våre kurs» (kurs/) ─────────────── */
 .kursside-topp {
