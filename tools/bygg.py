@@ -463,6 +463,7 @@ def main():
         sted = k.get("gjennomforing") or f"{', '.join(steder)} · eller bedriftsinternt"
         fakta.append(f"<div><dt>Sted</dt><dd>{e(sted)}</dd></div>")
         ingress = k["desc"] if k.get("ingress") is None else k["ingress"]
+        kode = koder(dict(k, navn=k.get("sidetittel") or k["navn"]))  # tom når koden står i tittelen
         forste = hoveddato(datoer)
         hovedknapp = "Meld interesse" if forste == "forespørsel" else (
             "Venteliste" if er_full(datoer[int(forste)]) else "Meld deg på")
@@ -531,7 +532,7 @@ def main():
       <div class="kursside-tekst">
         <p class="kicker">{e(kat)}</p>
         <h1 id="kurs-tittel"{' class="lang-tittel"' if len(k.get("sidetittel") or k["navn"]) > 60 else ""}>{e(k.get("sidetittel") or k["navn"])}</h1>
-        <p class="kursside-koder mono">{e(koder(dict(k, navn=k.get("sidetittel") or k["navn"])))}</p>
+        {f'<p class="kursside-koder mono">{e(kode)}</p>' if kode else ""}
         {f'<p class="kursside-lead">{e(ingress)}</p>' if ingress else ""}
         <dl class="kursside-fakta mono">
           {"".join(fakta)}

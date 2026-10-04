@@ -1329,8 +1329,6 @@ body.modal-open { overflow: hidden; }
   font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; background: var(--navy); color: #fff;
 }
 
-/* samarbeidspartnere: egen rad under kundene */
-.partner-gruppe + .partner-gruppe { margin-top: 2.2rem; }
 
 @media (max-width: 900px) {
   .kontakt-grid { grid-template-columns: minmax(0, 1fr); }

@@ -944,7 +944,7 @@
         {
           "ul": [
             "Gjennomføring: e-kurs, i våre kurslokaler eller hos kunden",
-            "Pris: 3 099 kr + avgift for kompetansebevis",
+            "Pris: fra kr 3 099,– eks. mva.",
             "Varighet: 1 dag"
           ]
         }
@@ -958,7 +958,8 @@
           "pris": 3099
         },
         {
-          "tekst": "Avgift for kompetansebevis"
+          "tekst": "Avgift for kompetansebevis",
+          "merknad": "kommer i tillegg"
         }
       ]
     },

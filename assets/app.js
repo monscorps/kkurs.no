@@ -10,7 +10,7 @@
    e-postprogrammet med alt ferdig utfylt til SKJEMA_EPOST.
    ============================================================ */
 
-const APP_V = "39";
+const APP_V = "40";
 const SKJEMA_EPOST = "bestilling@kkurs.no";
 const TELEFON = { visning: "+47 930 70 071", lenke: "tel:+4793070071" };
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = kursene leses
