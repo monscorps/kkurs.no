@@ -1,5 +1,5 @@
 {
-  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Alle priser er i hele kroner eks. mva. Felter per kurs: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'navn' = kort navn i lister, kalender og påmelding. 'sidetittel' (valgfri) = lengre overskrift på kurssiden; uten den brukes 'navn'. 'koder' (valgfri) = klasser/koder, f.eks. «T1–T5». 'kat' = en av nøklene i 'kategorier'. 'varighet' (valgfri) vises som tekst, f.eks. «½ dag» — utelat feltet når varighet ikke skal vises. 'pris' = hovedprisen som bookes (uten pris vises «Pris på forespørsel»). 'pris_fra': true (valgfri) = vis «fra» foran prisen når prisen varierer, f.eks. med antall klasser. 'prismerknad' (valgfri) = tillegg til hovedprisen, f.eks. «inkl. slukkeøvelse og digitalt bevis». 'priser' (valgfri) = alle prislinjene på kurssiden, i rekkefølge: {'tekst', 'pris', 'merknad'} — 'merknad' er valgfri (f.eks. «per klasse» eller «+ mva.»), og en linje uten beløp har bare 'tekst'. 'bilde' = filnavn i assets/img (uten feltet brukes kurs-<id>.jpg; finnes ikke filen, vises et reservebilde). 'desc' = kort ingress i ren tekst — vises i kurslisten og i søkemotorer, og øverst på kurssiden når 'ingress' mangler. 'ingress' (valgfri) = lengre innledning øverst på kurssiden (tom tekst = ingen innledning). 'innhold' (valgfri) = resten av kursteksten som blokker i rekkefølge: {'p': 'avsnitt'}, {'h': 'underoverskrift'} eller {'ul': ['punkt', 'punkt']}; lenker i teksten skrives [tekst](sti), f.eks. [fallsikringskurs](kurs/fallsikring/). 'lenker' (valgfri) = ekstra lenker under kursteksten: {'tekst', 'href'}. 'synlig': false skjuler kurset overalt — sett til true (eller fjern linjen) for å publisere det. 'gjennomforing' (valgfri) = tekst i Sted-feltet på kurssiden, f.eks. «Digitalt, i våre kurslokaler eller hos kunden» (ellers brukes stedene fra datoene). 'datoer' = kursdatoer — tom liste [] når ingen datoer er satt: 'd' (ÅÅÅÅ-MM-DD), 'sted', 'plasser' = totalt antall, 'ledige' = ledige nå, 'merk' (valgfri) = merknad, f.eks. «på engelsk». Ved lansering erstattes filen av FrontCore som kilde.",
+  "_les_meg": "Alt kursinnhold på kkurs.no ligger i denne ene filen. Endre her — kurslisten, kurskalenderen, de egne kurssidene (kkurs.no/kurs/<id>/) og påmeldingen oppdateres automatisk. Alle priser er i hele kroner eks. mva. Felter per kurs: 'id' blir adressen til kurssiden (bruk små bokstaver og bindestrek, og ikke endre den etter at lenken er sendt ut). 'navn' = kort navn i lister, kalender og påmelding. 'sidetittel' (valgfri) = lengre overskrift på kurssiden; uten den brukes 'navn'. 'koder' (valgfri) = klasser/koder, f.eks. «T1–T5». 'kat' = en av nøklene i 'kategorier'. 'varighet' (valgfri) vises som tekst, f.eks. «½ dag» — utelat feltet når varighet ikke skal vises. 'pris' = laveste pris, vises som «fra kr …» øverst på kurssiden og i kurslisten (uten pris vises «Pris på forespørsel»). 'prismerknad' (valgfri) = kort tillegg bak prisen øverst på kurssiden, f.eks. «inkl. slukkeøvelse og digitalt bevis» — tillegg som bevisavgift legges heller i 'priser'. 'priser' (valgfri) = alle prislinjene på kurssiden, i rekkefølge: {'tekst', 'pris', 'merknad'} — 'merknad' er valgfri (f.eks. «per klasse» eller «+ mva.»), og en linje uten beløp har bare 'tekst'. 'bilde' = filnavn i assets/img (uten feltet brukes kurs-<id>.jpg; finnes ikke filen, vises et reservebilde). 'desc' = kort ingress i ren tekst — vises i kurslisten og i søkemotorer, og øverst på kurssiden når 'ingress' mangler. 'ingress' (valgfri) = lengre innledning øverst på kurssiden (tom tekst = ingen innledning). 'innhold' (valgfri) = resten av kursteksten som blokker i rekkefølge: {'p': 'avsnitt'}, {'h': 'underoverskrift'} eller {'ul': ['punkt', 'punkt']}; lenker i teksten skrives [tekst](sti), f.eks. [fallsikringskurs](kurs/fallsikring/). 'lenker' (valgfri) = ekstra lenker under kursteksten: {'tekst', 'href'}. 'synlig': false skjuler kurset overalt — sett til true (eller fjern linjen) for å publisere det. 'gjennomforing' (valgfri) = tekst i Sted-feltet på kurssiden, f.eks. «Digitalt, i våre kurslokaler eller hos kunden» (ellers brukes stedene fra datoene). 'datoer' = kursdatoer — tom liste [] når ingen datoer er satt: 'd' (ÅÅÅÅ-MM-DD), 'sted', 'plasser' = totalt antall, 'ledige' = ledige nå, 'merk' (valgfri) = merknad, f.eks. «på engelsk». Ved lansering erstattes filen av FrontCore som kilde.",
   "kategorier": {
     "truck": "Truck og maskin",
     "kran": "Kran og løft",
@@ -13,8 +13,8 @@
       "sidetittel": "Truckførerkurs T1–T5",
       "koder": "T1–T5",
       "kat": "truck",
-      "varighet": "3 dager",
-      "pris": 11000,
+      "varighet": "3 dager + praksis",
+      "pris": 6150,
       "priser": [
         {
           "tekst": "Teori",
@@ -47,12 +47,11 @@
           "merknad": "+ mva."
         }
       ],
-      "prismerknad": "pakkepris (1 klasse)",
       "bilde": "kurs-truck.jpg",
       "desc": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype.",
       "innhold": [
         {
-          "p": "Kurset går over 3 dager, med en teoridel i klasserom og en praksisdel med oppkjøring til slutt. Når kurset er fullført og bestått, får deltakeren truckførerbevis."
+          "p": "Kurset går over 3 dager + praksis, med en teoridel i klasserom og en praksisdel med oppkjøring til slutt. Når kurset er fullført og bestått, får deltakeren truckførerbevis."
         },
         {
           "h": "Klasser"
@@ -87,8 +86,7 @@
         }
       ],
       "datoer": [],
-      "ingress": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype. I opplæringen vår legger vi vekt på sikkerhet, ansvarsbevissthet og gode ferdigheter.",
-      "pris_fra": true
+      "ingress": "Alle som skal kjøre truck i Norge, må ha gyldig kompetansebevis for den trucktypen de skal bruke. Det krever sertifisert sikkerhetsopplæring på hver trucktype. I opplæringen vår legger vi vekt på sikkerhet, ansvarsbevissthet og gode ferdigheter."
     },
     {
       "id": "stortruck",
@@ -254,7 +252,6 @@
           "merknad": "+ mva."
         }
       ],
-      "prismerknad": "grunnkurs",
       "bilde": "kurs-maskin.jpg",
       "desc": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del.",
       "innhold": [
@@ -289,17 +286,16 @@
         }
       ],
       "datoer": [],
-      "ingress": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del. Teorien er felles for alle maskintyper, mens praksisen gjennomføres på den maskintypen du skal sertifiseres for.",
-      "pris_fra": true
+      "ingress": "For å kjøre anleggsmaskin i Norge må føreren ha gyldig kompetansebevis for maskintypen. Kurset gir sertifisert sikkerhetsopplæring og består av en teoretisk og en praktisk del. Teorien er felles for alle maskintyper, mens praksisen gjennomføres på den maskintypen du skal sertifiseres for."
     },
     {
       "id": "personlofter",
       "navn": "Personløfterkurs",
-      "sidetittel": "Personløfterkurs A, B og C",
-      "koder": "Klasse A–C",
+      "sidetittel": "Personløfterkurs A-B-C",
+      "koder": "Klasse A-B-C",
       "kat": "truck",
       "varighet": "1 dag",
-      "pris": 4099,
+      "pris": 2299,
       "priser": [
         {
           "tekst": "Teori",
@@ -319,7 +315,6 @@
           "merknad": "+ mva."
         }
       ],
-      "prismerknad": "pakkepris teori + praksis",
       "bilde": "kurs-personlofter-ny.jpg",
       "desc": "Kurset er for alle som bruker lift eller personløfter i jobben, og gir grunnleggende teoretisk og praktisk opplæring i sikker bruk. Norske myndigheter krever at alle som bruker personløfter har dokumentert praktisk og teoretisk opplæring, og arbeidsgiver har ansvaret for at de ansatte får den.",
       "innhold": [
@@ -360,7 +355,7 @@
       "sidetittel": "Kranførerkurs G4 (bro- og traverskran)",
       "koder": "G4",
       "kat": "kran",
-      "varighet": "3 dager + praksis",
+      "varighet": "5 dager + praksis",
       "pris": 9899,
       "priser": [
         {
@@ -542,7 +537,6 @@
       "kat": "bygg",
       "varighet": "½ dag",
       "pris": 2900,
-      "prismerknad": "+ kompetansebevis 420 kr",
       "bilde": "kurs-fallsikring.jpg",
       "desc": "Kurset gir deltakerne kunnskapen de trenger for å jobbe trygt i høyden. Det passer for alle som utfører arbeid i høyden, og for ledere som planlegger slikt arbeid.",
       "innhold": [
@@ -576,7 +570,17 @@
           ]
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 2900
+        },
+        {
+          "tekst": "Kompetansebevis",
+          "pris": 420
+        }
+      ]
     },
     {
       "id": "stillas-2-5m",
@@ -585,7 +589,6 @@
       "kat": "bygg",
       "varighet": "2 dager",
       "pris": 4200,
-      "prismerknad": "teori + praksis",
       "bilde": "kurs-stillas-2-5m.jpg",
       "desc": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-2. Kurset er for deg som skal montere, demontere, endre eller kontrollere stillas med arbeidshøyde fra 2 til 5 meter.",
       "innhold": [
@@ -640,7 +643,13 @@
           "p": "Kurset holdes i våre lokaler, eller hos bedriften deres etter avtale. Trenger du stillasbyggerkurs over 9 meter? Kontakt oss for pris."
         }
       ],
-      "datoer": []
+      "datoer": [],
+      "priser": [
+        {
+          "tekst": "Kurs (teori + praksis)",
+          "pris": 4200
+        }
+      ]
     },
     {
       "id": "stillas-9m",
@@ -649,7 +658,6 @@
       "kat": "bygg",
       "varighet": "4 dager",
       "pris": 9800,
-      "prismerknad": "teori + praksis",
       "bilde": "kurs-stillas-9m.jpg",
       "desc": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter.",
       "innhold": [
@@ -705,7 +713,13 @@
         }
       ],
       "datoer": [],
-      "ingress": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter. Du får både faglig forståelse og mye praktisk trening."
+      "ingress": "Lovpålagt opplæring etter forskrift om utførelse av arbeid § 17-3. Kurset gir grundig opplæring i trygg og forskriftsmessig montering, demontering, endring og kontroll av stillas med arbeidshøyde opp til 9 meter. Du får både faglig forståelse og mye praktisk trening.",
+      "priser": [
+        {
+          "tekst": "Kurs (teori + praksis)",
+          "pris": 9800
+        }
+      ]
     },
     {
       "id": "handholdt-verktoy",
@@ -736,7 +750,8 @@
         }
       ],
       "datoer": [],
-      "ingress": "Det er lovkrav at arbeidstakere har dokumentert opplæring når de bruker farlig arbeidsutstyr. Kurset gir en grunnleggende teoretisk og praktisk innføring i sikker bruk av farlig verktøy, som vinkelsliper, sirkelsag, stikksag, kjedesag, boltepistol og spikerpistol. Vi går gjennom oppbygging, betjening, bruksegenskaper og bruksområder, og vedlikehold og kontroll av verktøyet."
+      "ingress": "Det er lovkrav at arbeidstakere har dokumentert opplæring når de bruker farlig arbeidsutstyr. Kurset gir en grunnleggende teoretisk og praktisk innføring i sikker bruk av farlig verktøy, som vinkelsliper, sirkelsag, stikksag, kjedesag, boltepistol og spikerpistol. Vi går gjennom oppbygging, betjening, bruksegenskaper og bruksområder, og vedlikehold og kontroll av verktøyet.",
+      "gjennomforing": "Bergen · e-kurs · eller bedriftsinternt"
     },
     {
       "id": "sha-koordinator",
@@ -904,7 +919,6 @@
       "kat": "hms",
       "varighet": "1 dag",
       "pris": 3099,
-      "prismerknad": "+ avgift for kompetansebevis",
       "bilde": "kurs-hms-leder.jpg",
       "desc": "HMS-kurs for ledere er et lovpålagt kurs i helse, miljø og sikkerhet. Arbeidsmiljøloven § 3-5 krever at virksomhetens øverste leder har gjennomført opplæring i HMS-arbeid.",
       "innhold": [
@@ -929,7 +943,7 @@
         },
         {
           "ul": [
-            "Gjennomføring: digitalt, i våre kurslokaler eller hos kunden",
+            "Gjennomføring: e-kurs, i våre kurslokaler eller hos kunden",
             "Pris: 3 099 kr + avgift for kompetansebevis",
             "Varighet: 1 dag"
           ]
@@ -937,7 +951,16 @@
       ],
       "datoer": [],
       "ingress": "HMS-kurs for ledere er et lovpålagt kurs i helse, miljø og sikkerhet. Arbeidsmiljøloven § 3-5 krever at virksomhetens øverste leder har gjennomført opplæring i HMS-arbeid. Plikten er personlig og kan ikke delegeres, og opplæringen må kunne dokumenteres skriftlig.",
-      "gjennomforing": "Digitalt, i våre kurslokaler eller hos kunden"
+      "gjennomforing": "Bergen · e-kurs · eller bedriftsinternt",
+      "priser": [
+        {
+          "tekst": "Kurs",
+          "pris": 3099
+        },
+        {
+          "tekst": "Avgift for kompetansebevis"
+        }
+      ]
     },
     {
       "id": "verneombud",
@@ -990,7 +1013,7 @@
     {
       "id": "diisocyanater",
       "navn": "Sikker bruk av diisocyanater",
-      "koder": "Nivå 1",
+      "koder": "Nivå 1 og 2",
       "kat": "hms",
       "pris": 999,
       "bilde": "kurs-diisocyanater.jpg",
@@ -1016,7 +1039,7 @@
           "h": "Opplæringsnivåer"
         },
         {
-          "p": "Kravet er delt i tre nivåer etter risiko. Kurset dekker nivå 1."
+          "p": "Kravet er delt i tre nivåer etter risiko. Kurset dekker nivå 1 og 2."
         },
         {
           "ul": [

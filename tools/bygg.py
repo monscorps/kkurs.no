@@ -63,9 +63,7 @@ def fmt_pris(n):
 
 
 def pris_tekst(k):
-    if not k.get("pris"):
-        return "Pris på forespørsel"
-    return f"fra {fmt_pris(k['pris'])}" if k.get("pris_fra") else fmt_pris(k["pris"])
+    return f"fra {fmt_pris(k['pris'])}" if k.get("pris") else "Pris på forespørsel"
 
 
 def fmt_dato(iso):
@@ -369,7 +367,7 @@ def last_kursdata():
             del k[felt]
         l = lokale.get(k["id"], {})
         for felt in ("sidetittel", "innhold", "priser", "prismerknad", "lenker", "bilde", "desc", "koder", "varighet",
-                     "pris_fra", "gjennomforing"):
+                     "gjennomforing"):
             if not k.get(felt) and l.get(felt):
                 k[felt] = l[felt]
         if "ingress" not in k and "ingress" in l:  # tom ingress er et bevisst valg og skal også følge med

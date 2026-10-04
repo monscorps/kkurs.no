@@ -10,7 +10,7 @@
    e-postprogrammet med alt ferdig utfylt til SKJEMA_EPOST.
    ============================================================ */
 
-const APP_V = "38";
+const APP_V = "39";
 const SKJEMA_EPOST = "bestilling@kkurs.no";
 const TELEFON = { visning: "+47 930 70 071", lenke: "tel:+4793070071" };
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = kursene leses
@@ -43,7 +43,7 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const fmtDato = (iso) => { const [y, m, d] = iso.split("-"); return `${d}.${m}.${y}`; };
 const fmtDatoKort = (iso) => { const [, m, d] = iso.split("-"); return `${d}.${m}`; };
 const fmtPris = (n) => `kr ${n.toLocaleString("nb-NO").replace(/,/g, " ")},–`;
-const prisTekst = (c) => (c.pris ? `${c.pris_fra ? "fra " : ""}${fmtPris(c.pris)}` : "Pris på forespørsel");
+const prisTekst = (c) => (c.pris ? `fra ${fmtPris(c.pris)}` : "Pris på forespørsel");
 const kursBilde = (c) => esc(`assets/img/${c.bilde || `kurs-${c.id}.jpg`}`);
 const RESERVEBILDE = "assets/img/hero-alt-kurs.jpg";
 /* koden vises bare når navnet ikke allerede har den («Anhukerkurs G11» + «G11») */
@@ -299,8 +299,10 @@ function oppdaterSum() {
     $("#modal-sum").innerHTML = `<span>Kurset er fullt — du settes på venteliste</span><strong>Ingen betaling nå</strong>`;
     return;
   }
-  if (!c.pris) {
-    $("#modal-sum").innerHTML = `<span>${antall} deltaker${antall > 1 ? "e" : ""}</span><strong>Pris på forespørsel</strong>`;
+  /* uten fast pris (eller pris som avhenger av klasser/moduler): ingen sum, bare pris per deltaker */
+  if (!c.pris || (c.priser || []).filter((l) => Number.isFinite(l.pris)).length > 1) {
+    $("#modal-sum").innerHTML =
+      `<span>${antall} deltaker${antall > 1 ? "e" : ""}</span><strong>${c.pris ? `${prisTekst(c)} per deltaker` : "Pris på forespørsel"}</strong>`;
     return;
   }
   $("#modal-sum").innerHTML =
