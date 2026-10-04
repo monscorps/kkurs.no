@@ -1,6 +1,6 @@
 # kkurs.no — visuell prototype
 
-**Live forhåndsvisning:** <https://monscorps.github.io/kkurs.no/> (GitHub Pages, `main`-branchen)
+**Live:** <https://kkurs.no/> (GitHub Pages, `main`-branchen; DNS i Cloudflare-kontoen til Kompetanse Kurs)
 
 Landingsside for **Kompetanse Kurs** (Bergen) — sertifisert og dokumentert sikkerhetsopplæring
 og HMS-kompetanse. Bygget som rask, statisk prototype i Sapio-stil, der kurskalender og
@@ -47,7 +47,7 @@ endre til `"synlig": true` (eller fjern linjen) og lagre.
 ## Kurssider — lenke til et kurs i e-post
 
 Hvert synlige kurs får en egen side med fast adresse, `kkurs.no/kurs/<id>/` — f.eks.
-`kkurs.no/kurs/truck/` (i dag `monscorps.github.io/kkurs.no/kurs/truck/`). Adressen kan limes rett
+`kkurs.no/kurs/truck/`. Adressen kan limes rett
 inn i e-post; siden har kursbeskrivelse, fakta, kommende datoer med påmelding og «Be om tilbud».
 Knappen «Kopier lenke til kurset» øverst på siden kopierer adressen. «Våre kurs» (`kurs/`) samler
 alle kursene på én side. **Ikke endre `id` på et kurs etter at lenken er sendt ut** — da slutter
@@ -100,6 +100,7 @@ plasstelling).
 
 ## Hosting
 
-Statisk side med ett lite byggesteg. I dag: GitHub Pages via Actions (`publiser.yml`).
+Statisk side med ett lite byggesteg. I dag: GitHub Pages via Actions (`publiser.yml`) på kkurs.no — DNS-postene (A/AAAA til GitHub Pages,
+`www` → `monscorps.github.io`) ligger i Cloudflare uten proxy; Google-postene for e-post er urørt.
 Mål: Cloudflare Pages i Kompetanse Kurs' egen konto — byggkommando `python3 tools/bygg.py`,
 utdatamappe `/`, miljøvariabel `NETTSTED_URL=https://kkurs.no`. Se `docs/PRODUKSJONSPLAN.md` §8.

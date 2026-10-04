@@ -29,7 +29,7 @@ jobs:
       - name: Bygg kurssidene
         run: python3 tools/bygg.py --ut _site
         env:
-          NETTSTED_URL: https://monscorps.github.io/kkurs.no
+          NETTSTED_URL: https://kkurs.no
           # settes under Settings → Secrets and variables → Actions → Variables når kkurs-api er publisert
           KURS_API_URL: ${{ vars.KURS_API_URL }}
           # Facebook-innlegg til nyhetsseksjonen (sidenøkkel som GitHub-secret, se docs/FACEBOOK.md)
