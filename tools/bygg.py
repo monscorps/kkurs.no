@@ -37,7 +37,9 @@ from pathlib import Path
 ROT = Path(__file__).resolve().parent.parent
 NETTSTED = os.environ.get("NETTSTED_URL", "https://kkurs.no").rstrip("/")
 KURS_API = os.environ.get("KURS_API_URL", "").rstrip("/")
-FB_SIDE = os.environ.get("FB_PAGE_ID") or "61594315895753"
+# Med en sidenøkkel er «me» selve siden — da spiller det ingen rolle at nye Facebook-sider har
+# en annen side-id enn tallet i adressen (profile.php?id=…). FB_PAGE_ID overstyrer ved behov.
+FB_SIDE = os.environ.get("FB_PAGE_ID") or "me"
 FB_NOKKEL = os.environ.get("FB_PAGE_TOKEN", "")
 FB_GRAPH = (os.environ.get("FB_GRAPH_URL") or "https://graph.facebook.com").rstrip("/")
 FB_VERSJON = os.environ.get("FB_API_VERSION") or "v23.0"
@@ -289,7 +291,12 @@ def hent_facebook():
         with urllib.request.urlopen(foresporsel, timeout=30) as svar:
             innlegg = json.loads(svar.read().decode("utf-8")).get("data", [])
     except Exception as feil:  # noqa: BLE001
-        melding = str(feil).replace(FB_NOKKEL, "***")
+        melding = str(feil)
+        try:  # Facebook forklarer feilen i svaret (utløpt nøkkel, manglende tillatelse …)
+            melding += " — " + json.loads(feil.read().decode("utf-8"))["error"]["message"]
+        except Exception:  # noqa: BLE001
+            pass
+        melding = melding.replace(FB_NOKKEL, "***")
         print(f"ADVARSEL: fikk ikke hentet Facebook-innlegg ({melding}) — viser kortene i index.html.")
         return "Facebook utilgjengelig"
     if bildemappe.exists():
