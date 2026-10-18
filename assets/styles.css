@@ -473,30 +473,91 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ── nyheter ─────────────────────────────────────────────────────── */
 
-.news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
-.news-card {
-  background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
-  overflow: hidden; display: flex; flex-direction: column;
-  transition: border-color 0.16s ease;
+/* Facebook-innlegg fra Juicer. Juicer tegner en murstein med absolutt plassering;
+   her legges innleggene i samme kortrutenett som resten av siden. Reklamekortet på
+   gratisplanen beholdes (vilkår for gratis bruk), men får sidens uttrykk og ligger sist. */
+.nyheter-juicer .jcr-feed { font-family: var(--font-body) !important; color: var(--blekk); }
+.nyheter-juicer .jcr-masonry-grid {
+  display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem;
+  height: auto !important;
 }
-.news-card:hover { border-color: var(--navy); }
-.news-img { margin: 0; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
-.news-img img {
-  width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block;
+.nyheter-juicer .jcr-masonry-grid > .jcr-post {
+  position: relative !important; left: auto !important; top: auto !important; width: auto !important;
+  margin: 0 !important; padding: 0 !important; box-shadow: none !important;
+  background: var(--hvit) !important; color: var(--blekk) !important;
+  border: 1px solid var(--linje) !important; border-radius: var(--radius) !important;
+  overflow: hidden; display: flex !important; flex-direction: column;
+  height: auto !important; align-self: stretch !important; transition: border-color 0.16s ease;
+}
+.nyheter-juicer .jcr-masonry-grid > .jcr-post:hover { border-color: var(--navy) !important; }
+.nyheter-juicer .jcr-post-image { margin: 0 !important; overflow: hidden; border-bottom: 1px solid var(--linje-svak); }
+.nyheter-juicer .jcr-post-image img {
+  width: 100% !important; height: auto !important; aspect-ratio: 3 / 2; object-fit: cover; display: block;
   transition: transform 0.3s ease;
 }
-.news-card:hover .news-img img { transform: scale(1.03); }
-.news-body { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.3rem 1.5rem; flex-grow: 1; }
-.news-meta {
-  font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3);
+.nyheter-juicer .jcr-post:hover .jcr-post-image img { transform: scale(1.03); }
+.nyheter-juicer .jcr-post-header { padding: 1.3rem 1.5rem 0 !important; margin: 0 !important; }
+.nyheter-juicer .jcr-post-header > :not(.jcr-post-header-main),
+.nyheter-juicer .jcr-post-author-avatar,
+.nyheter-juicer .jcr-author-name,
+.nyheter-juicer .jcr-post-actions,
+.nyheter-juicer .j-read-more,
+.nyheter-juicer .jcr-pagination-bar { display: none !important; }
+.nyheter-juicer .jcr-post-author, .nyheter-juicer .jcr-post-author-meta { gap: 0 !important; margin: 0 !important; }
+.nyheter-juicer .jcr-post-timestamp {
+  font-family: var(--font-mono) !important; font-size: var(--t--2) !important; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--blekk-3) !important;
 }
-.news-card h3 { font-size: var(--t-1); }
-.news-card h3 a { transition: color 0.14s; }
-.news-card h3 a:hover { color: var(--navy); }
-.news-card p:not(.news-meta) { font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); flex-grow: 1; }
-.news-more { font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blekk-3); }
-.news-card:hover .news-more { color: var(--navy); }
+.nyheter-juicer .jcr-post-timestamp::after { content: " · Facebook"; }
+.nyheter-juicer .jcr-post-content { padding: 0.7rem 1.5rem 0 !important; margin: 0 !important; flex-grow: 1; }
+.nyheter-juicer .jcr-post-message {
+  font-size: var(--t--1) !important; line-height: 1.55 !important; color: var(--blekk-2) !important;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 7; line-clamp: 7; overflow: hidden;
+}
+.nyheter-juicer .news-more {
+  position: relative; z-index: 2; display: block; margin-top: auto; padding: 1rem 1.5rem 1.3rem;
+}
+.nyheter-juicer .jcr-post:hover .news-more, .nyheter-juicer .news-more:hover { color: var(--navy); }
+.nyheter-juicer .jcr-masonry-grid > .juicer-ad {
+  order: 99; background-image: none !important; background: var(--papir-2) !important;
+  border-style: dashed !important; align-items: center; justify-content: center; text-align: center;
+  padding: 1.6rem !important; min-height: 13rem;
+}
+.nyheter-juicer .jcr-juicer-ad-body { display: grid; justify-items: center; gap: 0.35rem; }
+.nyheter-juicer .jcr-juicer-ad-logo { width: 2rem !important; height: auto !important; margin: 0 0 0.4rem !important; }
+.nyheter-juicer .jcr-juicer-ad-title {
+  font-family: var(--font-display) !important; font-size: var(--t-0) !important; font-weight: 600 !important;
+  line-height: 1.3 !important; color: var(--blekk) !important;
+}
+.nyheter-juicer .jcr-juicer-ad-subtitle { font-size: var(--t--1) !important; line-height: 1.4 !important; color: var(--blekk-3) !important; }
+.nyheter-juicer .jcr-juicer-ad-cta { margin-top: 0.7rem !important; }
+.nyheter-juicer .jcr-juicer-ad-button {
+  display: inline-block; background: transparent !important; color: var(--navy) !important;
+  border: 1px solid var(--linje) !important; border-radius: var(--radius-knapp) !important;
+  padding: 0.5rem 0.95rem !important; box-shadow: none !important;
+  font-family: var(--font-mono) !important; font-size: var(--t--2) !important; font-weight: 600 !important;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.nyheter-juicer .jcr-juicer-ad-button:hover { border-color: var(--navy) !important; }
+.news-more {
+  font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--blekk-3); transition: color 0.14s;
+}
+
+/* reservekortet: uten feednavn, uten JavaScript, ved feil eller når gratiskvoten er brukt opp */
+.nyheter-reserve {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1.2rem 1.6rem;
+  background: var(--hvit); border: 1px solid var(--linje); border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+}
+.nyheter-reserve-ikon { display: grid; place-items: center; }
+.nyheter-reserve-ikon svg { width: 2.6rem; height: 2.6rem; fill: var(--navy); display: block; }
+.nyheter-reserve h3 { font-size: var(--t-1); }
+.nyheter-reserve p { margin-top: 0.3rem; font-size: var(--t--1); line-height: 1.55; color: var(--blekk-2); }
+.nyheter-feed.har-innlegg .nyheter-reserve,
+.nyheter-feed.laster .nyheter-reserve,
+.nyheter-feed.uten-feed .nyheter-juicer { display: none; }
+.nyheter-feed.laster .nyheter-juicer { min-height: 8rem; }
 
 /* ── partnere — stille rad ───────────────────────────────────────── */
 
@@ -714,7 +775,7 @@ body.modal-open { overflow: hidden; }
 }
 @media (max-width: 900px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
-  .news-grid { grid-template-columns: 1fr; }
+  .nyheter-juicer .jcr-masonry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .om-grid, .kontakt-grid, .fagfelt-grid { grid-template-columns: 1fr; }
   .emblem { max-width: 400px; }
   .section-head-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
@@ -979,8 +1040,7 @@ body.modal-open { overflow: hidden; }
   .chips { --bleed: 1.1rem; } /* containeren bytter til 1.1rem-gutter her */
 
   /* katalog og lister: lavere «letterbox»-utsnitt, tettere kropp */
-  .news-img img { aspect-ratio: 16 / 9; }
-  .news-body { padding: 1.15rem 1.2rem 1.3rem; }
+  .nyheter-juicer .jcr-post-image img { aspect-ratio: 16 / 9; }
   .om-foto img { aspect-ratio: 16 / 9; }
 
   /* påmeldingsmodalen blir bunnark */
@@ -1037,7 +1097,10 @@ body.modal-open { overflow: hidden; }
 /* mobil: lange lister foldes — «Vis alle»-knappene finnes kun <=760 */
 .vis-alle { display: none; }
 @media (max-width: 760px) {
-  .m-fold { display: none; }
+  .m-fold, .nyheter-juicer .jcr-post.m-fold { display: none !important; }
+  .nyheter-juicer .jcr-masonry-grid { grid-template-columns: minmax(0, 1fr); }
+  .nyheter-reserve { grid-template-columns: auto minmax(0, 1fr); padding: 1.3rem 1.25rem; }
+  .nyheter-reserve .btn { grid-column: 1 / -1; }
   .vis-alle {
     display: flex; align-items: center; justify-content: center;
     width: 100%; min-height: 48px; margin-top: 1rem;
@@ -1379,5 +1442,54 @@ body.modal-open { overflow: hidden; }
   .kontakt-info a, .kart-vei, .kursside-lenker a { display: inline-flex; align-items: center; min-height: 44px; }
 }
 
-/* nyhetskort fra Facebook uten bilde */
-.news-card--uten-bilde .news-body { padding-top: 1.6rem; }
+/* ── kursvilkår (kursvilkar/) ───────────────────────────────────── */
+.kursside-hero--tekst .container {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+  gap: clamp(2rem, 5vw, 4.5rem); align-items: end;
+}
+.vilkar-innhold { border-left: 2px solid var(--gronn); padding: 0.2rem 0 0.2rem 1.2rem; }
+.vilkar-innhold ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; font-size: var(--t--1); color: var(--blekk-3); }
+.vilkar-innhold a { color: var(--blekk-2); transition: color 0.14s; }
+.vilkar-innhold a:hover { color: var(--navy); }
+.container.vilkar > * { max-width: 46rem; }
+.vilkar h2, .vilkar .angreskjema { scroll-margin-top: calc(var(--nav-h) + 1.2rem); }
+.tabell-ramme {
+  overflow-x: auto; margin: 0 0 1.4rem; background: var(--hvit);
+  border: 1px solid var(--linje); border-radius: var(--radius);
+}
+.vilkar-tabell { width: 100%; border-collapse: collapse; font-size: var(--t--1); }
+.vilkar-tabell th, .vilkar-tabell td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--linje-svak); }
+.vilkar-tabell thead th {
+  font-family: var(--font-mono); font-size: var(--t--2); font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--blekk-3); background: var(--papir);
+}
+.vilkar-tabell tbody th { font-weight: 600; color: var(--blekk); }
+.vilkar-tabell td { color: var(--blekk-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vilkar-tabell tbody tr:last-child > * { border-bottom: 0; }
+.angreskjema {
+  margin: 1.8rem 0 0; padding: 1.5rem 1.6rem 1.6rem; background: var(--hvit);
+  border: 1px solid var(--linje); border-radius: var(--radius);
+}
+.prosa .angreskjema h3 { margin-top: 0; }
+.angreskjema-felt { margin: 1.1rem 0 1.5rem; display: grid; gap: 0.95rem; }
+.angreskjema-felt div { display: grid; grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr); gap: 1rem; align-items: end; }
+.angreskjema-felt dt { font-size: var(--t--1); color: var(--blekk-2); }
+.angreskjema-felt dd { margin: 0; min-height: 1.5rem; border-bottom: 1px solid var(--blekk-3); }
+.angreskjema-handling { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.prosa a.btn { border-bottom-width: 1px; }
+.prosa a.btn-signal, .prosa a.btn-signal:hover { color: var(--pa-gronn); }
+@media (max-width: 760px) {
+  .kursside-hero--tekst .container { grid-template-columns: minmax(0, 1fr); }
+  .angreskjema { padding: 1.25rem 1.2rem 1.3rem; }
+  .angreskjema-felt div { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
+  .vilkar-tabell th, .vilkar-tabell td { padding: 0.65rem 0.75rem; }
+}
+@media print {
+  .nav, .footer, .skip-link, .modal, .toast, .vilkar-innhold, .angreskjema-handling, .kopier-lenke { display: none !important; }
+  body { background: #fff; }
+  .section, .section-mist, .kursside-hero { background: #fff !important; padding: 0 0 1rem !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .prosa a { color: inherit; border: 0; }
+  .vilkar h2 { break-after: avoid; }
+  .angreskjema, .tabell-ramme { break-inside: avoid; }
+}

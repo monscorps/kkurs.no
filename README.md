@@ -64,6 +64,17 @@ pakker dem inn i samme meny, bunn og vinduer som resten av siden og skriver `<st
 Ny side på toppnivå: legg `/<sti>/` i `.gitignore` (den er generert). Knapper med `data-tilbud
 data-tema="Oppkjøring"` åpner kontaktskjemaet med temaet forhåndsvalgt.
 
+## Nyheter fra Facebook
+
+«Siste nytt» på forsiden viser innleggene fra Facebook-siden via Juicer (gratisplanen). Feednavnet
+settes i `index.html` (`data-juicer` på `#nyheter-feed`); tomt = reservekort med lenke til
+Facebook. Oppsett og begrensninger: [`docs/NYHETER.md`](docs/NYHETER.md).
+
+## Kursvilkår
+
+`sider/kursvilkar.html` → `kkurs.no/kursvilkar/` (lenket fra bunnteksten og fra samtykket i
+påmeldingen). Teksten er kundens; endres der.
+
 ## Kursinnhold
 
 Hvert kurs i `assets/kurs.json` kan ha `innhold` (avsnitt `{"p"}`, underoverskrift `{"h"}`,
