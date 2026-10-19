@@ -89,7 +89,7 @@ skrifter, egne detaljer.
 
 Hero m/ CTA og «neste kurs»-billett → nøkkeltall → **Kurs** (filtrerbar katalog) →
 **Kurskalender** (FrontCore-stil, filtrerbar) → **Tjenester** (HMS-rådgivning, bedriftsintern
-opplæring, digital HMS & KI) → **Om oss** (Bergen & Rogaland-historien) → **Nyheter** (3 kort) →
+opplæring, digital HMS & KI) → **Om oss** (Bergen & Rogaland-historien) → **Nyheter** (Facebook-innlegg) →
 **Partnere** (fiktive plassholder-logoer — aldri ekte logoer uten avtale) → **Kontakt/tilbud** →
 footer m/ Sentralregisteret-referanse og SoMe-lenker.
 
@@ -98,9 +98,8 @@ e-læringsportal. Alt kan legges til uten å røre designsystemet.
 
 ## Demo-oppførsel
 
-Skjemaer validerer og viser kvittering lokalt, med diskret merknad «Forhåndsvisning — kobles til
-FrontCore ved lansering». Ingen data sendes noe sted. Footer merker siden som forhåndsvisning
-med eksempeldata.
+Til FrontCore er koblet åpner påmelding og kontaktskjema e-post til bestilling@kkurs.no med alt
+ferdig utfylt; kvitteringen ber om å trykke Send (se README).
 
 ## Bookingkrav (20.09) og hvordan de løses
 

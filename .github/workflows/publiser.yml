@@ -8,7 +8,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # kursene bor i FrontCore: bygg kurssidene på nytt hver time, så nye kurs får egen side
+  # bygg på nytt hver time: nye Facebook-innlegg, passerte kursdatoer og (senere) kurs fra FrontCore
   schedule:
     - cron: "17 * * * *"
 
@@ -32,6 +32,9 @@ jobs:
           NETTSTED_URL: https://kkurs.no
           # settes under Settings → Secrets and variables → Actions → Variables når kkurs-api er publisert
           KURS_API_URL: ${{ vars.KURS_API_URL }}
+          # Facebook-innlegg til nyhetsseksjonen (sidenøkkel som GitHub-secret, se docs/NYHETER.md)
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ vars.FB_PAGE_ID }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

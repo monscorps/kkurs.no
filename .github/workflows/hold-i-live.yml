@@ -1,0 +1,28 @@
+# GitHub slår av tidsstyrte jobber i offentlige repoer etter 60 dager uten aktivitet.
+# «Bygg og publiser» henter Facebook-innleggene på timeplan, så den må aldri stoppe av seg
+# selv: er siste commit eldre enn 45 dager, lager denne en tom commit. Ellers gjør den ingenting.
+name: Hold publiseringen i live
+
+on:
+  schedule:
+    - cron: "41 6 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hold-i-live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Tom commit etter lang stillhet
+        run: |
+          dager=$(( ($(date +%s) - $(git log -1 --format=%ct)) / 86400 ))
+          echo "Siste commit for $dager dager siden."
+          if [ "$dager" -ge 45 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Hold publiseringen i live ($dager dager uten endringer)"
+            git push
+          fi

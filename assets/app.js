@@ -10,7 +10,7 @@
    e-postprogrammet med alt ferdig utfylt til SKJEMA_EPOST.
    ============================================================ */
 
-const APP_V = "41";
+const APP_V = "42";
 const SKJEMA_EPOST = "bestilling@kkurs.no";
 const TELEFON = { visning: "+47 930 70 071", lenke: "tel:+4793070071" };
 /* Adressen til kkurs-api (Cloudflare Worker, se docs/FRONTCORE.md). Tom = kursene leses
@@ -69,9 +69,9 @@ function statusFor(dt) {
 /* ---------- mobil: lange lister foldes bak «Vis alle» ----------
    Kortene/radene finnes alltid i DOM — .m-fold skjules kun av
    mobil-CSS (<=760px), så desktop viser alt uansett. */
-const FOLD = { kalender: 6, nyheter: 2 };
+const FOLD = { kalender: 6, nyheter: 1 };
 const FOLD_ORD = { kalender: "datoer", nyheter: "nyheter" };
-const FOLD_VELGER = { kalender: "#cal-body tr", nyheter: "#nyheter-juicer .jcr-post:not(.juicer-ad)" };
+const FOLD_VELGER = { kalender: "#cal-body tr", nyheter: "#nyheter-liste .news-card" };
 const utvidet = { kalender: false, nyheter: false };
 
 function foldeliste(nokkel) {
@@ -86,69 +86,33 @@ function foldeliste(nokkel) {
     : `Vis alle ${alle.length} ${FOLD_ORD[nokkel]} \u2193`;
 }
 
-/* ---------- nyheter: Facebook-innlegg via Juicer (gratisplanen) ----------
-   data-juicer på #nyheter-feed er feednavnet hos Juicer; tomt = bare reservekortet.
-   Gratisplanen har et tak på visninger per måned (hver sidevisning der feeden lastes
-   teller), så skriptet lastes først når nyhetene nærmer seg skjermen. CSS-en i
-   styles.css legger innleggene i sidens kortrutenett; her får de norsk dato og en fast
-   «Les på Facebook»-lenke. Kommer det ingen synlige innlegg (feil, blokkert, eller
-   kvoten er brukt opp — da skjuler Juicer feeden), står reservekortet. */
-const JUICER_ANTALL = 5; /* + Juicers reklamekort på gratisplanen = seks kort, to rader à tre */
-const FACEBOOK_INNLEGG = /^https:\/\/(www\.|m\.)?facebook\.com\//;
+/* ---------- nyheter: siste innlegg fra Facebook-siden ----------
+   assets/nyheter.json lages av tools/bygg.py ved hver publisering (hver time). Uten innlegg
+   — ingen nøkkel, Facebook nede, eller fila mangler — står reservekortet med lenke til siden. */
+const FACEBOOK_LENKE = /^https:\/\/(www\.|m\.)?facebook\.com\//;
 
-function norskInnlegg(post) {
-  if (post.dataset.kk) return;
-  post.dataset.kk = "1";
-  const tid = $("time[datetime]", post);
-  if (tid) tid.textContent = fmtDato(tid.getAttribute("datetime").slice(0, 10));
-  const primar = $(".jcr-post-primary-link", post);
-  if (primar) primar.textContent = "Vis innlegget";
-  let url = "";
-  try { url = JSON.parse(primar?.dataset.post || "{}").full_url || ""; } catch { /* uten lenke */ }
-  if (!url) url = $(".j-read-more", post)?.href || "";
-  if (FACEBOOK_INNLEGG.test(url)) {
-    post.insertAdjacentHTML("beforeend",
-      `<a class="news-more mono" href="${esc(url)}" target="_blank" rel="noopener">Les på Facebook →</a>`);
-  }
-}
-
-function startNyheter() {
-  const boks = $("#nyheter-feed");
-  const navn = (boks?.dataset.juicer || "").trim();
-  if (!boks || !/^[\w-]+$/.test(navn)) return;
-  const holder = $("#nyheter-juicer");
-  let vent;
-  const oppdater = () => {
-    const poster = $$(".jcr-post:not(.juicer-ad)", holder);
-    poster.forEach(norskInnlegg);
-    const synlig = poster.some((p) => p.getClientRects().length);
-    boks.classList.toggle("har-innlegg", synlig);
-    if (synlig) boks.classList.remove("laster", "uten-feed");
-    $("#nyheter-note").hidden = !synlig;
-    foldeliste("nyheter");
-  };
-  const last = () => {
-    /* mens Juicer laster vises bare lastehjulet; uten innlegg etter 8 s: reservekortet */
-    boks.classList.add("laster");
-    setTimeout(() => {
-      if (boks.classList.contains("har-innlegg")) return;
-      boks.classList.remove("laster");
-      boks.classList.add("uten-feed");
-    }, 8000);
-    holder.innerHTML = `<div class="juicer-feed" data-feed-id="${navn}" data-per="${JUICER_ANTALL}"></div>`;
-    new MutationObserver(() => { clearTimeout(vent); vent = setTimeout(oppdater, 120); })
-      .observe(holder, { childList: true, subtree: true });
-    document.addEventListener("juicer:feedLoaded", oppdater);
-    const skript = document.createElement("script");
-    skript.src = `https://www.juicer.io/embed/${navn}/embed-code.js?per=${JUICER_ANTALL}`;
-    skript.async = true;
-    document.body.appendChild(skript);
-  };
-  if (!("IntersectionObserver" in window)) { last(); return; }
-  const io = new IntersectionObserver((inn) => {
-    if (inn.some((e) => e.isIntersecting)) { io.disconnect(); last(); }
-  }, { rootMargin: "800px 0px" });
-  io.observe(boks);
+async function renderNyheter() {
+  const liste = $("#nyheter-liste");
+  if (!liste) return;
+  let innlegg = [];
+  try {
+    const res = await fetch("assets/nyheter.json", { cache: "no-cache" });
+    if (res.ok) ({ innlegg = [] } = await res.json());
+  } catch { /* reservekortet blir stående */ }
+  innlegg = innlegg.filter((n) => FACEBOOK_LENKE.test(n.lenke || ""));
+  liste.innerHTML = innlegg.map((n) => `
+    <article class="news-card${n.bilde ? "" : " news-card--uten-bilde"}">
+      ${n.bilde ? `<figure class="news-img"><img src="${esc(n.bilde)}" alt="" loading="lazy" decoding="async"></figure>` : ""}
+      <div class="news-body">
+        <p class="news-meta mono">${n.dato ? `<time datetime="${esc(n.dato)}">${fmtDato(n.dato)}</time> · ` : ""}Facebook</p>
+        <h3><a href="${esc(n.lenke)}" target="_blank" rel="noopener">${esc(n.tittel)}</a></h3>
+        ${n.tekst ? `<p>${esc(n.tekst)}</p>` : ""}
+        <span class="news-more mono" aria-hidden="true">Les på Facebook →</span>
+      </div>
+    </article>`).join("");
+  $("#nyheter-feed").classList.toggle("har-innlegg", innlegg.length > 0);
+  $("#nyheter-note").hidden = !innlegg.length;
+  foldeliste("nyheter");
 }
 
 /* ---------- kurskatalog ---------- */
@@ -459,13 +423,24 @@ document.addEventListener("click", (ev) => {
   }
   const tilbud = ev.target.closest('a.btn[href="#kontakt"]');
   if (tilbud) { ev.preventDefault(); apneKontakt(); return; }
-  /* kurssidene har <base href="../../">: «#x» ville ellers navigert til
-     forsiden selv når målet finnes på denne siden */
-  const anker = ev.target.closest('a[href^="#"]');
-  if (anker && anker.getAttribute("href").length > 1 && document.querySelector("base")
-      && !(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button)) {
-    const mal = document.getElementById(anker.getAttribute("href").slice(1));
-    if (mal) { ev.preventDefault(); mal.scrollIntoView(); if (anker.classList.contains("skip-link")) mal.focus(); return; }
+  /* Undersidene har <base href="../../">: «#x» ville ellers gått til forsiden selv når målet
+     finnes her, og «side/#x» laster siden på nytt når adressen har en parameter (f.eks.
+     ?fbclid= fra Facebook). Finnes målet på denne siden, scroller vi dit og viser #x i
+     adresselinjen, så lenken kan deles. */
+  const anker = ev.target.closest('a[href*="#"]');
+  if (anker && !(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button)) {
+    const raa = anker.getAttribute("href");
+    const url = new URL(anker.href);
+    const id = raa.startsWith("#") ? (document.querySelector("base") ? raa.slice(1) : "")
+      : (url.origin === location.origin && url.pathname === location.pathname ? url.hash.slice(1) : "");
+    const mal = id && document.getElementById(decodeURIComponent(id));
+    if (mal) {
+      ev.preventDefault();
+      mal.scrollIntoView();
+      if (anker.classList.contains("skip-link")) mal.focus();
+      else if (!raa.startsWith("#")) history.replaceState(null, "", location.pathname + location.search + url.hash);
+      return;
+    }
   }
   const kopier = ev.target.closest("[data-kopier-lenke]");
   if (kopier) {
@@ -476,7 +451,15 @@ document.addEventListener("click", (ev) => {
       () => toast(url));
     return;
   }
-  if (ev.target.closest("[data-skriv-ut]")) { print(); return; }
+  const skrivUt = ev.target.closest("[data-skriv-ut]");
+  if (skrivUt) {
+    /* «Skriv ut skjemaet» på kursvilkårene: utskriftsstilen viser bare angreskjemaet */
+    const kun = skrivUt.dataset.skrivUt === "angreskjema";
+    document.documentElement.classList.toggle("skriv-skjema", kun);
+    addEventListener("afterprint", () => document.documentElement.classList.remove("skriv-skjema"), { once: true });
+    print();
+    return;
+  }
   const demo = ev.target.closest("[data-demo-link]");
   if (demo) { ev.preventDefault(); toast("Plassholder-lenke — innholdet kommer ved lansering."); }
 });
@@ -849,7 +832,7 @@ async function init() {
   /* hero-innholdet er alltid i første skjermbilde — vent aldri på
      IntersectionObserver der (den kan svikte i bakgrunnsfaner) */
   $$(".hero--foto .reveal").forEach((el) => el.classList.add("in"));
-  startNyheter();
+  renderNyheter();
   $$(".reveal").forEach((el) => io.observe(el));
   nav.classList.toggle("scrolled", fastNav || scrollY > 10);
 

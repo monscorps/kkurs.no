@@ -20,7 +20,6 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
   (eller behold kurs.json som manuell fallback til API-tilgang er avklart).
 - Alle «Meld deg på»-knapper (`data-book`) → FrontCore-påmeldingslenker per kurs, og
   påmeldingsmodalen (`#modal`) fjernes/erstattes av FrontCore-skjemaet.
-- Kvitterings-/demomerknader: søk etter «Forhåndsvisning» i `index.html` og fjern.
 
 ## 2. E-post og domene
 
@@ -57,7 +56,7 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 - [x] Partnerne i «Noen av dem vi jobber med» har logo + lenke (hentet fra partnernes egne
       nettsider 23.09, vist i én farge). Be gjerne partnerne om offisielle logopakker og en
       skriftlig ok for bruken.
-- [ ] Kursvilkår-siden (lenkes fra påmelding og bunntekst).
+- [x] Kursvilkår-siden (lenkes fra påmelding og bunntekst) — `sider/kursvilkar.html`.
 - [ ] Foto: Midjourney-plassholderne kan stå, men ekte bilder fra kurssenteret løfter
       troverdigheten — samme utsnitt/format ligger klart i `assets/img/`.
 - [ ] Eier-kortet under «Om oss»: tekst godkjennes av Stian.
@@ -71,7 +70,7 @@ rekkefølgen den bør gjøres, med hvem som må gjøre hva.
 ## 7. Drift etter lansering
 
 - Kurs, priser, datoer, plasser: **kun i FrontCore** (før det: `assets/kurs.json`).
-- Nyhetskortene i `index.html` redigeres direkte (tre `<article class="news-card">`).
+- Nyheter: hentes automatisk fra Facebook-siden (se `docs/NYHETER.md`).
 - Deploy: `git push` → GitHub Pages bygger automatisk (~1 min). Husk å bumpe
   `?v=N` på `styles.css`/`app.js` i `index.html` ved endringer der.
 

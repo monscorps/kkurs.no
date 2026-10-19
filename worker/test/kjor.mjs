@@ -21,6 +21,10 @@ const ENV = {
   TILLATTE_OPPRINNELSER: /TILLATTE_OPPRINNELSER\s*=\s*"([^"]*)"/.exec(wrangler)[1],
 };
 const IDAG = "2026-09-25";
+/* POST-testene går gjennom Worker med ekte dagens dato, så standarddatoen ligger alltid
+   fram i tid (ellers går testene ut på dato). mapKurs-testene bruker fast IDAG. */
+const omDager = (n) => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+const START = omDager(40), SLUTT = omDager(42), FRIST = omDager(39);
 
 // ---------------------------------------------------------------- testrigg
 
@@ -86,9 +90,9 @@ async function kall(sti, { metode = "GET", origin = "https://kkurs.no", body, he
 
 function lagDato(over = {}) {
   return {
-    coursedate_id: 5001, title: "Truckførerkurs", start_at: "2026-10-27", start_time_at: "08:00:00",
-    end_at: "2026-10-29", end_time_at: "15:30:00", timezone: "Europe/Oslo", deadline_at: "2026-10-26",
-    is_virtual: false, is_visible: true, visible_when_passed_deadline: false, reference: "truck-2026-10-27",
+    coursedate_id: 5001, title: "Truckførerkurs", start_at: START, start_time_at: "08:00:00",
+    end_at: SLUTT, end_time_at: "15:30:00", timezone: "Europe/Oslo", deadline_at: FRIST,
+    is_virtual: false, is_visible: true, visible_when_passed_deadline: false, reference: `truck-${START}`,
     parent_id: null, trigger_value: null, seats_status: "open",
     seats: {
       allocated_capacity: { num: 12, num_overbooked: "0", num_waiting: "0" },
@@ -157,7 +161,7 @@ test("mapKurs: fullt utfylt kurs fra listeendepunktet", () => {
   assert.deepEqual(ut.kurs, [{
     id: "truck", fc_id: 86273, navn: "Truckførerkurs", koder: "T1–T4", kat: "truck", varighet: "3 dager",
     pris: 6900, bilde: "kurs-truck.jpg", desc: "Sertifisert sikkerhetsopplæring for gaffeltruck inntil 10 tonn.",
-    synlig: true, datoer: [{ d: "2026-10-27", sted: "Bergen", fc_id: 5001, plasser: 12, ledige: 8, merk: null }],
+    synlig: true, datoer: [{ d: START, sted: "Bergen", fc_id: 5001, plasser: 12, ledige: 8, merk: null }],
   }]);
 });
 
@@ -534,7 +538,7 @@ const KURSRUTER = {
   "GET /v2/courses": { body: [TRUCK] },
   "GET /v2/coursedates": (k) => k.url.searchParams.get("page") === "1"
     ? { body: { pagination: { current_page: 1, next_page: 2 }, items: [lagDato({ course: TRUCK })] } }
-    : { body: { pagination: { current_page: 2, next_page: null }, items: [fullt({ coursedate_id: 5002, start_at: "2026-11-24" })] } },
+    : { body: { pagination: { current_page: 2, next_page: null }, items: [fullt({ coursedate_id: 5002, start_at: omDager(60) })] } },
 };
 
 test("GET /helse svarer uten å kalle FrontCore", async () => {
@@ -904,7 +908,7 @@ test("POST /pamelding: usikre utfall av POST /v2/booking gir «usikre»-meldinge
 
 test("POST /pamelding: påmeldingsfristen er ute ⇒ 409, også når datoen vises", async () => {
   for (const synlig of [true, "1", false]) {
-    mock(bookingRuter(lagDato({ start_at: "2026-10-01", deadline_at: "2000-01-01", visible_when_passed_deadline: synlig })));
+    mock(bookingRuter(lagDato({ start_at: omDager(20), deadline_at: "2000-01-01", visible_when_passed_deadline: synlig })));
     const { res, data } = await kall("/pamelding", { metode: "POST", body: gyldigPamelding() });
     assert.deepEqual([res.status, data], [409, { ok: false, feil: "Påmeldingsfristen er ute. Velg en annen dato, eller kontakt oss." }]);
     assert.equal(fcKall.some((k) => k.metode === "POST"), false);

@@ -1,38 +1,56 @@
-# Nyheter fra Facebook (Juicer)
+# Nyheter fra Facebook
 
-Det Kompetanse Kurs poster på Facebook-siden, vises under «Siste nytt» på forsiden — i sidens
-eget design. Innleggene hentes av [Juicer](https://www.juicer.io) (gratisplanen, godkjent av
-kunden), og `assets/app.js` + `assets/styles.css` legger dem i sidens kortrutenett med norsk dato
-og «Les på Facebook →».
+Det Kompetanse Kurs poster på Facebook-siden, vises automatisk under «Siste nytt» på
+forsiden — i sidens eget design, uten reklame eller tredjepartstjeneste. Hvert kort lenker til
+innlegget på Facebook (ingen liker- eller kommentarfunksjon på nettsiden).
 
-Feedens navn står i `index.html` på `<div id="nyheter-feed" data-juicer="">`. **Tomt** = bare
-reservekortet «Nyheter og kursdatoer på Facebook» vises (slik siden er nå).
+## Slik virker det
 
-## Engangsoppsett (10 minutter)
+- `tools/bygg.py` henter de siste innleggene fra Facebook Graph API ved hver publisering,
+  lagrer bildene lokalt (Facebooks bildelenker utløper) og skriver `assets/nyheter.json`.
+  Forsiden viser de seks siste (ett på mobil + «Vis alle»).
+- **Automatisk:** «Bygg og publiser» (`.github/workflows/publiser.yml`) kjører på timeplan, så
+  nye innlegg kommer ut uten commit. GitHub kjører timeplanjobber når det er kapasitet — i
+  praksis hver 1–6. time. (Raskere: flytt hentingen til en Cloudflare Worker senere.)
+- `hold-i-live.yml` hindrer at GitHub slår av timeplanen etter 60 dager uten aktivitet.
+- Uten nøkkel, når nøkkelen er ugyldig eller Facebook ikke svarer, publiseres siden likevel:
+  nyhetsseksjonen viser reservekortet «Nyheter og kursdatoer på Facebook» med lenke til siden.
+  Feilmeldingen fra Facebook står i byggeloggen under **Actions** (nøkkelen vises aldri).
 
-1. **Juicer-konto:** den som skal eie feeden (helst kunden selv, f.eks. Tom) lager en gratis
-   konto på <https://www.juicer.io> og trykker **Create feed**.
-2. **Kilde:** legg til **Facebook** → «Facebook Page» → logg inn med en Facebook-bruker som er
-   administrator på Kompetanse Kurs-siden og velg siden. (Gratisplanen tillater én kilde.)
-3. **Innstillinger i Juicer** (resten styres av nettsiden):
-   - *Feed settings → Lazy-load images:* på.
-   - *Templates → Pagination:* None.
-   - *Settings → Open overlay on post click:* av (kortene lenker rett til Facebook-innlegget).
-4. **Feednavnet:** under **Embed** står en kode med `…/embed/<feednavn>/embed-code.js`. Skriv
-   `<feednavn>` inn i `index.html`: `data-juicer="<feednavn>"` — og lagre (siden publiseres
-   automatisk). Ikke lim inn Juicers egen kode; nettsiden laster den selv.
+## Engangsoppsett (10 minutter) — sidenøkkel
 
-## Slik oppfører den seg
+Nøkkelen er en **sidenøkkel**; med den peker `me` på selve siden, så side-id trengs ikke.
+Den må lages av en administrator på Facebook-siden (Tom er administrator).
 
-- Juicer-skriptet lastes først når besøkende nærmer seg nyhetsseksjonen.
-- Fem innlegg + Juicers reklamekort (påkrevd på gratisplanen — det beholdes, men er stylet
-  diskret og ligger sist) = seks kort, tre i bredden. På mobil vises to innlegg og «Vis alle».
-- **Gratisplanens begrensninger:** Juicer henter nye innlegg fra Facebook **én gang i døgnet**,
-  og feeden har et **tak på visninger per måned**. Når taket er nådd, skjuler Juicer feeden til
-  måneden er omme — da står reservekortet med lenke til Facebook-siden. Det samme skjer hvis
-  Juicer ikke svarer innen 8 sekunder eller feednavnet er feil.
-- Trengs oftere oppdatering, ingen reklamekort eller ubegrensede visninger: Juicers billigste
-  betalte plan. Ingenting i nettsiden må endres.
+**Anbefalt:** Tom gjør den som drifter nettsiden til administrator (Facebook → siden →
+**Innstillinger → Sidetilgang → Legg til ny** → full kontroll). Da lager drifter nøkkelen selv og
+legger den rett inn i GitHub — nøkkelen går aldri mellom personer.
 
-Juicer setter ingen informasjonskapsler på kkurs.no, men innleggene og bildene lastes fra
-juicer.io (som da ser besøkendes IP-adresse) — nevnes i personvernerklæringen når den kommer.
+1. <https://developers.facebook.com/apps> → **Create app** → «Other» → typen «Business». Navn f.eks.
+   «kkurs.no nettside». Appen kan bli i utviklingsmodus så lenge den som lager nøkkelen er
+   administrator både på appen og på Facebook-siden.
+2. **Graph API Explorer** (<https://developers.facebook.com/tools/explorer>): velg appen, legg til
+   tillatelsene `pages_show_list` og `pages_read_engagement`, trykk **Generate Access Token** og
+   godkjenn for Kompetanse Kurs-siden.
+3. Gjør nøkkelen varig: **Access Token Debugger**
+   (<https://developers.facebook.com/tools/debug/accesstoken>) → lim inn → **Extend Access Token**.
+   Kjør så `me/accounts` i Graph API Explorer med den forlengede nøkkelen — `access_token` på
+   Kompetanse Kurs-siden er sidenøkkelen, og den utløper ikke.
+4. Legg den inn som hemmelighet på GitHub:
+   <https://github.com/monscorps/kkurs.no/settings/secrets/actions/new>, navn `FB_PAGE_TOKEN`.
+5. Kjør «Bygg og publiser» under **Actions** én gang manuelt — innleggene vises med en gang.
+
+Lager sideadministratoren nøkkelen selv, overleveres den med en engangsdeling i en
+passordbehandler (1Password, Bitwarden Send o.l.) — aldri e-post, SMS eller chat.
+
+## Når den slutter å virke
+
+Sidenøkkelen er knyttet til personen som lagde den. Fjernes vedkommende som administrator på
+siden, eller bytter passord, blir nøkkelen ugyldig og forsiden viser reservekortet. Lag da en ny
+nøkkel (steg 2–4). Flyttes hostingen til Cloudflare, legges nøkkelen inn der med samme navn.
+
+## Hvorfor ikke Juicer?
+
+Juicer ble vurdert (oktober 2026). Gratisplanen er etter Juicers vilkår (pkt. 4.2–4.3) bare for
+privatpersoner, legger inn reklamekort og gjør deler av innleggene uskarpe etter sju dager.
+Betalt plan (Lite, ca. 15 USD/mnd) ville fungert, men egen henting er gratis og ser renere ut.

@@ -8,5 +8,8 @@
 /oppkjoring/
 /bevis/
 /kursvilkar/
+# Facebook-innlegg hentet ved bygg
+/assets/nyheter.json
+/assets/nyheter/
 # publiseringsmappe fra tools/bygg.py --ut
 /_site/

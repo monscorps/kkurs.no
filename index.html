@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="assets/styles.css?v=41">
+  <link rel="stylesheet" href="assets/styles.css?v=42">
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body>
 
@@ -228,10 +229,11 @@
           <p class="section-lead">Nye kursdatoer, regelverk og teknologi — kort og nyttig.</p>
         </div>
       </header>
-      <!-- data-juicer = feednavnet hos Juicer (juicer.io → Feed → «Embed»). Tomt: bare kortet under vises. -->
-      <div class="nyheter-feed" id="nyheter-feed" data-juicer="" aria-live="polite">
-        <div class="nyheter-juicer" id="nyheter-juicer"></div>
-        <article class="nyheter-reserve reveal" id="nyheter-reserve">
+      <!-- innleggene fylles inn fra assets/nyheter.json (Facebook-siden, hentet av tools/bygg.py);
+           uten innlegg vises kortet under -->
+      <div class="nyheter-feed" id="nyheter-feed">
+        <div class="news-grid" id="nyheter-liste"></div>
+        <article class="nyheter-reserve" id="nyheter-reserve">
           <span class="nyheter-reserve-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></span>
           <div class="nyheter-reserve-tekst">
             <h3>Nyheter og kursdatoer på Facebook</h3>
@@ -485,6 +487,6 @@
 
 <div class="toast mono" id="toast" role="status" hidden></div>
 
-<script src="assets/app.js?v=41"></script>
+<script src="assets/app.js?v=42"></script>
 </body>
 </html>

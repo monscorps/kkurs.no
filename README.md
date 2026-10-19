@@ -66,9 +66,10 @@ data-tema="Oppkjøring"` åpner kontaktskjemaet med temaet forhåndsvalgt.
 
 ## Nyheter fra Facebook
 
-«Siste nytt» på forsiden viser innleggene fra Facebook-siden via Juicer (gratisplanen). Feednavnet
-settes i `index.html` (`data-juicer` på `#nyheter-feed`); tomt = reservekort med lenke til
-Facebook. Oppsett og begrensninger: [`docs/NYHETER.md`](docs/NYHETER.md).
+«Siste nytt» på forsiden viser de siste innleggene fra Facebook-siden, i sidens eget design.
+`tools/bygg.py` henter dem ved hver publisering (timeplan, ingen commit nødvendig) når GitHub-
+hemmeligheten `FB_PAGE_TOKEN` er satt; uten den vises et reservekort med lenke til Facebook.
+Oppsett: [`docs/NYHETER.md`](docs/NYHETER.md).
 
 ## Kursvilkår
 
@@ -100,13 +101,9 @@ Ingen eksempeldatoer skal ligge i `kurs.json` på det ekte domenet — legg inn 
 
 ## Ved lansering (FrontCore-kobling)
 
-1. Opprett FrontCore-konto og hent embed-snutt for kurskalender/påmelding.
-2. Erstatt innholdet i `#kalender`-seksjonen med FrontCore-embeden (den kan fargetilpasses
-   paletten i `styles.css`), eller behold vår tabell og hent data fra FrontCore-API-et.
-3. Pek «Meld deg på»-knappene til FrontCore-påmelding.
-4. Koble kontaktskjemaet til e-post/CRM, legg inn Google Analytics + samtykkebanner,
-   og fjern «forhåndsvisning»-merknadene (søk etter «Forhåndsvisning» i `index.html`).
-5. Bytt plassholdere: org.nr., adresser, telefon, SoMe-lenker.
+Se [`docs/FRONTCORE.md`](docs/FRONTCORE.md): ekte FrontCore-konto → kurs og lokale inn →
+`kkurs-api` (Cloudflare Worker) publiseres → `API_URL` i `assets/app.js` og `KURS_API_URL` i
+GitHub-variablene settes. Til da går påmelding og kontakt som e-post (se over).
 
 ## Hosting
 
